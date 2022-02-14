@@ -2,3 +2,4 @@ requests
 requests-oauthlib
 oauthlib
 pandas
+python-dotenv
