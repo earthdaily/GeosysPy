@@ -96,15 +96,15 @@ class geosys():
         response = self.__create_season_field_id(polygon)
         dict_response = response.json()
         
-        if response.status_code == 400:
+        if response.status_code == 400 and "sowingDate" in dict_response["errors"]["body"]:
             pattern = "\sId:\s(\w+),"
             str_text = dict_response["errors"]["body"]["sowingDate"][0]["message"]
-            season_field_id  = self.__get_matched_str_from_pattern(pattern, str_text)
+            return self.__get_matched_str_from_pattern(pattern, str_text)
             
-        elif response.status_code == 200 :
-            season_field_id = dict_response["id"]
-            
-        return season_field_id
+        elif response.status_code == 201:
+            return dict_response["id"]
+        else:
+            raise ValueError(f"Cannot handle HTTP response : {str(response.status_code)} : {str(response.json())}")
     
 
     def get_vts_time_series(self, polygon, indicator):
