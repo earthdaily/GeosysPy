@@ -26,8 +26,7 @@ class geosys:
         str_api_username,
         str_api_password,
     ):
-        """
-        """
+        """ """
         self.base_endpoint = "https://api-pp.geosys-na.net"
         self.master_data_management_endpoint = "master-data-management/v6/seasonfields"
         self.vts_endpoint = """https://api-pp.geosys-na.net/vegetation-time-series/v1/season-fields/
@@ -111,11 +110,14 @@ class geosys:
                 f"Cannot handle HTTP response : {str(response.status_code)} : {str(response.json())}"
             )
 
-    def get_vts_time_series(self, polygon, indicator):
+    def get_time_series(self, polygon, start_date, end_date, indicator):
 
         str_season_field_id = self.__extract_season_field_id(polygon)
-        self.vts_endpoint = f"/vegetation-time-series/v1/season-fields/values?$offset=0&$limit=2000&$count=false&SeasonField.Id={str_season_field_id}&index={indicator}"
+        str_start_date = start_date.strftime("%Y-%m-%d")
+        str_end_date = end_date.strftime("%Y-%m-%d")
+        self.vts_endpoint = f"/vegetation-time-series/v1/season-fields/values?$offset=0&$limit=2000&$count=false&SeasonField.Id={str_season_field_id}&index={indicator}&$filter=Date > '{str_start_date}' and Date < '{str_end_date}'"
         url_vts_endpoint = urljoin(self.base_endpoint, self.vts_endpoint)
+
         response = self.get(url_vts_endpoint)
 
         if response.status_code == 200:
