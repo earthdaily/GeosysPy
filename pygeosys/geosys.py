@@ -27,10 +27,9 @@ class Geosys:
         str_api_password,
     ):
         """ """
-        self.base_endpoint = "https://api-pp.geosys-na.net"
+        self.base_url = "https://api-pp.geosys-na.net"
         self.master_data_management_endpoint = "master-data-management/v6/seasonfields"
-        self.vts_endpoint = """https://api-pp.geosys-na.net/vegetation-time-series/v1/season-fields/
-        values?$offset=0&$limit=2000&$count=false&SeasonField.Id=lqlvxgb&index=NDVI"""
+        self.vts_endpoint = "vegetation-time-series/v1/season-fields"
         self.str_id_server_url = (
             "https://identity.preprod.geosys-na.com/v2.1/connect/token"
         )
@@ -85,11 +84,11 @@ class Geosys:
             "Crop": {"Id": "CORN"},
             "SowingDate": "2022-01-01",
         }
-        str_url_endpoint = urljoin(
-            self.base_endpoint, self.master_data_management_endpoint
+        str_mdm_url = urljoin(
+            self.base_url, self.master_data_management_endpoint
         )
 
-        return self.post(str_url_endpoint, payload)
+        return self.post(str_mdm_url, payload)
 
     def __extract_season_field_id(self, polygon):
 
@@ -115,10 +114,13 @@ class Geosys:
         str_season_field_id = self.__extract_season_field_id(polygon)
         str_start_date = start_date.strftime("%Y-%m-%d")
         str_end_date = end_date.strftime("%Y-%m-%d")
-        self.vts_endpoint = f"/vegetation-time-series/v1/season-fields/values?$offset=0&$limit=2000&$count=false&SeasonField.Id={str_season_field_id}&index={indicator}&$filter=Date > '{str_start_date}' and Date < '{str_end_date}'"
-        url_vts_endpoint = urljoin(self.base_endpoint, self.vts_endpoint)
+        parameters = f"/values?$offset=0&$limit=2000&$count=false&SeasonField.Id={str_season_field_id}&index={indicator}&$filter=Date > '{str_start_date}' and Date < '{str_end_date}'"
+        str_vts_url = urljoin(
+            self.base_url,
+            self.vts_endpoint + parameters
+        )
 
-        response = self.get(url_vts_endpoint)
+        response = self.get(str_vts_url)
 
         if response.status_code == 200:
             print(response.status_code)
