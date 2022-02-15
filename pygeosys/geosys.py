@@ -18,7 +18,7 @@ def renew_access_token(func):
     return wrapper
 
 
-class geosys:
+class Geosys:
     def __init__(
         self,
         str_api_client_id,
