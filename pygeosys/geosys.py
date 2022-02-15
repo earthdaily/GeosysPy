@@ -30,6 +30,7 @@ class Geosys:
         self.base_url = "https://api-pp.geosys-na.net"
         self.master_data_management_endpoint = "master-data-management/v6/seasonfields"
         self.vts_endpoint = "vegetation-time-series/v1/season-fields"
+        self.vts_by_pixel_endpoint = "vegetation-time-series/v1/season-fields/pixels"
         self.str_id_server_url = (
             "https://identity.preprod.geosys-na.com/v2.1/connect/token"
         )
@@ -126,6 +127,26 @@ class Geosys:
             print(response.status_code)
             dict_response = response.json()
             df = pd.read_json(json.dumps(dict_response))
+            df.set_index("date", inplace=True)
+            return df
+        else:
+            print(response.status_code)
+
+    def get_time_series_by_pixel(self, polygon, start_date, end_date, indicator):
+
+        str_season_field_id = self.__extract_season_field_id(polygon)
+        str_start_date = start_date.strftime("%Y-%m-%d")
+        str_end_date = end_date.strftime("%Y-%m-%d")
+        parameters = f"/values?$offset=0&$limit=2000&$count=false&SeasonField.Id={str_season_field_id}&index={indicator}&$filter=Date > '{str_start_date}' and Date < '{str_end_date}'"
+        str_vts_url = urljoin(
+            self.base_url,
+            self.vts_by_pixel_endpoint + parameters
+        )
+
+        response = self.get(str_vts_url)
+
+        if response.status_code == 200:
+            df = pd.json_normalize(response.json())
             df.set_index("date", inplace=True)
             return df
         else:
