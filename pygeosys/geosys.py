@@ -5,6 +5,7 @@ import json
 import re
 from urllib.parse import urljoin
 import pandas as pd
+import logging
 
 
 def renew_access_token(func):
@@ -54,8 +55,9 @@ class Geosys:
                 client_secret=self.str_api_client_secret,
             )
             self.token["refresh_token"] = oauth.cookies["refresh_token"]
+            logging.info("Authenticated")
         except Exception as e:
-            print(e)
+            logging.error(e)
 
     def __refresh_token(self):
         client = OAuth2Session(self.str_api_client_id, token=self.token)
@@ -110,6 +112,7 @@ class Geosys:
 
     def get_time_series(self, polygon, start_date, end_date, indicator):
 
+        logging.info("Calling APIs for aggregated time series")
         str_season_field_id = self.__extract_season_field_id(polygon)
         str_start_date = start_date.strftime("%Y-%m-%d")
         str_end_date = end_date.strftime("%Y-%m-%d")
@@ -119,16 +122,16 @@ class Geosys:
         response = self.get(str_vts_url)
 
         if response.status_code == 200:
-            print(response.status_code)
             dict_response = response.json()
             df = pd.read_json(json.dumps(dict_response))
             df.set_index("date", inplace=True)
             return df
         else:
-            print(response.status_code)
+            logging.info(response.status_code)
 
     def get_time_series_by_pixel(self, polygon, start_date, end_date, indicator):
 
+        logging.info("Calling APIs for time series by the pixel")
         str_season_field_id = self.__extract_season_field_id(polygon)
         str_start_date = start_date.strftime("%Y-%m-%d")
         str_end_date = end_date.strftime("%Y-%m-%d")
@@ -142,4 +145,4 @@ class Geosys:
             df.set_index("date", inplace=True)
             return df
         else:
-            print(response.status_code)
+            logging.info(response.status_code)
