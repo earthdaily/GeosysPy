@@ -3,3 +3,4 @@ requests-oauthlib
 oauthlib
 pandas
 python-dotenv
+pytest
