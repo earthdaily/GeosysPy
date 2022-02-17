@@ -121,7 +121,7 @@ class Geosys:
         str_season_field_id = self.__extract_season_field_id(polygon)
         str_start_date = start_date.strftime("%Y-%m-%d")
         str_end_date = end_date.strftime("%Y-%m-%d")
-        parameters = f"/values?$offset=0&$limit=2000&$count=false&SeasonField.Id={str_season_field_id}&index={indicator}&$filter=Date > '{str_start_date}' and Date < '{str_end_date}'"
+        parameters = f"/values?$offset=0&$limit=2000&$count=false&SeasonField.Id={str_season_field_id}&index={indicator}&$filter=Date >= '{str_start_date}' and Date <= '{str_end_date}'"
         str_vts_url = urljoin(self.base_url, self.vts_endpoint + parameters)
 
         response = self.__get(str_vts_url)
@@ -140,7 +140,7 @@ class Geosys:
         str_season_field_id = self.__extract_season_field_id(polygon)
         str_start_date = start_date.strftime("%Y-%m-%d")
         str_end_date = end_date.strftime("%Y-%m-%d")
-        parameters = f"/values?$offset=0&$limit=2000&$count=false&SeasonField.Id={str_season_field_id}&index={indicator}&$filter=Date > '{str_start_date}' and Date < '{str_end_date}'"
+        parameters = f"/values?$offset=0&$limit=2000&$count=false&SeasonField.Id={str_season_field_id}&index={indicator}&$filter=Date >= '{str_start_date}' and Date <= '{str_end_date}'"
         str_vts_url = urljoin(self.base_url, self.vts_by_pixel_endpoint + parameters)
 
         response = self.__get(str_vts_url)
