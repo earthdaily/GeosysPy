@@ -77,12 +77,12 @@ class Geosys:
         return p.findall(text)[0]
 
     @renew_access_token
-    def get(self, url_endpoint):
+    def __get(self, url_endpoint):
         client = OAuth2Session(self.str_api_client_id, token=self.token)
         return client.get(url_endpoint)
 
     @renew_access_token
-    def post(self, url_endpoint, payload):
+    def __post(self, url_endpoint, payload):
         client = OAuth2Session(self.str_api_client_id, token=self.token)
         return client.post(url_endpoint, json=payload)
 
@@ -94,7 +94,7 @@ class Geosys:
         }
         str_mdm_url = urljoin(self.base_url, self.master_data_management_endpoint)
 
-        return self.post(str_mdm_url, payload)
+        return self.__post(str_mdm_url, payload)
 
     def __extract_season_field_id(self, polygon):
 
@@ -124,7 +124,7 @@ class Geosys:
         parameters = f"/values?$offset=0&$limit=2000&$count=false&SeasonField.Id={str_season_field_id}&index={indicator}&$filter=Date > '{str_start_date}' and Date < '{str_end_date}'"
         str_vts_url = urljoin(self.base_url, self.vts_endpoint + parameters)
 
-        response = self.get(str_vts_url)
+        response = self.__get(str_vts_url)
 
         if response.status_code == 200:
             dict_response = response.json()
@@ -143,7 +143,7 @@ class Geosys:
         parameters = f"/values?$offset=0&$limit=2000&$count=false&SeasonField.Id={str_season_field_id}&index={indicator}&$filter=Date > '{str_start_date}' and Date < '{str_end_date}'"
         str_vts_url = urljoin(self.base_url, self.vts_by_pixel_endpoint + parameters)
 
-        response = self.get(str_vts_url)
+        response = self.__get(str_vts_url)
 
         if response.status_code == 200:
             df = pd.json_normalize(response.json())
