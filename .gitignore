@@ -3,3 +3,6 @@
 *.env
 .vscode/settings.json
 .pytest_cache
+build
+dist
+*.egg-info

@@ -1,5 +1,6 @@
 # Analytics Generation Pipeline
 
+Easy-to-use python wrapper for Geosys APIs (time series, imagery products)
 
 ## How to run the project locally
 
