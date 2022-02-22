@@ -1,3 +1,10 @@
+"""
+This file contains python dictionaries used to store the Geosys' APIs
+URLs for the preprod/prod environments for both of north america
+and Europe.
+
+"""
+
 IDENTITY_URLS = {
     'na': {
         'preprod': 'https://identity.preprod.geosys-na.com/v2.1/connect/token',
