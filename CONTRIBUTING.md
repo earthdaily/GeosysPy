@@ -1,5 +1,10 @@
 # Contributing to pygeosys
 
+## Install requirements-dev.txt dependancies
+
+```
+conda install --file requirements-dev.txt
+```
 
 ## Styleguides
 
