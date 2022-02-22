@@ -67,10 +67,8 @@ class TestGeosys:
             self.polygon, start_date, end_date, "NDVI"
         )
         assert df.index.name == "date"
-        assert "value" in df.columns
-        assert "index" in df.columns
+        assert set(["value", "index", "pixel.id"]).issubset(set(df.columns))
         assert np.all((df["index"].values == "NDVI"))
-        assert "pixel.id" in df.columns
         assert len(df.index) == 14
 
         assert set(
@@ -86,3 +84,22 @@ class TestGeosys:
         ).issubset(set(df.index))
 
         assert set(["mh11v4i225j4612", "mh11v4i226j4612"]).issubset(set(df["pixel.id"]))
+
+    def test_get_coverage_in_season_ndvi(self):
+        start_date = dt.datetime.strptime("2021-01-01", "%Y-%m-%d")
+        end_date = dt.datetime.strptime("2022-01-01", "%Y-%m-%d")
+        df = self.client.get_coverage_in_season_ndvi(self.polygon, start_date, end_date, "SENTINEL_2")
+
+        assert set(
+            [
+                "coverageType",
+                "image.id",
+                "image.availableBands",
+                "image.sensor",
+                "image.soilMaterial",
+                "image.spatialResolution",
+                "image.weather",
+                "image.date",
+                "seasonField.id"
+            ]
+        ).issubset(set(df.columns))

@@ -53,8 +53,8 @@ class Geosys:
         str_api_client_secret,
         str_api_username,
         str_api_password,
-        str_env='prod',
-        str_region='na'
+        str_env="prod",
+        str_region="na",
     ):
         """Initializes a Geosys instance with the required credentials
         to connect to the GEOSYS API.
@@ -65,6 +65,13 @@ class Geosys:
         self.master_data_management_endpoint = "master-data-management/v6/seasonfields"
         self.vts_endpoint = "vegetation-time-series/v1/season-fields"
         self.vts_by_pixel_endpoint = "vegetation-time-series/v1/season-fields/pixels"
+        self.flm_catalog_imagery = (
+            "field-level-maps/v4/season-fields/{}/catalog-imagery"
+        )
+        self.flm_coverage = "field-level-maps/v4/season-fields/{}/coverage"
+        self.str_id_server_url = (
+            "https://identity.preprod.geosys-na.com/v2.1/connect/token"
+        )
         self.str_api_client_id = str_api_client_id
         self.str_api_client_secret = str_api_client_secret
         self.str_api_username = str_api_username
@@ -317,3 +324,43 @@ class Geosys:
             return df[["index", "value", "pixel.id", "X", "Y"]]
         else:
             logging.info(response.status_code)
+
+    def get_coverage_in_season_ndvi(self, polygon, start_date, end_date, sensor):
+        logging.info("Calling APIs for coverage")
+        str_season_field_id = self.__extract_season_field_id(polygon)
+        str_start_date = start_date.strftime("%Y-%m-%d")
+        str_end_date = end_date.strftime("%Y-%m-%d")
+        parameters = f"?maps.type=INSEASON_NDVI&Image.Sensor={sensor}&CoverageType=CLEAR&$limit=2000&$filter=Image.Date >= '{str_start_date}' and Image.Date <= '{str_end_date}'"
+
+        str_flm_url = urljoin(
+            self.base_url,
+            self.flm_catalog_imagery.format(str_season_field_id) + parameters,
+        )
+        response = self.__get(str_flm_url)
+
+        if response.status_code == 200:
+            df = pd.json_normalize(response.json())
+            return df[
+                [
+                    "coverageType",
+                    "image.id",
+                    "image.availableBands",
+                    "image.sensor",
+                    "image.soilMaterial",
+                    "image.spatialResolution",
+                    "image.weather",
+                    "image.date",
+                    "seasonField.id",
+                ]
+            ]
+        else:
+            logging.info(response.status_code)
+
+    def download_image(self, field_id, image_id):
+        parameters = f"/{image_id}/reflectance-map/TOC/image.tiff.zip"
+        download_tiff_url = urljoin(
+            self.base_url, self.flm_coverage.format(field_id) + parameters
+        )
+        response_tiff = self.__get(download_tiff_url)
+        with open(f"{field_id}_{image_id}_tiff.zip", "wb") as f:
+            f.write(response_tiff.content)
