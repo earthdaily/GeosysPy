@@ -1,3 +1,14 @@
+<style>
+img[src*="#thumbnail"] {
+    width:400px;
+    display:block;
+    margin: 0 auto;
+}
+</style>
+
+![EarthDailyAgro logo](https://earthdailyagro.com/wp-content/uploads/2022/01/new-logo.png#thumbnail)
+
+
 # Analytics Generation Pipeline
 
 Easy-to-use python wrapper for Geosys APIs (time series, imagery products)
