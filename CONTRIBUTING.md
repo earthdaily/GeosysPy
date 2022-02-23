@@ -6,7 +6,7 @@
 conda install --file requirements-dev.txt
 ```
 
-## Styleguides
+## Code Styleguides
 
 This project follows the PEP8 style guide. You can use flake8/black for linting and formatting. 
 
@@ -16,9 +16,20 @@ In `.vscode` directory, add the following in your `settings.json` file :
 {
     "python.linting.flake8Enabled": true,
     "python.linting.enabled": true,
-    "python.linting.flake8Args": ["--ignore=E501"]
+    "python.linting.flake8Args": [
+        "--ignore=E501"
+    ],
+    "python.testing.pytestArgs": [
+        "."
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
 }
 ```
+
+## Docstrings Styleguides
+
+This project follows Google styleguides : https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings
 
 ## Git commit messages 
 

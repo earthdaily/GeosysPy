@@ -29,7 +29,7 @@ pip install -r requirements.txt
 ```
 
 ### 2. .env file
-You need a .env file to run the example. You can contact (?) to get credentials.
+You need a .env file to run the example Jupyter notebook. You can signup on `developer.geosys.com` to get credentials.
 
 ```
 API_CLIENT_ID=
