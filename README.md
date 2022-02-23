@@ -6,7 +6,7 @@ img[src*="#thumbnail"] {
 }
 </style>
 
-![EarthDailyAgro logo](https://earthdailyagro.com/wp-content/uploads/2022/01/new-logo.png#thumbnail)
+![EarthDailyAgro logo](https://earthdailyagro.com/wp-content/uploads/2022/01/Logo.svg)
 
 
 # Analytics Generation Pipeline
