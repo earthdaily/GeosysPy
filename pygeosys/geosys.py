@@ -53,14 +53,15 @@ class Geosys:
         str_api_client_secret,
         str_api_username,
         str_api_password,
-        str_env="prod",
+        str_env='prod',
+        str_region='na'
     ):
         """Initializes a Geosys instance with the required credentials
         to connect to the GEOSYS API.
         """
 
-        self.str_id_server_url = platforms.IDENTITY_URLS["na"][str_env]
-        self.base_url = platforms.GEOSYS_API_URLS["na"][str_env]
+        self.str_id_server_url = platforms.IDENTITY_URLS[str_region][str_env]
+        self.base_url = platforms.GEOSYS_API_URLS[str_region][str_env]
         self.master_data_management_endpoint = "master-data-management/v6/seasonfields"
         self.vts_endpoint = "vegetation-time-series/v1/season-fields"
         self.vts_by_pixel_endpoint = "vegetation-time-series/v1/season-fields/pixels"
