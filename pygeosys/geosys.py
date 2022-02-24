@@ -1,4 +1,3 @@
-from urllib import response
 from oauthlib.oauth2 import LegacyApplicationClient
 from requests_oauthlib import OAuth2Session
 from oauthlib.oauth2 import TokenExpiredError
@@ -12,6 +11,7 @@ import io
 import zipfile
 from rasterio.io import MemoryFile
 import os
+from shapely import wkt
 
 
 def renew_access_token(func):
@@ -77,6 +77,7 @@ class Geosys:
         self.str_id_server_url = (
             "https://identity.preprod.geosys-na.com/v2.1/connect/token"
         )
+        self.weather_endpoint = "Weather/v1/weather"
         self.str_api_client_id = str_api_client_id
         self.str_api_client_secret = str_api_client_secret
         self.str_api_username = str_api_username
@@ -402,3 +403,20 @@ class Geosys:
                         with memfile.open() as dataset:
                             logging.info(f"{file} extracted as a numpy array !")
                             return dataset.read()
+
+    def get_weather_temperature(self, polygon, start_date, end_date):
+
+        str_start_date = start_date.strftime("%Y-%m-%d")
+        str_end_date = end_date.strftime("%Y-%m-%d")
+        polygon_wkt = wkt.loads(polygon)
+
+        parameters = f"?%24offset=0&%24limit=20&%24count=false&Location={polygon_wkt.centroid.wkt}&Date=%24between%3A{str_start_date}T00%3A00%3A00.0000000Z%7C{str_end_date}T00%3A00%3A00.0000000Z&Provider=GLOBAL1&WeatherType=HISTORICAL_DAILY&Temperature.Standard=$gte:0&$fields=Temperature.GroundMin,Temperature.Ground,Temperature.Agro,Temperature.AgroMin,Temperature.AgroMax,Temperature.StandardMin,,Temperature.Standard,Temperature.StandardMax,Date"
+        str_weather_url = urljoin(self.base_url, self.weather_endpoint + parameters)
+
+        response = self.__get(str_weather_url)
+
+        if response.status_code == 200:
+            df = pd.json_normalize(response.json())
+            return df
+        else:
+            logging.info(response.status_code)
