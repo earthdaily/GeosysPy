@@ -10,13 +10,9 @@ img[src*="#thumbnail"] {
 
 
 <h1 align="center"> Analytics Generation Pipeline </h1>
-<p align="center">
-    Easy-to-use python library to request and use imagery products based on the Geosys API.
-    <br />
-    <a href="https://earthdailyagro.com/"><strong>Who we are</strong></a>
-    <br />
+<p align="center">Easy-to-use python library to request and use imagery products based on the Geosys API.<br /> <a href="https://earthdailyagro.com/"><strong>Who we are</strong></a><br />
 </p>
-<br />
+<br/>
 
 ## About The Project
 
