@@ -56,6 +56,11 @@ pip install pygeosys
 conda config --add channels conda-forge
 conda install --file requirements.txt
 ```
+or
+```
+pip install -r requirements.txt
+```
+
 
 2. Create .env file
 
@@ -69,6 +74,28 @@ API_PASSWORD=
 ```
 
 3. Run the Jupyter notebook
+
+### Run the package inside a Docker container
+
+Build the image locally :
+
+`docker build --tag pygeosys .`
+
+Run it :
+
+`docker run -it --env-file .env pygeosys`
+
+or, without .env file :
+
+`docker run -it -e API_CLIENT_ID='...' -e API_CLIENT_SECRET='...' -e API_USERNAME='...' -e API_PASSWORD='...' pygeosys`
+
+Then :
+
+```python
+>>> from pygeosys.geosys import Geosys
+>>> import os
+>>> client = Geosys(os.getenv('API_CLIENT_ID'), os.getenv('API_CLIENT_SECRET'), os.getenv('API_USERNAME'), os.getenv('API_PASSWORD'))
+```
 
 ## Usage
 
