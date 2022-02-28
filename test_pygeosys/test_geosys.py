@@ -103,3 +103,16 @@ class TestGeosys:
                 "seasonField.id"
             ]
         ).issubset(set(df.columns))
+
+    def test_get_image_as_array(self):
+        """
+        """
+
+        # The following image has 4 bands, and contains 76*71 pixels.
+
+        img_field_id = "d1bqwqq"
+        img_id = "IKc73hpUQ6spGyDC80dOd8SDFIKHF1CezmxsZGmXlzg"
+        img_arr = self.client.get_image_as_array(img_field_id, img_id)
+        assert img_arr.shape == (4,76,71)
+        assert type(img_arr) ==  np.ndarray
+
