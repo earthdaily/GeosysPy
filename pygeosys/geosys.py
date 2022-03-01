@@ -12,6 +12,7 @@ import zipfile
 from rasterio.io import MemoryFile
 import os
 from shapely import wkt
+from pathlib import Path
 
 
 def renew_access_token(func):
@@ -371,9 +372,19 @@ class Geosys:
         return response_zipped_tiff
 
     def download_image(self, field_id, image_id, str_path=""):
+        """Downloads the image locally
+
+        Args:
+            field_id : A string representing the image's field id.
+            image_id: A string representing the image's id.
+
+        Returns:
+            Saves the image on the local path
+
+        """
         response_zipped_tiff = self.__get_zipped_tiff(field_id, image_id)
         if str_path == "":
-            str_path = os.getcwd()
+            str_path = Path.cwd() / f"image_{image_id}_tiff.zip"
         with open(str_path, "wb") as f:
             logging.info(f"writing to {str_path}")
             f.write(response_zipped_tiff.content)
