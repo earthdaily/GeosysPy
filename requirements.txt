@@ -2,4 +2,6 @@ requests
 requests-oauthlib
 oauthlib
 pandas
-python-dotenv
+rasterio
+mkdocs
+shapely
