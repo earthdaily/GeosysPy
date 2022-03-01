@@ -209,19 +209,19 @@ class Geosys:
         'start_date' -> 'end_date' as a pandas DataFrame :
 
                      | index     | value |
-                     _____________________
+
             date     | indicator |   1   |
         __________________________________
          start-date  | indicator |   2   |
-         ...         | ...       |  ...  |
-           end-date  | indicator |   8   |
+
+            ...      |    ...    |  ...  |
+
+         end-date    | indicator |   8   |
 
         Args:
             polygon : A string representing a polygon.
-            start_date : A datetime object representing the start date of the date interval
-        the user wants to filter on.
-            end_date : A datetime object representing the final date of the date interval
-        the user wants to filter on.
+            start_date : A datetime object representing the start date of the date interval the user wants to filter on.
+            end_date : A datetime object representing the final date of the date interval the user wants to filter on.
             indicator : A string representing the indicator whose time series the user wants.
 
         Returns:
@@ -248,17 +248,14 @@ class Geosys:
     def get_time_series_by_pixel(self, polygon, start_date, end_date, indicator):
         """Returns a pandas DataFrame.
 
-        This method returns a time series of 'indicator' by pixel within the range as well
-        as the pixel's coordinates X,Y in the MODIS's sinusoidal projection.
-
-        'start_date' -> 'end_date' as a pandas DataFrame :
+        This method returns a time series of 'indicator' by pixel within the range 'start_date' -> 'end_date'
+        as well as the pixel's coordinates X,Y in the MODIS's sinusoidal projection as a pandas DataFrame :
 
 
 
                         | index     | value | pixel.id | X | Y |
-
                         _______________________________________|
-            date        | indicator |       |          |   |
+            date        | indicator |       |          |   |   |
             ___________________________________________________|
 
             start-date  | indicator |   2   |    1     |   |   |
@@ -269,10 +266,8 @@ class Geosys:
 
         Args:
             polygon : A string representing a polygon.
-            start_date : A datetime object representing the start date of the date interval
-        the user wants to filter on.
-            end_date : A datetime object representing the final date of the date interval
-        the user wants to filter on.
+            start_date : A datetime object representing the start date of the date interval the user wants to filter on.
+            end_date : A datetime object representing the final date of the date interval the user wants to filter on.
             indicator : A string representing the indicator whose time series the user wants.
 
         Returns:

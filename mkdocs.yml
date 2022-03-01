@@ -1,0 +1,12 @@
+site_name: My Docs
+theme:
+  name: readthedocs
+
+plugins:
+  - search
+  - mkdocstrings
+
+nav:
+    - Home: index.md
+    - Code Reference:
+        - Workflow: geosys-reference.md
