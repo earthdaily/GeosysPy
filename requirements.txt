@@ -2,3 +2,5 @@ requests
 requests-oauthlib
 oauthlib
 pandas
+rasterio
+mkdocs

@@ -67,10 +67,8 @@ class TestGeosys:
             self.polygon, start_date, end_date, "NDVI"
         )
         assert df.index.name == "date"
-        assert "value" in df.columns
-        assert "index" in df.columns
+        assert set(["value", "index", "pixel.id"]).issubset(set(df.columns))
         assert np.all((df["index"].values == "NDVI"))
-        assert "pixel.id" in df.columns
         assert len(df.index) == 14
 
         assert set(
@@ -86,3 +84,35 @@ class TestGeosys:
         ).issubset(set(df.index))
 
         assert set(["mh11v4i225j4612", "mh11v4i226j4612"]).issubset(set(df["pixel.id"]))
+
+    def test_get_coverage_in_season_ndvi(self):
+        start_date = dt.datetime.strptime("2021-01-01", "%Y-%m-%d")
+        end_date = dt.datetime.strptime("2022-01-01", "%Y-%m-%d")
+        df = self.client.get_coverage_in_season_ndvi(self.polygon, start_date, end_date, "SENTINEL_2")
+
+        assert set(
+            [
+                "coverageType",
+                "image.id",
+                "image.availableBands",
+                "image.sensor",
+                "image.soilMaterial",
+                "image.spatialResolution",
+                "image.weather",
+                "image.date",
+                "seasonField.id"
+            ]
+        ).issubset(set(df.columns))
+
+    def test_get_image_as_array(self):
+        """
+        """
+
+        # The following image has 4 bands, and contains 76*71 pixels.
+
+        img_field_id = "d1bqwqq"
+        img_id = "IKc73hpUQ6spGyDC80dOd8SDFIKHF1CezmxsZGmXlzg"
+        img_arr = self.client.get_image_as_array(img_field_id, img_id)
+        assert img_arr.shape == (4,76,71)
+        assert type(img_arr) ==  np.ndarray
+
