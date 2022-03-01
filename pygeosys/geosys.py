@@ -10,7 +10,6 @@ import logging
 import io
 import zipfile
 from rasterio.io import MemoryFile
-import os
 from shapely import wkt
 from pathlib import Path
 
