@@ -22,5 +22,5 @@ setup(
     author="Geosys",
     packages=["pygeosys"],
     include_package_data=True,
-    install_requires=["requests", "requests-oauthlib", "oauthlib", "pandas", "python-dotenv"]
+    install_requires=["requests", "requests-oauthlib", "oauthlib", "pandas", "rasterio", "shapely"]
 )

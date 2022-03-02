@@ -3,5 +3,4 @@ requests-oauthlib
 oauthlib
 pandas
 rasterio
-mkdocs
 shapely
