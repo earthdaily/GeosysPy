@@ -6,3 +6,6 @@ build:
 
 check_build:
 	twine check dist/*
+
+remove_build:
+	rm -rf build dist geosyspy.egg-info

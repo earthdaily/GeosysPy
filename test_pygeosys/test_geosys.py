@@ -1,5 +1,5 @@
 from datetime import datetime
-from pygeosys.geosys import Geosys
+from geosyspy.geosys import Geosys
 from dotenv import load_dotenv
 import os
 import datetime as dt

@@ -1,4 +1,4 @@
-# Contributing to pygeosys
+# Contributing to GeosysPy
 
 ## Install requirements-dev.txt dependancies
 

@@ -1,3 +1,3 @@
 # geosys module
 
-::: pygeosys.geosys
+::: geosyspy.geosys
