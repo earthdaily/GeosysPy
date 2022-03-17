@@ -27,7 +27,7 @@ We have a team of experts around the world that understand local crops and ag in
 
 We have established a developer community to provide you with plug-ins and integrations to be able to discover, request and use aggregate imagery products based on Landsat, Sentinel, Modis and many other open and commercial satellite sensors.
 
-The `pygeosys` python package aims to provide an easy and ready to use library allowing any Python developers to quickly experience Earthdaily Agro capabilities.
+The `geosyspy` python package aims to provide an easy and ready to use library allowing any Python developers to quickly experience Earthdaily Agro capabilities.
 
 ## Getting started
 
@@ -41,7 +41,7 @@ This package has been tested on Python 3.9.7.
 ### Installation
 
 ```
-pip install pygeosys
+pip install geosyspy
 ```
 
 ### Run the package from source
@@ -75,20 +75,20 @@ API_PASSWORD=
 
 Build the image locally :
 
-`docker build --tag pygeosys .`
+`docker build --tag geosyspy .`
 
 Run it :
 
-`docker run -it --env-file .env pygeosys`
+`docker run -it --env-file .env geosyspy`
 
 or, without .env file :
 
-`docker run -it -e API_CLIENT_ID='...' -e API_CLIENT_SECRET='...' -e API_USERNAME='...' -e API_PASSWORD='...' pygeosys`
+`docker run -it -e API_CLIENT_ID='...' -e API_CLIENT_SECRET='...' -e API_USERNAME='...' -e API_PASSWORD='...' geosyspy`
 
 Then :
 
 ```python
->>> from pygeosys.geosys import Geosys
+>>> from geosyspy.geosys import Geosys
 >>> import os
 >>> client = Geosys(os.getenv('API_CLIENT_ID'), os.getenv('API_CLIENT_SECRET'), os.getenv('API_USERNAME'), os.getenv('API_PASSWORD'))
 ```
@@ -98,7 +98,7 @@ Then :
 Initialize client:
 
 ```python
-from pygeosys.geosys import Geosys
+from geosyspy.geosys import Geosys
 
 client = Geosys("API_CLIENT_ID", "API_CLIENT_SECRET", "API_USERNAME", "API_PASSWORD")
 

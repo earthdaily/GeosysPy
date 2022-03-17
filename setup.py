@@ -1,4 +1,4 @@
-"""Setup script for pygeosys"""
+"""Setup script for geosyspy"""
 
 # Standard library imports
 import pathlib
@@ -14,13 +14,13 @@ README = (HERE / "README.md").read_text()
 
 # This call to setup() does all the work
 setup(
-    name="pygeosys",
+    name="geosyspy",
     version="0.0.1",
     description="Easy-to-use python wrapper for Geosys APIs (time series, imagery products)",
     long_description=README,
     long_description_content_type="text/markdown",
     author="Geosys",
-    packages=["pygeosys"],
+    packages=["geosyspy"],
     include_package_data=True,
     install_requires=["requests", "requests-oauthlib", "oauthlib", "pandas", "rasterio", "shapely"]
 )
