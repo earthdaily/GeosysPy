@@ -116,22 +116,20 @@ class TestGeosys:
         assert img_arr.shape == (4,76,71)
         assert type(img_arr) ==  np.ndarray
 
-    def test_get_weather_temperature(self):
+    def test_get_weather(self):
 
         start_date = dt.datetime.strptime("2021-01-01", "%Y-%m-%d")
         end_date = dt.datetime.strptime("2022-01-01", "%Y-%m-%d")
+        weather_fields = ["Precipitation", "Temperature.Ground", "Temperature.Standard", "Temperature.StandardMax", "Date"]
 
-        df = self.client.get_weather_temperature(self.polygon, start_date, end_date)
+        df = self.client.get_weather(self.polygon, start_date, end_date, weather_fields)
 
         assert set(
             [
                 "date",
-                "temperature.groundMin",
+                "precipitation.cumulative",
+                "precipitation.probabilities",
                 "temperature.ground",
-                "temperature.agro",
-                "temperature.agroMin",
-                "temperature.agroMax",
-                "temperature.standardMin",
                 "temperature.standard",
                 "temperature.standardMax",
             ]
