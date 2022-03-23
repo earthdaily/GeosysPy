@@ -27,7 +27,7 @@ def renew_access_token(func):
         try:
             return func(self, *args, **kwargs)
         except TokenExpiredError:
-            self._geosys__refresh_token()
+            self._Geosys__refresh_token()
             return func(self, *args, **kwargs)
 
     return wrapper
