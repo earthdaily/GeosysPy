@@ -4,3 +4,4 @@ flake8
 black
 twine
 mkdocs
+mkdocstrings

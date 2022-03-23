@@ -40,3 +40,22 @@ This project follows Google styleguides : https://google.github.io/styleguide/py
 5. Do not end the subject line with a period
 6. Separate subject from body with a blank line
 7. Do not put references to issues in the subject, but at the bottom of the body
+
+## Build the package locally
+
+```
+make build
+make check_build
+```
+
+## Remove local package 
+
+```
+make remove_build
+```
+
+## Serve the doc on localhost
+
+```
+mkdocs serve
+```
