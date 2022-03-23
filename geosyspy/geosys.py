@@ -406,20 +406,29 @@ class Geosys:
                             logging.info(f"{file} extracted as a numpy array !")
                             return dataset.read()
 
-    def get_weather(self, polygon, start_date, end_date, weather_fields):
+    def get_weather(self, polygon, start_date, end_date, weather_type, fields):
+
+        allowed_weather_types = ["HISTORICAL_DAILY", "FORECAST_DAILY", "FORECAST_HOURLY"]
+        if weather_type not in allowed_weather_types:
+            raise ValueError(f"weather_type should be either {allowed_weather_types}")
+
+        if "Date" not in fields:
+            fields.append("Date")
 
         str_start_date = start_date.strftime("%Y-%m-%d")
         str_end_date = end_date.strftime("%Y-%m-%d")
         polygon_wkt = wkt.loads(polygon)
-        str_weather_fields = ",".join(weather_fields)
-
-        parameters = f"?%24offset=0&%24limit=20&%24count=false&Location={polygon_wkt.centroid.wkt}&Date=%24between%3A{str_start_date}T00%3A00%3A00.0000000Z%7C{str_end_date}T00%3A00%3A00.0000000Z&Provider=GLOBAL1&WeatherType=HISTORICAL_DAILY&Temperature.Standard=$gte:0&$fields={str_weather_fields}"
+        str_weather_fields = ",".join(fields)
+        parameters = f"?%24offset=0&%24limit=20&%24count=false&Location={polygon_wkt.centroid.wkt}&Date=%24between%3A{str_start_date}T00%3A00%3A00.0000000Z%7C{str_end_date}T00%3A00%3A00.0000000Z&Provider=GLOBAL1&WeatherType={weather_type}&$fields={str_weather_fields}"
         str_weather_url = urljoin(self.base_url, self.weather_endpoint + parameters)
 
         response = self.__get(str_weather_url)
 
         if response.status_code == 200:
             df = pd.json_normalize(response.json())
-            return df
+            df.set_index("date", inplace=True)
+            df["Location"] = polygon_wkt.centroid.wkt
+            return df.sort_index()
         else:
-            logging.info(response.status_code)
+            logging.error(response.status_code)
+            raise ValueError(response.content)
