@@ -122,11 +122,10 @@ class TestGeosys:
         end_date = dt.datetime.strptime("2022-01-01", "%Y-%m-%d")
         weather_fields = ["Precipitation", "Temperature.Ground", "Temperature.Standard", "Temperature.StandardMax", "Date"]
 
-        df = self.client.get_weather(self.polygon, start_date, end_date, weather_fields)
+        df = self.client.get_weather(self.polygon, start_date, end_date, "HISTORICAL_DAILY", weather_fields)
 
         assert set(
             [
-                "date",
                 "precipitation.cumulative",
                 "precipitation.probabilities",
                 "temperature.ground",
@@ -134,3 +133,4 @@ class TestGeosys:
                 "temperature.standardMax",
             ]
         ).issubset(set(df.columns))
+        assert df.index.name == "date"
