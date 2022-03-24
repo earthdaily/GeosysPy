@@ -407,6 +407,19 @@ class Geosys:
                             return dataset.read()
 
     def get_weather(self, polygon, start_date, end_date, weather_type, fields):
+        """Returns the weather data as a pandas dataframe.
+
+        Args:
+            polygon : A string representing a polygon.
+            start_date : A datetime object representing the start date of the date interval the user wants to filter on.
+            end_date : A datetime object representing the final date of the date interval the user wants to filter on.
+            weather_type : A string representing the collection ["HISTORICAL_DAILY", "FORECAST_DAILY", "FORECAST_HOURLY"]
+            fields : An array of strings representings the fields to select (eg: Precipitation, Temperature)
+
+        Returns:
+            The image's numpy array.
+
+        """
 
         allowed_weather_types = ["HISTORICAL_DAILY", "FORECAST_DAILY", "FORECAST_HOURLY"]
         if weather_type not in allowed_weather_types:
