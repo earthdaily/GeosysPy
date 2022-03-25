@@ -8,3 +8,4 @@ dist
 *.egg-info
 .idea
 notebook-dev.ipynb
+site
