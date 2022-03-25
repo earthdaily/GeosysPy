@@ -54,8 +54,14 @@ make check_build
 make remove_build
 ```
 
-## Serve the doc on localhost
+## Serve the docs on localhost
 
 ```
 mkdocs serve
+```
+
+## Build the docs html website
+
+```
+mkdocs build
 ```
