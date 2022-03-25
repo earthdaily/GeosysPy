@@ -2,5 +2,5 @@ requests
 requests-oauthlib
 oauthlib
 pandas
-rasterio
 shapely
+rasterio

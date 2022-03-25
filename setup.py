@@ -25,5 +25,5 @@ setup(
     packages=["geosyspy"],
     include_package_data=True,
     data_files=[('', ['VERSION.txt'])],
-    install_requires=["requests", "requests-oauthlib", "oauthlib", "pandas", "rasterio", "shapely"]
+    install_requires=["requests", "requests-oauthlib", "oauthlib", "pandas", "shapely", "rasterio"]
 )
