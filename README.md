@@ -64,6 +64,7 @@
     </li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#support-development">Support development</a></li>
+    <li><a href="#resources">Resources</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#copyrights">Copyrights</a></li>
@@ -180,6 +181,14 @@ dataframe = client.get_time_series(polygon, year_ago, today, "NDVI")
 ```
 
 See the Jupyter notebook `examples.ipynb` for a working example.
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+<!-- RESOURCES -->
+## Resources 
+The following links will provide access to more information:
+- [EarthDaily agro developer portal  ](https://developer.geosys.com/)
+- 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
