@@ -58,13 +58,14 @@ class Geosys:
         str_api_client_secret,
         str_api_username,
         str_api_password,
-        str_env="prod",
-        str_region="na",
+        str_env,
+        str_region,
     ):
         """Initializes a Geosys instance with the required credentials
         to connect to the GEOSYS API.
         """
-
+        self.region = str_region
+        self.env = str_env
         self.str_id_server_url = platforms.IDENTITY_URLS[str_region][str_env]
         self.base_url = platforms.GEOSYS_API_URLS[str_region][str_env]
         self.master_data_management_endpoint = "master-data-management/v6/seasonfields"
@@ -75,6 +76,7 @@ class Geosys:
         )
         self.flm_coverage = "field-level-maps/v4/season-fields/{}/coverage"
         self.weather_endpoint = "Weather/v1/weather"
+        self.analytics_fabric_endpoint = "analytics/metrics"
         self.str_api_client_id = str_api_client_id
         self.str_api_client_secret = str_api_client_secret
         self.str_api_username = str_api_username
@@ -199,7 +201,8 @@ class Geosys:
         dict_response = response.json()
 
         if (
-            response.status_code == 400 and "sowingDate" in dict_response["errors"]["body"]
+            response.status_code == 400
+            and "sowingDate" in dict_response["errors"]["body"]
         ):
             pattern = r"\sId:\s(\w+),"
             str_text = dict_response["errors"]["body"]["sowingDate"][0]["message"]
@@ -394,12 +397,14 @@ class Geosys:
 
         response_zipped_tiff = self.__get_zipped_tiff(field_id, image_id)
 
-        with zipfile.ZipFile(io.BytesIO(response_zipped_tiff.content), 'r') as archive:
+        with zipfile.ZipFile(io.BytesIO(response_zipped_tiff.content), "r") as archive:
             list_files = archive.namelist()
             for file in list_files:
                 list_words = file.split(".")
                 if list_words[-1] == "tif":
-                    logging.info(f"Extracting {file} from the zip archive as a raster in memory...")
+                    logging.info(
+                        f"Extracting {file} from the zip archive as a raster in memory..."
+                    )
                     img_in_bytes = archive.read(file)
                     with MemoryFile(img_in_bytes) as memfile:
                         with memfile.open() as dataset:
@@ -421,7 +426,11 @@ class Geosys:
 
         """
 
-        allowed_weather_types = ["HISTORICAL_DAILY", "FORECAST_DAILY", "FORECAST_HOURLY"]
+        allowed_weather_types = [
+            "HISTORICAL_DAILY",
+            "FORECAST_DAILY",
+            "FORECAST_HOURLY",
+        ]
         if weather_type not in allowed_weather_types:
             raise ValueError(f"weather_type should be either {allowed_weather_types}")
 
@@ -445,3 +454,38 @@ class Geosys:
         else:
             logging.error(response.status_code)
             raise ValueError(response.content)
+
+    def get_metrics(self, str_season_field_id, schema_id, start_date, end_date):
+        """Returns metrics from analytics fabric in a pandas dataframe..
+
+        Args:
+            str_season_field_id : A string representing the seasonfieldid.
+            schema_id : A string representing a schema existing in analytics fabric, example : "LAI_RADAR"
+
+        Returns:
+            df : A Pandas DataFrame containing severals columns with metrics in the schema_id.
+
+        """
+
+        logging.info("Calling APIs for metrics")
+        str_start_date = start_date.strftime("%Y-%m-%d")
+        str_end_date = end_date.strftime("%Y-%m-%d")
+        parameters = f'?%24limit=9999&Timestamp=$between:{str_start_date}|{str_end_date}&$filter=Entity.ExternalTypedIds.Contains("SeasonField:{str_season_field_id}@LEGACY_ID_{self.region.upper()}")&$filter=Schema.Id=={schema_id}'
+        str_af_url = urljoin(
+            self.base_url,
+            self.analytics_fabric_endpoint + parameters,
+        )
+        response = self.__get(str_af_url)
+
+        if response.status_code == 200:
+            df = pd.json_normalize(response.json())
+            df.drop("Entity.TypedId", inplace=True, axis=1)
+            df.rename(
+                columns={"Timestamp": "date"},
+                inplace=True,
+            )
+            df = df.sort_values(by="date")
+            df.set_index("date", inplace=True)
+            return df
+        else:
+            logging.info(response.status_code)

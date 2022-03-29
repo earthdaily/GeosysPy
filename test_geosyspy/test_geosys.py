@@ -88,7 +88,9 @@ class TestGeosys:
     def test_get_coverage_in_season_ndvi(self):
         start_date = dt.datetime.strptime("2021-01-01", "%Y-%m-%d")
         end_date = dt.datetime.strptime("2022-01-01", "%Y-%m-%d")
-        df = self.client.get_coverage_in_season_ndvi(self.polygon, start_date, end_date, "SENTINEL_2")
+        df = self.client.get_coverage_in_season_ndvi(
+            self.polygon, start_date, end_date, "SENTINEL_2"
+        )
 
         assert set(
             [
@@ -100,29 +102,36 @@ class TestGeosys:
                 "image.spatialResolution",
                 "image.weather",
                 "image.date",
-                "seasonField.id"
+                "seasonField.id",
             ]
         ).issubset(set(df.columns))
 
     def test_get_image_as_array(self):
-        """
-        """
+        """ """
 
         # The following image has 4 bands, and contains 76*71 pixels.
 
         img_field_id = "d1bqwqq"
         img_id = "IKc73hpUQ6spGyDC80dOd8SDFIKHF1CezmxsZGmXlzg"
         img_arr = self.client.get_image_as_array(img_field_id, img_id)
-        assert img_arr.shape == (4,76,71)
-        assert type(img_arr) ==  np.ndarray
+        assert img_arr.shape == (4, 76, 71)
+        assert type(img_arr) == np.ndarray
 
     def test_get_weather(self):
 
         start_date = dt.datetime.strptime("2021-01-01", "%Y-%m-%d")
         end_date = dt.datetime.strptime("2022-01-01", "%Y-%m-%d")
-        weather_fields = ["Precipitation", "Temperature.Ground", "Temperature.Standard", "Temperature.StandardMax", "Date"]
+        weather_fields = [
+            "Precipitation",
+            "Temperature.Ground",
+            "Temperature.Standard",
+            "Temperature.StandardMax",
+            "Date",
+        ]
 
-        df = self.client.get_weather(self.polygon, start_date, end_date, "HISTORICAL_DAILY", weather_fields)
+        df = self.client.get_weather(
+            self.polygon, start_date, end_date, "HISTORICAL_DAILY", weather_fields
+        )
 
         assert set(
             [
@@ -133,4 +142,32 @@ class TestGeosys:
                 "temperature.standardMax",
             ]
         ).issubset(set(df.columns))
+        assert df.index.name == "date"
+
+    def test_get_metrics(self):
+
+        seasonfield_id = "ajwna16"
+        schema_id = "LAI_RADAR"
+        start_date = dt.datetime.strptime("2022-01-24", "%Y-%m-%d")
+        end_date = dt.datetime.strptime("2022-01-30", "%Y-%m-%d")
+        df = self.client.get_metrics(seasonfield_id, schema_id, start_date, end_date)
+
+        assert set(
+            [
+                "Values.RVI",
+                "Values.LAI",
+                "Schema.Id",
+            ]
+        ).issubset(set(df.columns))
+        assert set(
+            [
+                "2022-01-24T00:00:00Z",
+                "2022-01-25T00:00:00Z",
+                "2022-01-26T00:00:00Z",
+                "2022-01-27T00:00:00Z",
+                "2022-01-28T00:00:00Z",
+                "2022-01-29T00:00:00Z",
+                "2022-01-30T00:00:00Z",
+            ]
+        ).issubset(set(df.index))
         assert df.index.name == "date"
