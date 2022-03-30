@@ -1,3 +1,4 @@
+from numpy import poly
 from oauthlib.oauth2 import LegacyApplicationClient
 from requests_oauthlib import OAuth2Session
 from oauthlib.oauth2 import TokenExpiredError
@@ -12,6 +13,7 @@ import zipfile
 from rasterio.io import MemoryFile
 from shapely import wkt
 from pathlib import Path
+from . import ImageReference, Sua
 
 
 def renew_access_token(func):
@@ -215,7 +217,26 @@ class Geosys:
                 f"Cannot handle HTTP response : {str(response.status_code)} : {str(response.json())}"
             )
 
-    def get_time_series(self, polygon, start_date, end_date, indicator):
+    def get_sua(self, polygon):
+        season_field_id = self.__extract_season_field_id(polygon)
+        return Sua.Sua(polygon, season_field_id)
+
+    def get_time_series(self, polygon, start_date, end_date, collection, indicators):
+        if collection in ["HISTORICAL_DAILY", "FORECAST_DAILY", "FORECAST_HOURLY"]:
+            return self.__get_weather(polygon, start_date, end_date, collection, indicators)
+        elif collection in ["Modis"]:
+            return self.__get_modis_time_series(polygon, start_date, end_date, indicators[0])
+        else:
+            raise ValueError(f"{collection} collection doesn't exist")
+
+    def get_satellite_image_time_series(self, polygon, start_date, end_date, collection, indicators):
+
+        if collection in ["Modis"]:
+            return self.__get_time_series_by_pixel(polygon, start_date, end_date, indicators[0])
+        elif collection in ["LANDSAT_8", "SENTINEL_2"]:
+            return []
+
+    def __get_modis_time_series(self, polygon, start_date, end_date, indicator):
         """Returns a pandas DataFrame.
 
         This method returns a time series of 'indicator' within the range
@@ -258,7 +279,7 @@ class Geosys:
         else:
             logging.info(response.status_code)
 
-    def get_time_series_by_pixel(self, polygon, start_date, end_date, indicator):
+    def __get_time_series_by_pixel(self, polygon, start_date, end_date, indicator):
         """Returns a pandas DataFrame.
 
         This method returns a time series of 'indicator' by pixel within the range 'start_date' -> 'end_date'
@@ -326,12 +347,26 @@ class Geosys:
         else:
             logging.info(response.status_code)
 
-    def get_coverage_in_season_ndvi(self, polygon, start_date, end_date, sensor):
+    def get_satellite_coverage_image_references(self, polygon, start_date, end_date, sensor="ALL"):
+        df = self.get_satellite_coverage(polygon, start_date, end_date, sensor)
+        images_references = {}
+
+        for i, image in df.iterrows():
+            images_references[(image["image.date"], image["image.sensor"])] = ImageReference.ImageReference(image["image.id"], image["image.date"], image["image.sensor"], image["seasonField.id"])
+
+        return df, images_references
+
+    def get_satellite_coverage(self, polygon, start_date, end_date, sensor="ALL"):
         logging.info("Calling APIs for coverage")
         str_season_field_id = self.__extract_season_field_id(polygon)
         str_start_date = start_date.strftime("%Y-%m-%d")
         str_end_date = end_date.strftime("%Y-%m-%d")
-        parameters = f"?maps.type=INSEASON_NDVI&Image.Sensor={sensor}&CoverageType=CLEAR&$limit=2000&$filter=Image.Date >= '{str_start_date}' and Image.Date <= '{str_end_date}'"
+        if sensor == "ALL":
+            default_sensors = ["SENTINEL_2", "LANDSAT_8"]
+            image_sensor_param = f"&Image.Sensor=$in:{'|'.join(default_sensors)}"
+        else:
+            image_sensor_param = f"&Image.Sensor={sensor}"
+        parameters = f"?maps.type=INSEASON_NDVI{image_sensor_param}&CoverageType=CLEAR&$limit=2000&$filter=Image.Date >= '{str_start_date}' and Image.Date <= '{str_end_date}'"
 
         str_flm_url = urljoin(
             self.base_url,
@@ -365,7 +400,7 @@ class Geosys:
         response_zipped_tiff = self.__get(download_tiff_url)
         return response_zipped_tiff
 
-    def download_image(self, field_id, image_id, str_path=""):
+    def download_image(self, image_reference, str_path=""):
         """Downloads the image locally
 
         Args:
@@ -376,14 +411,14 @@ class Geosys:
             Saves the image on the local path
 
         """
-        response_zipped_tiff = self.__get_zipped_tiff(field_id, image_id)
+        response_zipped_tiff = self.__get_zipped_tiff(image_reference.season_field_id, image_reference.image_id)
         if str_path == "":
-            str_path = Path.cwd() / f"image_{image_id}_tiff.zip"
+            str_path = Path.cwd() / f"image_{image_reference.image_id}_tiff.zip"
         with open(str_path, "wb") as f:
             logging.info(f"writing to {str_path}")
             f.write(response_zipped_tiff.content)
 
-    def get_image_as_array(self, field_id, image_id):
+    def __get_image_as_array(self, field_id, image_id):
         """Returns the image as a numpy array.
 
         Args:
@@ -411,7 +446,7 @@ class Geosys:
                             logging.info(f"{file} extracted as a numpy array !")
                             return dataset.read()
 
-    def get_weather(self, polygon, start_date, end_date, weather_type, fields):
+    def __get_weather(self, polygon, start_date, end_date, weather_type, fields):
         """Returns the weather data as a pandas dataframe.
 
         Args:
@@ -455,7 +490,7 @@ class Geosys:
             logging.error(response.status_code)
             raise ValueError(response.content)
 
-    def get_metrics(self, str_season_field_id, schema_id, start_date, end_date):
+    def get_metrics(self, sua, schema_id, start_date, end_date):
         """Returns metrics from analytics fabric in a pandas dataframe..
 
         Args:
@@ -470,7 +505,7 @@ class Geosys:
         logging.info("Calling APIs for metrics")
         str_start_date = start_date.strftime("%Y-%m-%d")
         str_end_date = end_date.strftime("%Y-%m-%d")
-        parameters = f'?%24limit=9999&Timestamp=$between:{str_start_date}|{str_end_date}&$filter=Entity.ExternalTypedIds.Contains("SeasonField:{str_season_field_id}@LEGACY_ID_{self.region.upper()}")&$filter=Schema.Id=={schema_id}'
+        parameters = f'?%24limit=9999&Timestamp=$between:{str_start_date}|{str_end_date}&$filter=Entity.ExternalTypedIds.Contains("SeasonField:{sua.season_field_id}@LEGACY_ID_{self.region.upper()}")&$filter=Schema.Id=={schema_id}'
         str_af_url = urljoin(
             self.base_url,
             self.analytics_fabric_endpoint + parameters,
