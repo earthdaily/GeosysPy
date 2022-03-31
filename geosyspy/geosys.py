@@ -14,6 +14,9 @@ from rasterio.io import MemoryFile
 from shapely import wkt
 from pathlib import Path
 from . import ImageReference, Sua
+import xarray as xr
+import rasterio
+import numpy as np
 
 
 def renew_access_token(func):
@@ -229,12 +232,12 @@ class Geosys:
         else:
             raise ValueError(f"{collection} collection doesn't exist")
 
-    def get_satellite_image_time_series(self, polygon, start_date, end_date, collection, indicators):
+    def get_satellite_image_time_series(self, polygon, start_date, end_date, collections, indicators):
 
-        if collection in ["Modis"]:
+        if set(collections).issubset(["Modis"]):
             return self.__get_time_series_by_pixel(polygon, start_date, end_date, indicators[0])
-        elif collection in ["LANDSAT_8", "SENTINEL_2"]:
-            return []
+        elif set(collections).issubset(["LANDSAT_8", "SENTINEL_2"]):
+            return self.__get_images_as_dataset(polygon, start_date, end_date, collections)
 
     def __get_modis_time_series(self, polygon, start_date, end_date, indicator):
         """Returns a pandas DataFrame.
@@ -347,8 +350,8 @@ class Geosys:
         else:
             logging.info(response.status_code)
 
-    def get_satellite_coverage_image_references(self, polygon, start_date, end_date, sensor="ALL"):
-        df = self.get_satellite_coverage(polygon, start_date, end_date, sensor)
+    def get_satellite_coverage_image_references(self, polygon, start_date, end_date, sensors=["SENTINEL_2", "LANDSAT_8"]):
+        df = self.get_satellite_coverage(polygon, start_date, end_date, sensors)
         images_references = {}
 
         for i, image in df.iterrows():
@@ -356,17 +359,12 @@ class Geosys:
 
         return df, images_references
 
-    def get_satellite_coverage(self, polygon, start_date, end_date, sensor="ALL"):
+    def get_satellite_coverage(self, polygon, start_date, end_date, sensors=["SENTINEL_2", "LANDSAT_8"]):
         logging.info("Calling APIs for coverage")
         str_season_field_id = self.__extract_season_field_id(polygon)
         str_start_date = start_date.strftime("%Y-%m-%d")
         str_end_date = end_date.strftime("%Y-%m-%d")
-        if sensor == "ALL":
-            default_sensors = ["SENTINEL_2", "LANDSAT_8"]
-            image_sensor_param = f"&Image.Sensor=$in:{'|'.join(default_sensors)}"
-        else:
-            image_sensor_param = f"&Image.Sensor={sensor}"
-        parameters = f"?maps.type=INSEASON_NDVI{image_sensor_param}&CoverageType=CLEAR&$limit=2000&$filter=Image.Date >= '{str_start_date}' and Image.Date <= '{str_end_date}'"
+        parameters = f"?maps.type=INSEASON_NDVI&Image.Sensor=$in:{'|'.join(sensors)}&CoverageType=CLEAR&$limit=2000&$filter=Image.Date >= '{str_start_date}' and Image.Date <= '{str_end_date}'"
 
         str_flm_url = urljoin(
             self.base_url,
@@ -418,7 +416,7 @@ class Geosys:
             logging.info(f"writing to {str_path}")
             f.write(response_zipped_tiff.content)
 
-    def __get_image_as_array(self, field_id, image_id):
+    def __get_images_as_dataset(self, polygon, start_date, end_date, sensors_list):
         """Returns the image as a numpy array.
 
         Args:
@@ -430,21 +428,90 @@ class Geosys:
 
         """
 
-        response_zipped_tiff = self.__get_zipped_tiff(field_id, image_id)
+        def get_coordinates_by_pixel(raster):
+            """Returns the coordinates in meters in the raster's CRS from its pixels' coordinates."""
+            img = raster.read()
+            band1 = img[0]
+            height = band1.shape[0]
+            width = band1.shape[1]
+            cols, rows = np.meshgrid(np.arange(width), np.arange(height))
+            xs, ys = rasterio.transform.xy(raster.transform, rows, cols)
+            lons = np.array(xs)
+            lats = np.array(ys)
+            lst_lats = [lat[0] for lat in lats]
+            lst_lons = list(lons[0])
+            return {"y": lst_lats, "x": lst_lons}
 
-        with zipfile.ZipFile(io.BytesIO(response_zipped_tiff.content), "r") as archive:
-            list_files = archive.namelist()
-            for file in list_files:
-                list_words = file.split(".")
-                if list_words[-1] == "tif":
-                    logging.info(
-                        f"Extracting {file} from the zip archive as a raster in memory..."
-                    )
-                    img_in_bytes = archive.read(file)
-                    with MemoryFile(img_in_bytes) as memfile:
-                        with memfile.open() as dataset:
-                            logging.info(f"{file} extracted as a numpy array !")
-                            return dataset.read()
+        # FILTER DATES AND SORTS BY RESOLUTION
+        df_coverage = self.get_satellite_coverage(
+            polygon, start_date, end_date, sensors_list
+        )
+        df_coverage["image.date"] = pd.to_datetime(
+            df_coverage["image.date"], infer_datetime_format=True
+        )
+        df_coverage = df_coverage.sort_values(
+            by="image.spatialResolution", ascending=True
+        )
+
+        #########
+        dict_archives = {}
+        for i, row in df_coverage.iterrows():
+            dict_archives[row["image.id"]] = {
+                "byte_archive": self.__get_zipped_tiff(
+                    row["seasonField.id"], row["image.id"]
+                ).content,
+                "bands": row["image.availableBands"],
+                "date": row["image.date"],
+                "sensor": row["image.sensor"],
+            }
+
+        ########
+        list_xarr = []
+        for img_id, dict_data in dict_archives.items():
+            with zipfile.ZipFile(io.BytesIO(dict_data["byte_archive"]), "r") as archive:
+                logging.info(f"Satellite image : {dict_data['sensor']} - {dict_data['date']}")
+                list_files = archive.namelist()
+                for file in list_files:
+                    list_words = file.split(".")
+                    if list_words[-1] == "tif":
+                        img_in_bytes = archive.read(file)
+                        with MemoryFile(img_in_bytes) as memfile:
+                            with memfile.open() as raster:
+                                dict_coords = get_coordinates_by_pixel(raster)
+                                xarr = xr.DataArray(
+                                    raster.read(),
+                                    dims=["band", "y", "x"],
+                                    coords={
+                                        "band": dict_data["bands"],
+                                        "y": dict_coords["y"],
+                                        "x": dict_coords["x"],
+                                        "time": dict_data["date"],
+                                    },
+                                )
+                                list_xarr.append(xarr)
+
+        xarr_concat = xr.concat(list_xarr, "time")
+        dataset = xr.Dataset(data_vars={"reflectance": xarr_concat})
+
+        dataset = dataset.assign_coords(
+            **{
+                k: ("time", np.array(v))
+                for k, v in df_coverage[
+                    [
+                        "image.id",
+                        "image.sensor",
+                        "image.soilMaterial",
+                        "image.spatialResolution",
+                        "image.weather",
+                        "seasonField.id",
+                    ]
+                ]
+                .to_dict(orient="list")
+                .items()
+            }
+        )
+
+        return dataset
 
     def __get_weather(self, polygon, start_date, end_date, weather_type, fields):
         """Returns the weather data as a pandas dataframe.

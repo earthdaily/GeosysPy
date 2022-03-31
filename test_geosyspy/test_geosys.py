@@ -64,7 +64,7 @@ class TestGeosys:
         end_date = dt.datetime.strptime("2020-01-07", "%Y-%m-%d")
 
         df = self.client.get_satellite_image_time_series(
-            self.polygon, start_date, end_date, "Modis", ["NDVI"]
+            self.polygon, start_date, end_date, ["Modis"], ["NDVI"]
         )
         assert df.index.name == "date"
         assert set(["value", "index", "pixel.id"]).issubset(set(df.columns))
@@ -89,7 +89,7 @@ class TestGeosys:
         start_date = dt.datetime.strptime("2021-01-01", "%Y-%m-%d")
         end_date = dt.datetime.strptime("2022-01-01", "%Y-%m-%d")
         info, images_references = self.client.get_satellite_coverage_image_references(
-            self.polygon, start_date, end_date, "SENTINEL_2"
+            self.polygon, start_date, end_date, ["SENTINEL_2"]
         )
 
         assert set(
@@ -109,17 +109,6 @@ class TestGeosys:
         assert len(info) == len(images_references)
         for i, image_info in info.iterrows():
             assert (image_info["image.date"], image_info["image.sensor"]) in images_references
-
-    def test_get_image_as_array(self):
-        """ """
-
-        # The following image has 4 bands, and contains 76*71 pixels.
-
-        img_field_id = "d1bqwqq"
-        img_id = "IKc73hpUQ6spGyDC80dOd8SDFIKHF1CezmxsZGmXlzg"
-        img_arr = self.client._Geosys__get_image_as_array(img_field_id, img_id)
-        assert img_arr.shape == (4, 76, 71)
-        assert type(img_arr) == np.ndarray
 
     def get_time_series_weather_historical_daily(self):
 

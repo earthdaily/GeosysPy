@@ -4,3 +4,4 @@ oauthlib
 pandas
 shapely
 rasterio
+xarray
