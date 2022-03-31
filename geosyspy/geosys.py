@@ -232,12 +232,12 @@ class Geosys:
         else:
             raise ValueError(f"{collection} collection doesn't exist")
 
-    def get_satellite_image_time_series(self, polygon, start_date, end_date, collection, indicators):
+    def get_satellite_image_time_series(self, polygon, start_date, end_date, collections, indicators):
 
-        if collection in ["Modis"]:
+        if set(collections).issubset(["Modis"]):
             return self.__get_time_series_by_pixel(polygon, start_date, end_date, indicators[0])
-        elif collection in ["LANDSAT_8", "SENTINEL_2"]:
-            return []
+        elif set(collections).issubset(["LANDSAT_8", "SENTINEL_2"]):
+            return self.__get_images_as_dataset(polygon, start_date, end_date, collections)
 
     def __get_modis_time_series(self, polygon, start_date, end_date, indicator):
         """Returns a pandas DataFrame.
@@ -350,8 +350,8 @@ class Geosys:
         else:
             logging.info(response.status_code)
 
-    def get_satellite_coverage_image_references(self, polygon, start_date, end_date, sensor="ALL"):
-        df = self.get_satellite_coverage(polygon, start_date, end_date, sensor)
+    def get_satellite_coverage_image_references(self, polygon, start_date, end_date, sensors=["SENTINEL_2", "LANDSAT_8"]):
+        df = self.get_satellite_coverage(polygon, start_date, end_date, sensors)
         images_references = {}
 
         for i, image in df.iterrows():
@@ -416,7 +416,7 @@ class Geosys:
             logging.info(f"writing to {str_path}")
             f.write(response_zipped_tiff.content)
 
-    def get_images_as_dataset(self, polygon, start_date, end_date, sensors_list):
+    def __get_images_as_dataset(self, polygon, start_date, end_date, sensors_list):
         """Returns the image as a numpy array.
 
         Args:
@@ -469,14 +469,11 @@ class Geosys:
         list_xarr = []
         for img_id, dict_data in dict_archives.items():
             with zipfile.ZipFile(io.BytesIO(dict_data["byte_archive"]), "r") as archive:
-                logging.info(f"IMG ID {img_id}")
+                logging.info(f"Satellite image : {dict_data['sensor']} - {dict_data['date']}")
                 list_files = archive.namelist()
                 for file in list_files:
                     list_words = file.split(".")
                     if list_words[-1] == "tif":
-                        logging.info(
-                            f"Extracting {file} from the zip archive as a raster in memory..."
-                        )
                         img_in_bytes = archive.read(file)
                         with MemoryFile(img_in_bytes) as memfile:
                             with memfile.open() as raster:
