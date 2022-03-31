@@ -1,4 +1,3 @@
-from numpy import poly
 from oauthlib.oauth2 import LegacyApplicationClient
 from requests_oauthlib import OAuth2Session
 from oauthlib.oauth2 import TokenExpiredError
@@ -82,6 +81,7 @@ class Geosys:
         self.flm_coverage = "field-level-maps/v4/season-fields/{}/coverage"
         self.weather_endpoint = "Weather/v1/weather"
         self.analytics_fabric_endpoint = "analytics/metrics"
+        self.analytics_fabric_schema_endpoint = "analytics/schemas" 
         self.str_api_client_id = str_api_client_id
         self.str_api_client_secret = str_api_client_secret
         self.str_api_username = str_api_username
@@ -232,12 +232,16 @@ class Geosys:
         else:
             raise ValueError(f"{collection} collection doesn't exist")
 
-    def get_satellite_image_time_series(self, polygon, start_date, end_date, collections, indicators):
+    def get_satellite_image_time_series(
+        self, polygon, start_date, end_date, collections, indicators
+    ):
 
         if set(collections).issubset(["MODIS"]):
             return self.__get_time_series_by_pixel(polygon, start_date, end_date, indicators[0])
         elif set(collections).issubset(["LANDSAT_8", "SENTINEL_2"]):
-            return self.__get_images_as_dataset(polygon, start_date, end_date, collections)
+            return self.__get_images_as_dataset(
+                polygon, start_date, end_date, collections
+            )
 
     def __get_modis_time_series(self, polygon, start_date, end_date, indicator):
         """Returns a pandas DataFrame.
@@ -350,16 +354,27 @@ class Geosys:
         else:
             logging.info(response.status_code)
 
-    def get_satellite_coverage_image_references(self, polygon, start_date, end_date, sensors=["SENTINEL_2", "LANDSAT_8"]):
+    def get_satellite_coverage_image_references(
+        self, polygon, start_date, end_date, sensors=["SENTINEL_2", "LANDSAT_8"]
+    ):
         df = self.get_satellite_coverage(polygon, start_date, end_date, sensors)
         images_references = {}
 
         for i, image in df.iterrows():
-            images_references[(image["image.date"], image["image.sensor"])] = ImageReference.ImageReference(image["image.id"], image["image.date"], image["image.sensor"], image["seasonField.id"])
+            images_references[
+                (image["image.date"], image["image.sensor"])
+            ] = ImageReference.ImageReference(
+                image["image.id"],
+                image["image.date"],
+                image["image.sensor"],
+                image["seasonField.id"],
+            )
 
         return df, images_references
 
-    def get_satellite_coverage(self, polygon, start_date, end_date, sensors=["SENTINEL_2", "LANDSAT_8"]):
+    def get_satellite_coverage(
+        self, polygon, start_date, end_date, sensors=["SENTINEL_2", "LANDSAT_8"]
+    ):
         logging.info("Calling APIs for coverage")
         str_season_field_id = self.__extract_season_field_id(polygon)
         str_start_date = start_date.strftime("%Y-%m-%d")
@@ -409,7 +424,9 @@ class Geosys:
             Saves the image on the local path
 
         """
-        response_zipped_tiff = self.__get_zipped_tiff(image_reference.season_field_id, image_reference.image_id)
+        response_zipped_tiff = self.__get_zipped_tiff(
+            image_reference.season_field_id, image_reference.image_id
+        )
         if str_path == "":
             str_path = Path.cwd() / f"image_{image_reference.image_id}_tiff.zip"
         with open(str_path, "wb") as f:
@@ -469,7 +486,9 @@ class Geosys:
         list_xarr = []
         for img_id, dict_data in dict_archives.items():
             with zipfile.ZipFile(io.BytesIO(dict_data["byte_archive"]), "r") as archive:
-                logging.info(f"Satellite image : {dict_data['sensor']} - {dict_data['date']}")
+                logging.info(
+                    f"Satellite image : {dict_data['sensor']} - {dict_data['date']}"
+                )
                 list_files = archive.namelist()
                 for file in list_files:
                     list_words = file.split(".")
@@ -556,6 +575,42 @@ class Geosys:
         else:
             logging.error(response.status_code)
             raise ValueError(response.content)
+
+    def create_schema_id(self, schema_name, schema):
+        """create schema_id in analytics fabric
+
+        Args:
+            schema_name : Schema name.
+            schema : Dict representing the schema
+
+        Returns:
+            A dict 
+
+        """
+        properties = []
+        for prop_name, datatype in schema.items():
+            prop = {
+                "Name": prop_name,
+                "Datatype": datatype,
+                "UnitCategory": None,
+                "IsPartOfKey": False,
+                "IsOptional": False,
+            }
+            properties.append(prop)
+        payload = {
+            "Id": schema_name,
+            "Properties": properties,
+            "Metadata": {"OnAggregationCompleted": "Off"},
+        }
+        str_af_url = urljoin(
+            self.base_url,
+            self.analytics_fabric_schema_endpoint,
+        )
+        response = self.__post(str_af_url, payload)
+        if response.status_code == 201:
+            return response.content
+        else:
+            logging.info(response.status_code)
 
     def get_metrics(self, sua, schema_id, start_date, end_date):
         """Returns metrics from analytics fabric in a pandas dataframe..
