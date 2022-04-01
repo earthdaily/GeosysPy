@@ -12,7 +12,7 @@ import zipfile
 from rasterio.io import MemoryFile
 from shapely import wkt
 from pathlib import Path
-from . import ImageReference, Sua
+from . import ImageReference
 import xarray as xr
 import rasterio
 import numpy as np
@@ -219,10 +219,6 @@ class Geosys:
             raise ValueError(
                 f"Cannot handle HTTP response : {str(response.status_code)} : {str(response.json())}"
             )
-
-    def get_sua(self, polygon):
-        season_field_id = self.__extract_season_field_id(polygon)
-        return Sua.Sua(polygon, season_field_id)
 
     def get_time_series(self, polygon, start_date, end_date, collection, indicators):
         if collection in ["WEATHER.HISTORICAL_DAILY", "WEATHER.FORECAST_DAILY", "WEATHER.FORECAST_HOURLY"]:
@@ -612,7 +608,7 @@ class Geosys:
         else:
             logging.info(response.status_code)
 
-    def get_metrics(self, sua, schema_id, start_date, end_date):
+    def get_metrics(self, polygon, schema_id, start_date, end_date):
         """Returns metrics from analytics fabric in a pandas dataframe..
 
         Args:
@@ -623,11 +619,11 @@ class Geosys:
             df : A Pandas DataFrame containing severals columns with metrics in the schema_id.
 
         """
-
+        season_field_id = self.__extract_season_field_id(polygon)
         logging.info("Calling APIs for metrics")
         str_start_date = start_date.strftime("%Y-%m-%d")
         str_end_date = end_date.strftime("%Y-%m-%d")
-        parameters = f'?%24limit=9999&Timestamp=$between:{str_start_date}|{str_end_date}&$filter=Entity.ExternalTypedIds.Contains("SeasonField:{sua.season_field_id}@LEGACY_ID_{self.region.upper()}")&$filter=Schema.Id=={schema_id}'
+        parameters = f'?%24limit=9999&Timestamp=$between:{str_start_date}|{str_end_date}&$filter=Entity.ExternalTypedIds.Contains("SeasonField:{season_field_id}@LEGACY_ID_{self.region.upper()}")&$filter=Schema.Id=={schema_id}'
         str_af_url = urljoin(
             self.base_url,
             self.analytics_fabric_endpoint + parameters,
