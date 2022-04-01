@@ -39,7 +39,7 @@ class TestGeosys:
         start_date = dt.datetime.strptime("2020-01-01", "%Y-%m-%d")
         end_date = dt.datetime.strptime("2020-01-07", "%Y-%m-%d")
 
-        df = self.client.get_time_series(self.polygon, start_date, end_date, "Modis", ["NDVI"])
+        df = self.client.get_time_series(self.polygon, start_date, end_date, "MODIS", ["NDVI"])
 
         assert df.index.name == "date"
         assert "value" in df.columns
@@ -64,7 +64,7 @@ class TestGeosys:
         end_date = dt.datetime.strptime("2020-01-07", "%Y-%m-%d")
 
         df = self.client.get_satellite_image_time_series(
-            self.polygon, start_date, end_date, ["Modis"], ["NDVI"]
+            self.polygon, start_date, end_date, ["MODIS"], ["NDVI"]
         )
         assert df.index.name == "date"
         assert set(["value", "index", "pixel.id"]).issubset(set(df.columns))
@@ -123,7 +123,7 @@ class TestGeosys:
         ]
 
         df = self.client.get_time_series(
-            self.polygon, start_date, end_date, "HISTORICAL_DAILY", indicators
+            self.polygon, start_date, end_date, "WEATHER.HISTORICAL_DAILY", indicators
         )
 
         assert set(

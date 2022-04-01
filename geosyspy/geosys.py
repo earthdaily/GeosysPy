@@ -225,16 +225,16 @@ class Geosys:
         return Sua.Sua(polygon, season_field_id)
 
     def get_time_series(self, polygon, start_date, end_date, collection, indicators):
-        if collection in ["HISTORICAL_DAILY", "FORECAST_DAILY", "FORECAST_HOURLY"]:
-            return self.__get_weather(polygon, start_date, end_date, collection, indicators)
-        elif collection in ["Modis"]:
+        if collection in ["WEATHER.HISTORICAL_DAILY", "WEATHER.FORECAST_DAILY", "WEATHER.FORECAST_HOURLY"]:
+            return self.__get_weather(polygon, start_date, end_date, collection.split(".").pop(), indicators)
+        elif collection in ["MODIS"]:
             return self.__get_modis_time_series(polygon, start_date, end_date, indicators[0])
         else:
             raise ValueError(f"{collection} collection doesn't exist")
 
     def get_satellite_image_time_series(self, polygon, start_date, end_date, collections, indicators):
 
-        if set(collections).issubset(["Modis"]):
+        if set(collections).issubset(["MODIS"]):
             return self.__get_time_series_by_pixel(polygon, start_date, end_date, indicators[0])
         elif set(collections).issubset(["LANDSAT_8", "SENTINEL_2"]):
             return self.__get_images_as_dataset(polygon, start_date, end_date, collections)
