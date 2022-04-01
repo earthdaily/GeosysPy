@@ -167,6 +167,20 @@ class Geosys:
         client = OAuth2Session(self.str_api_client_id, token=self.token)
         return client.post(url_endpoint, json=payload)
 
+    @renew_access_token
+    def __patch(self, url_endpoint, payload):
+        """Patchs payload to the url_endpoint.
+
+        Args:
+            url_endpoint : A string representing the url to patch paylaod to.
+            payload : A python dict representing the payload.
+
+        Returns:
+            A response object.
+        """
+        client = OAuth2Session(self.str_api_client_id, token=self.token)
+        return client.patch(url_endpoint, json=payload)
+
     def __create_season_field_id(self, polygon):
         """Posts the payload below to the master data management endpoint.
 
@@ -617,16 +631,15 @@ class Geosys:
             logging.error(response.status_code)
             raise ValueError(response.content)
 
-    def create_schema_id(self, schema_name, schema):
+    def create_schema_id(self, schema_id, schema):
         """create schema_id in analytics fabric
 
         Args:
-            schema_name : Schema name.
+            schema_id : Schema name.
             schema : Dict representing the schema
 
         Returns:
-            A dict
-
+            A response object.
         """
         properties = []
         for prop_name, datatype in schema.items():
@@ -639,7 +652,7 @@ class Geosys:
             }
             properties.append(prop)
         payload = {
-            "Id": schema_name,
+            "Id": schema_id,
             "Properties": properties,
             "Metadata": {"OnAggregationCompleted": "Off"},
         }
@@ -657,7 +670,9 @@ class Geosys:
         """Returns metrics from analytics fabric in a pandas dataframe..
 
         Args:
-            str_season_field_id : A string representing the seasonfieldid.
+            polygon : A string representing a polygon.
+            start_date : A datetime object representing the start date of the date interval the user wants to filter on.
+            end_date : A datetime object representing the final date of the date interval the user wants to filter on.
             schema_id : A string representing a schema existing in analytics fabric, example : "LAI_RADAR"
 
         Returns:
@@ -685,5 +700,38 @@ class Geosys:
             df = df.sort_values(by="date")
             df.set_index("date", inplace=True)
             return df
+        else:
+            logging.info(response.status_code)
+
+    def push_metrics(self, polygon, schema_id, values):
+        """Push metrics in analytics fabric
+
+        Args:
+            polygon : A string representing the polygon.
+            schema_id : Schema name
+            values : Dict representing values to push
+
+        Returns:
+            A response object.
+        """
+        season_field_id = self.__extract_season_field_id(polygon)
+        payload = []
+        for value in values:
+            prop = {
+                "Entity": {
+                    "TypedId": f"SeasonField:{season_field_id}@LEGACY_ID_{self.region.upper()}"
+                },
+                "Schema": {"Id": schema_id, "Version": 1},
+            }
+            prop = dict(prop, **value)
+            payload.append(prop)
+
+        str_af_url = urljoin(
+            self.base_url,
+            self.analytics_fabric_endpoint,
+        )
+        response = self.__patch(str_af_url, payload)
+        if response.status_code == 200:
+            return response.status_code
         else:
             logging.info(response.status_code)
