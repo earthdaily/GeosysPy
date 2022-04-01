@@ -81,7 +81,7 @@ class Geosys:
         self.flm_coverage = "field-level-maps/v4/season-fields/{}/coverage"
         self.weather_endpoint = "Weather/v1/weather"
         self.analytics_fabric_endpoint = "analytics/metrics"
-        self.analytics_fabric_schema_endpoint = "analytics/schemas" 
+        self.analytics_fabric_schema_endpoint = "analytics/schemas"
         self.str_api_client_id = str_api_client_id
         self.str_api_client_secret = str_api_client_secret
         self.str_api_username = str_api_username
@@ -221,10 +221,18 @@ class Geosys:
             )
 
     def get_time_series(self, polygon, start_date, end_date, collection, indicators):
-        if collection in ["WEATHER.HISTORICAL_DAILY", "WEATHER.FORECAST_DAILY", "WEATHER.FORECAST_HOURLY"]:
-            return self.__get_weather(polygon, start_date, end_date, collection.split(".").pop(), indicators)
+        if collection in [
+            "WEATHER.HISTORICAL_DAILY",
+            "WEATHER.FORECAST_DAILY",
+            "WEATHER.FORECAST_HOURLY",
+        ]:
+            return self.__get_weather(
+                polygon, start_date, end_date, collection.split(".").pop(), indicators
+            )
         elif collection in ["MODIS"]:
-            return self.__get_modis_time_series(polygon, start_date, end_date, indicators[0])
+            return self.__get_modis_time_series(
+                polygon, start_date, end_date, indicators[0]
+            )
         else:
             raise ValueError(f"{collection} collection doesn't exist")
 
@@ -233,7 +241,9 @@ class Geosys:
     ):
 
         if set(collections).issubset(["MODIS"]):
-            return self.__get_time_series_by_pixel(polygon, start_date, end_date, indicators[0])
+            return self.__get_time_series_by_pixel(
+                polygon, start_date, end_date, indicators[0]
+            )
         elif set(collections).issubset(["LANDSAT_8", "SENTINEL_2"]):
             return self.__get_images_as_dataset(
                 polygon, start_date, end_date, collections
@@ -430,11 +440,14 @@ class Geosys:
             f.write(response_zipped_tiff.content)
 
     def __get_images_as_dataset(self, polygon, start_date, end_date, sensors_list):
-        """Returns the image as a numpy array.
+        """Returns all the 'sensors_list' images covering 'polygon' between
+        'start_date' and 'end_date' as an xarray dataset.
 
         Args:
-            field_id : A string representing the image's field id.
-            image_id: A string representing the image's id.
+            polygon : A string representing the polygon that the images will be covering.
+            start_date : The date from which the method will start looking for images.
+            end_date : The date at which the methd will stop looking images.
+            sensors_list : A list of the sensors' names as strings.
 
         Returns:
             The image's numpy array.
@@ -442,7 +455,9 @@ class Geosys:
         """
 
         def get_coordinates_by_pixel(raster):
-            """Returns the coordinates in meters in the raster's CRS from its pixels' coordinates."""
+            """Returns the coordinates in meters in the raster's CRS
+            from its pixels' grid coordinates."""
+
             img = raster.read()
             band1 = img[0]
             height = band1.shape[0]
@@ -455,7 +470,9 @@ class Geosys:
             lst_lons = list(lons[0])
             return {"y": lst_lats, "x": lst_lons}
 
-        # FILTER DATES AND SORTS BY RESOLUTION
+        # Selects the covering images in the provided date range
+        # and sorts them by resolution, from the highest to the lowest.
+        # Keeps only the first image if two are found on the same date.
         df_coverage = self.get_satellite_coverage(
             polygon, start_date, end_date, sensors_list
         )
@@ -463,10 +480,11 @@ class Geosys:
             df_coverage["image.date"], infer_datetime_format=True
         )
         df_coverage = df_coverage.sort_values(
-            by="image.spatialResolution", ascending=True
-        )
+            by=["image.spatialResolution", "image.date"], ascending=[True, True]
+        ).drop_duplicates(subset="image.date", keep="first")
 
-        #########
+        # Creates a dictionary that contains a zip archive containing the tif file
+        # for each image id and some additional data (bands, sensor...)
         dict_archives = {}
         for i, row in df_coverage.iterrows():
             dict_archives[row["image.id"]] = {
@@ -478,13 +496,15 @@ class Geosys:
                 "sensor": row["image.sensor"],
             }
 
-        ########
+        # Extracts the tif files from  the zip archives in memory
+        # and transforms them into a list of xarray DataArrays.
+        # A list of all the raster's crs is also created in order
+        # to merge this data in the final xarray Dataset later on.
         list_xarr = []
+        list_crs = []
+        first_img_id = df_coverage.iloc[0]["image.id"]
         for img_id, dict_data in dict_archives.items():
             with zipfile.ZipFile(io.BytesIO(dict_data["byte_archive"]), "r") as archive:
-                logging.info(
-                    f"Satellite image : {dict_data['sensor']} - {dict_data['date']}"
-                )
                 list_files = archive.namelist()
                 for file in list_files:
                     list_words = file.split(".")
@@ -503,11 +523,37 @@ class Geosys:
                                         "time": dict_data["date"],
                                     },
                                 )
+
+                                if img_id == first_img_id:
+                                    len_y = len(dict_coords["y"])
+                                    len_x = len(dict_coords["x"])
+                                    print(
+                                        f"The highest resolution's image grid size is {(len_x, len_y)}"
+                                    )
+                                else:
+                                    logging.info(
+                                        f"interpolating {img_id} to {first_img_id}'s grid"
+                                    )
+                                    xarr = xarr.interp(
+                                        x=list_xarr[0].coords["x"].data,
+                                        y=list_xarr[0].coords["y"].data,
+                                        method="linear",
+                                    )
                                 list_xarr.append(xarr)
+                                list_crs.append(raster.crs.to_string())
 
-        xarr_concat = xr.concat(list_xarr, "time")
-        dataset = xr.Dataset(data_vars={"reflectance": xarr_concat})
+        # Adds the img's raster's crs to the initial dataframe
+        df_coverage["crs"] = list_crs
 
+        # Concatenates all the DataArrays in list_xarr in order
+        # to create one final DataArray with an additional dimension
+        # 'time'. This final DataArray is then transformed into
+        # an xarray Dataset containing one data variable "reflectance".
+
+        final_xarr = xr.concat(list_xarr, "time")
+        dataset = xr.Dataset(data_vars={"reflectance": final_xarr})
+
+        # Adds additional metadata to the dataset.
         dataset = dataset.assign_coords(
             **{
                 k: ("time", np.array(v))
@@ -518,14 +564,13 @@ class Geosys:
                         "image.soilMaterial",
                         "image.spatialResolution",
                         "image.weather",
-                        "seasonField.id",
+                        "crs",
                     ]
                 ]
                 .to_dict(orient="list")
                 .items()
             }
         )
-
         return dataset
 
     def __get_weather(self, polygon, start_date, end_date, weather_type, fields):
@@ -580,7 +625,7 @@ class Geosys:
             schema : Dict representing the schema
 
         Returns:
-            A dict 
+            A dict
 
         """
         properties = []
