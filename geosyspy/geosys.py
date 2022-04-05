@@ -49,6 +49,7 @@ class Geosys:
         str_api_password (str): The api user password
         str_env (str): 'prod' or 'preprod'
         str_region (str): 'na' or 'eu'
+        str_priority_queue (str): 'realtime' or 'bulk'
     """
 
     def __init__(
@@ -59,6 +60,7 @@ class Geosys:
         str_api_password,
         str_env,
         str_region,
+        str_priority_queue="realtime",
     ):
         """Initializes a Geosys instance with the required credentials
         to connect to the GEOSYS API.
@@ -82,6 +84,8 @@ class Geosys:
         self.str_api_username = str_api_username
         self.str_api_password = str_api_password
         self.token = None
+        self.priority_queue = str_priority_queue
+        self.priority_headers = {"bulk": "Geosys_API_Bulk", "realtime": ""}
         self.__authenticate()
 
     def __authenticate(self):
@@ -136,7 +140,7 @@ class Geosys:
         return p.findall(text)[0]
 
     @renew_access_token
-    def __get(self, url_endpoint):
+    def __get(self, url_endpoint, headers={}):
         """Gets the url_endpopint.
 
         Args:
@@ -146,10 +150,10 @@ class Geosys:
             A response object.
         """
         client = OAuth2Session(self.str_api_client_id, token=self.token)
-        return client.get(url_endpoint)
+        return client.get(url_endpoint, headers=headers)
 
     @renew_access_token
-    def __post(self, url_endpoint, payload):
+    def __post(self, url_endpoint, payload, headers={}):
         """Posts payload to the url_endpoint.
 
         Args:
@@ -160,7 +164,7 @@ class Geosys:
             A response object.
         """
         client = OAuth2Session(self.str_api_client_id, token=self.token)
-        return client.post(url_endpoint, json=payload)
+        return client.post(url_endpoint, json=payload, headers=headers)
 
     @renew_access_token
     def __patch(self, url_endpoint, payload):
@@ -319,7 +323,10 @@ class Geosys:
         parameters = f"/values?$offset=0&$limit=2000&$count=false&SeasonField.Id={str_season_field_id}&index={indicator}&$filter=Date >= '{str_start_date}' and Date <= '{str_end_date}'"
         str_vts_url = urljoin(self.base_url, self.vts_endpoint + parameters)
 
-        response = self.__get(str_vts_url)
+        response = self.__get(
+            str_vts_url,
+            {"X-Geosys-Task-Code": self.priority_headers[self.priority_queue]},
+        )
 
         if response.status_code == 200:
             dict_response = response.json()
@@ -373,7 +380,10 @@ class Geosys:
         MODIS_GRID_LENGTH = 4800 * PSX * 36
         MODIS_GRID_HEIGHT = 4800 * PSY * 18
 
-        response = self.__get(str_vts_url)
+        response = self.__get(
+            str_vts_url,
+            {"X-Geosys-Task-Code": self.priority_headers[self.priority_queue]},
+        )
 
         if response.status_code == 200:
             df = pd.json_normalize(response.json())
@@ -398,7 +408,7 @@ class Geosys:
             logging.info(response.status_code)
 
     def get_satellite_coverage_image_references(
-        self, polygon, start_date, end_date, sensors=["SENTINEL_2", "LANDSAT_8"]
+        self, polygon, start_date, end_date, collections=["SENTINEL_2", "LANDSAT_8"]
     ):
         """Retrieves a list of images that covers a polygon on a specific date range.
         The return is a tuple: a dataframe with all the images covering the polygon, and 
@@ -415,7 +425,7 @@ class Geosys:
             (tuple): images list and image references for downloading
         """
 
-        df = self.__get_satellite_coverage(polygon, start_date, end_date, sensors)
+        df = self.__get_satellite_coverage(polygon, start_date, end_date, collections)
         images_references = {}
 
         for i, image in df.iterrows():
@@ -443,7 +453,10 @@ class Geosys:
             self.base_url,
             self.flm_catalog_imagery.format(str_season_field_id) + parameters,
         )
-        response = self.__get(str_flm_url)
+        response = self.__get(
+            str_flm_url,
+            {"X-Geosys-Task-Code": self.priority_headers[self.priority_queue]},
+        )
 
         if response.status_code == 200:
             df = pd.json_normalize(response.json())
@@ -468,7 +481,11 @@ class Geosys:
         download_tiff_url = urljoin(
             self.base_url, self.flm_coverage.format(field_id) + parameters
         )
-        response_zipped_tiff = self.__get(download_tiff_url)
+
+        response_zipped_tiff = self.__get(
+            download_tiff_url,
+            {"X-Geosys-Task-Code": self.priority_headers[self.priority_queue]},
+        )
         return response_zipped_tiff
 
     def download_image(self, image_reference, str_path=""):
