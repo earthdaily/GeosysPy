@@ -1,3 +1,8 @@
-# geosys module
+# Geosys
 
-::: geosyspy.geosys
+::: geosyspy.geosys.Geosys
+  handler: python
+  selection:
+    filters:
+      - "!^_[^_]"
+      - "!__init__(.*)"

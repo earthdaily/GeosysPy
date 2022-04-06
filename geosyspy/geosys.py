@@ -38,22 +38,17 @@ def renew_access_token(func):
 
 
 class Geosys:
-    """The main class for accessing the API's methods.
+    """Geosys is the main client class to access all the Geosys APIs capabilities.
 
-    Geosys is the main class used to access all the client's methods.
+    `client = Geosys(api_client_id, api_client_secret, api_username, api_password, env, region)`
 
-    Attributes:
-        str_id_server_url : The API's identity server's url
-        base_url : The Geosys APIs root endpoint's url
-        master_data_management_endpoint : The master data management api's endpoint
-        vts_endpoint : The vts api's endpoint
-        vts_by_pixel_endpoint : The vts by pixel api's endpoint
-        str_api_client_id : The client's api's client id
-        str_api_client_secret : The client's api's client secret
-        str_api_username : The client's api's username
-        str_api_password : The client's api's password
-        token : A valid token used to connect to the API
-
+    Parameters:
+        str_api_client_id (str): The client id
+        str_api_client_secret (str): The client secret
+        str_api_username (str): The api username
+        str_api_password (str): The api user password
+        str_env (str): 'prod' or 'preprod'
+        str_region (str): 'na' or 'eu'
     """
 
     def __init__(
@@ -235,6 +230,22 @@ class Geosys:
             )
 
     def get_time_series(self, polygon, start_date, end_date, collection, indicators):
+        """Retrieve a time series of the indicator for the aggregated polygon on the collection targeted.
+
+        Args:
+            polygon (str): The polygon
+            start_date (datetime): The start date of the time series
+            end_date (datetime): The end date of the time series
+            collection (enum): The collection targeted
+            indicators (str list): The indicators to retrieve on the collection
+
+        Returns:
+            (dataframe): A pandas dataframe for the time series
+
+        Raises:
+            ValueError: The collection doesn't exist
+        """
+
         if collection in [
             "WEATHER.HISTORICAL_DAILY",
             "WEATHER.FORECAST_DAILY",
@@ -253,6 +264,18 @@ class Geosys:
     def get_satellite_image_time_series(
         self, polygon, start_date, end_date, collections, indicators
     ):
+        """Retrieve a pixel-by-pxel time series of the indicator on the collection targeted.
+
+        Args:
+            polygon (str): The polygon
+            start_date (datetime): The start date of the time series
+            end_date (datetime): The end date of the time series
+            collections (enum list): The collections targeted
+            indicators (str list): The indicators to retrieve on the collections
+
+        Returns:
+            ('dataframe or xarray'): Either a pandas dataframe or an xarray for the time series
+        """
 
         if set(collections).issubset(["MODIS"]):
             return self.__get_time_series_by_pixel(
@@ -377,7 +400,22 @@ class Geosys:
     def get_satellite_coverage_image_references(
         self, polygon, start_date, end_date, sensors=["SENTINEL_2", "LANDSAT_8"]
     ):
-        df = self.get_satellite_coverage(polygon, start_date, end_date, sensors)
+        """Retrieves a list of images that covers a polygon on a specific date range.
+        The return is a tuple: a dataframe with all the images covering the polygon, and 
+                    an dictionary images_references. Key= a tuple (image_date, image_sensor).
+                    Value = an object image_reference, to use with the method `download_image()`
+
+        Args:
+            polygon (str): The polygon
+            start_date (datetime): The start date of the time series
+            end_date (datetime): The end date of the time series
+            sensors (str list): The sensors to check the coverage on
+
+        Returns:
+            (tuple): images list and image references for downloading
+        """
+
+        df = self.__get_satellite_coverage(polygon, start_date, end_date, sensors)
         images_references = {}
 
         for i, image in df.iterrows():
@@ -392,7 +430,7 @@ class Geosys:
 
         return df, images_references
 
-    def get_satellite_coverage(
+    def __get_satellite_coverage(
         self, polygon, start_date, end_date, sensors=["SENTINEL_2", "LANDSAT_8"]
     ):
         logging.info("Calling APIs for coverage")
@@ -434,15 +472,11 @@ class Geosys:
         return response_zipped_tiff
 
     def download_image(self, image_reference, str_path=""):
-        """Downloads the image locally
+        """Downloads a satellite image locally
 
         Args:
-            field_id : A string representing the image's field id.
-            image_id: A string representing the image's id.
-
-        Returns:
-            Saves the image on the local path
-
+            image_reference (ImageReference): An ImageReference object representing the image to download
+            str_path (str): the path to download the image to
         """
         response_zipped_tiff = self.__get_zipped_tiff(
             image_reference.season_field_id, image_reference.image_id
@@ -487,7 +521,7 @@ class Geosys:
         # Selects the covering images in the provided date range
         # and sorts them by resolution, from the highest to the lowest.
         # Keeps only the first image if two are found on the same date.
-        df_coverage = self.get_satellite_coverage(
+        df_coverage = self.__get_satellite_coverage(
             polygon, start_date, end_date, sensors_list
         )
         df_coverage["image.date"] = pd.to_datetime(
@@ -632,14 +666,14 @@ class Geosys:
             raise ValueError(response.content)
 
     def create_schema_id(self, schema_id, schema):
-        """create schema_id in analytics fabric
+        """Create a schema in Analytics Fabrics
 
         Args:
-            schema_id : Schema name.
-            schema : Dict representing the schema
+            schema_id (str): The schema id to create
+            schema (dict): Dict representing the schema {'property_name': 'property_type'}
 
         Returns:
-            A response object.
+            A http response object.
         """
         properties = []
         for prop_name, datatype in schema.items():
@@ -651,6 +685,7 @@ class Geosys:
                 "IsOptional": False,
             }
             properties.append(prop)
+
         payload = {
             "Id": schema_id,
             "Properties": properties,
@@ -667,16 +702,16 @@ class Geosys:
             logging.info(response.status_code)
 
     def get_metrics(self, polygon, schema_id, start_date, end_date):
-        """Returns metrics from analytics fabric in a pandas dataframe..
+        """Returns metrics from Analytics Fabrics in a pandas dataframe.
 
         Args:
-            polygon : A string representing a polygon.
-            start_date : A datetime object representing the start date of the date interval the user wants to filter on.
-            end_date : A datetime object representing the final date of the date interval the user wants to filter on.
-            schema_id : A string representing a schema existing in analytics fabric, example : "LAI_RADAR"
+            polygon (str): A string representing a polygon.
+            start_date (datetime): A datetime object representing the start date of the date interval the user wants to filter on.
+            end_date (datetime): A datetime object representing the final date of the date interval the user wants to filter on.
+            schema_id (str): A string representing a schema existing in Analytics Fabrics
 
         Returns:
-            df : A Pandas DataFrame containing severals columns with metrics in the schema_id.
+            df : A Pandas DataFrame containing severals columns with metrics
 
         """
         season_field_id = self.__extract_season_field_id(polygon)
@@ -704,11 +739,11 @@ class Geosys:
             logging.info(response.status_code)
 
     def push_metrics(self, polygon, schema_id, values):
-        """Push metrics in analytics fabric
+        """Push metrics in Analytics Fabrics
 
         Args:
             polygon : A string representing the polygon.
-            schema_id : Schema name
+            schema_id : The schema on which to save
             values : Dict representing values to push
 
         Returns:
