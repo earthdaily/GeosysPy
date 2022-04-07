@@ -1,4 +1,4 @@
-name: Publish Python Package
+name: Publish package and docs
 
 on:
   push:
@@ -24,3 +24,6 @@ jobs:
         user: __token__
         password: ${{ secrets.TEST_PYPI_API_TOKEN }}
         repository_url: https://test.pypi.org/legacy/
+    
+    - run: pip install -r requirements-dev.txt 
+    - run: mkdocs gh-deploy --force
