@@ -1,17 +1,7 @@
-# Welcome to MkDocs
+# Welcome to the GeosysPy official documentation
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+The `geosyspy` python package aims to provide an easy and ready to use library allowing any Python developers to quickly experience Earthdaily Agro capabilities.
 
-## Commands
+To install : `pip install geosyspy`
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
-
-## Project layout
-
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+[Readme on the Github repository](https://github.com/GEOSYS/GeosysPy#readme)
