@@ -12,7 +12,7 @@ import zipfile
 from rasterio.io import MemoryFile
 from shapely import wkt
 from pathlib import Path
-from . import ImageReference
+from . import image_reference
 import xarray as xr
 import rasterio
 import numpy as np
@@ -421,7 +421,7 @@ class Geosys:
         for i, image in df.iterrows():
             images_references[
                 (image["image.date"], image["image.sensor"])
-            ] = ImageReference.ImageReference(
+            ] = image_reference.ImageReference(
                 image["image.id"],
                 image["image.date"],
                 image["image.sensor"],
