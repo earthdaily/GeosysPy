@@ -16,6 +16,7 @@ from . import image_reference
 import xarray as xr
 import rasterio
 import numpy as np
+from .constants import Collection
 
 
 def renew_access_token(func):
@@ -86,6 +87,13 @@ class Geosys:
         self.token = None
         self.priority_queue = str_priority_queue
         self.priority_headers = {"bulk": "Geosys_API_Bulk", "realtime": ""}
+        self.list_collection_lr = [Collection.MODIS]
+        self.list_collection_mr = [Collection.LANDSAT_8, Collection.SENTINEL_2]
+        self.list_collection_weather = [
+            Collection.WEATHER_FORECAST_DAILY,
+            Collection.WEATHER_FORECAST_HOURLY,
+            Collection.WEATHER_HISTORICAL_DAILY,
+        ]
         self.__authenticate()
 
     def __authenticate(self):
@@ -250,15 +258,15 @@ class Geosys:
             ValueError: The collection doesn't exist
         """
 
-        if collection in [
-            "WEATHER.HISTORICAL_DAILY",
-            "WEATHER.FORECAST_DAILY",
-            "WEATHER.FORECAST_HOURLY",
-        ]:
+        if collection in self.list_collection_weather:
             return self.__get_weather(
-                polygon, start_date, end_date, collection.split(".").pop(), indicators
+                polygon,
+                start_date,
+                end_date,
+                collection.value.split(".").pop(),
+                indicators,
             )
-        elif collection in ["MODIS"]:
+        elif collection in self.list_collection_lr:
             return self.__get_modis_time_series(
                 polygon, start_date, end_date, indicators[0]
             )
@@ -281,13 +289,22 @@ class Geosys:
             ('dataframe or xarray'): Either a pandas dataframe or an xarray for the time series
         """
 
-        if set(collections).issubset(["MODIS"]):
-            return self.__get_time_series_by_pixel(
-                polygon, start_date, end_date, indicators[0]
+        if not collections:
+            raise ValueError(
+                "The argument collections is empty. It must be a list of constants.Collection objects"
             )
-        elif set(collections).issubset(["LANDSAT_8", "SENTINEL_2"]):
-            return self.__get_images_as_dataset(
-                polygon, start_date, end_date, collections
+        elif all([isinstance(elem, Collection) for elem in collections]):
+            if set(collections).issubset(set(self.list_collection_lr)):
+                return self.__get_time_series_by_pixel(
+                    polygon, start_date, end_date, indicators[0]
+                )
+            elif set(collections).issubset(set(self.list_collection_mr)):
+                return self.__get_images_as_dataset(
+                    polygon, start_date, end_date, [enum.value for enum in collections]
+                )
+        else:
+            raise TypeError(
+                f"Argument collections must be a list of constants.Collection objects"
             )
 
     def __get_modis_time_series(self, polygon, start_date, end_date, indicator):
@@ -408,7 +425,7 @@ class Geosys:
             logging.info(response.status_code)
 
     def get_satellite_coverage_image_references(
-        self, polygon, start_date, end_date, collections=["SENTINEL_2", "LANDSAT_8"]
+        self, polygon, start_date, end_date, collections=[Collection.SENTINEL_2, Collection.LANDSAT_8]
     ):
         """Retrieves a list of images that covers a polygon on a specific date range.
         The return is a tuple: a dataframe with all the images covering the polygon, and 
@@ -441,12 +458,13 @@ class Geosys:
         return df, images_references
 
     def __get_satellite_coverage(
-        self, polygon, start_date, end_date, sensors=["SENTINEL_2", "LANDSAT_8"]
+        self, polygon, start_date, end_date, sensors=[Collection.SENTINEL_2, Collection.LANDSAT_8]
     ):
         logging.info("Calling APIs for coverage")
         str_season_field_id = self.__extract_season_field_id(polygon)
         str_start_date = start_date.strftime("%Y-%m-%d")
         str_end_date = end_date.strftime("%Y-%m-%d")
+        sensors = [elem.value for elem in sensors]
         parameters = f"?maps.type=INSEASON_NDVI&Image.Sensor=$in:{'|'.join(sensors)}&CoverageType=CLEAR&$limit=2000&$filter=Image.Date >= '{str_start_date}' and Image.Date <= '{str_end_date}'"
 
         str_flm_url = urljoin(

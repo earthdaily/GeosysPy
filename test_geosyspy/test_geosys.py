@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import os
 import datetime as dt
 import numpy as np
-
+from geosyspy.constants import Collection
 # read .env file
 load_dotenv()
 
@@ -39,7 +39,7 @@ class TestGeosys:
         start_date = dt.datetime.strptime("2020-01-01", "%Y-%m-%d")
         end_date = dt.datetime.strptime("2020-01-07", "%Y-%m-%d")
 
-        df = self.client.get_time_series(self.polygon, start_date, end_date, "MODIS", ["NDVI"])
+        df = self.client.get_time_series(self.polygon, start_date, end_date, Collection.MODIS, ["NDVI"])
 
         assert df.index.name == "date"
         assert "value" in df.columns
@@ -64,7 +64,7 @@ class TestGeosys:
         end_date = dt.datetime.strptime("2020-01-07", "%Y-%m-%d")
 
         df = self.client.get_satellite_image_time_series(
-            self.polygon, start_date, end_date, ["MODIS"], ["NDVI"]
+            self.polygon, start_date, end_date, [Collection.MODIS], ["NDVI"]
         )
         assert df.index.name == "date"
         assert set(["value", "index", "pixel.id"]).issubset(set(df.columns))
@@ -89,7 +89,7 @@ class TestGeosys:
         start_date = dt.datetime.strptime("2021-01-01", "%Y-%m-%d")
         end_date = dt.datetime.strptime("2022-01-01", "%Y-%m-%d")
         info, images_references = self.client.get_satellite_coverage_image_references(
-            self.polygon, start_date, end_date, ["SENTINEL_2"]
+            self.polygon, start_date, end_date, [Collection.SENTINEL_2]
         )
 
         assert set(
@@ -123,7 +123,7 @@ class TestGeosys:
         ]
 
         df = self.client.get_time_series(
-            self.polygon, start_date, end_date, "WEATHER.HISTORICAL_DAILY", indicators
+            self.polygon, start_date, end_date, Collection.WEATHER_HISTORICAL_DAILY, indicators
         )
 
         assert set(
