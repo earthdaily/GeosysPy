@@ -425,7 +425,7 @@ class Geosys:
             logging.info(response.status_code)
 
     def get_satellite_coverage_image_references(
-        self, polygon, start_date, end_date, collections=["SENTINEL_2", "LANDSAT_8"]
+        self, polygon, start_date, end_date, collections=[Collection.SENTINEL_2, Collection.LANDSAT_8]
     ):
         """Retrieves a list of images that covers a polygon on a specific date range.
         The return is a tuple: a dataframe with all the images covering the polygon, and 
@@ -458,12 +458,13 @@ class Geosys:
         return df, images_references
 
     def __get_satellite_coverage(
-        self, polygon, start_date, end_date, sensors=["SENTINEL_2", "LANDSAT_8"]
+        self, polygon, start_date, end_date, sensors=[Collection.SENTINEL_2, Collection.LANDSAT_8]
     ):
         logging.info("Calling APIs for coverage")
         str_season_field_id = self.__extract_season_field_id(polygon)
         str_start_date = start_date.strftime("%Y-%m-%d")
         str_end_date = end_date.strftime("%Y-%m-%d")
+        sensors = [elem.value for elem in sensors]
         parameters = f"?maps.type=INSEASON_NDVI&Image.Sensor=$in:{'|'.join(sensors)}&CoverageType=CLEAR&$limit=2000&$filter=Image.Date >= '{str_start_date}' and Image.Date <= '{str_end_date}'"
 
         str_flm_url = urljoin(
