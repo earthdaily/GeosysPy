@@ -48,8 +48,8 @@ class Geosys:
         str_api_client_secret (str): The client secret
         str_api_username (str): The api username
         str_api_password (str): The api user password
-        str_env (str): 'prod' or 'preprod'
-        str_region (str): 'na' or 'eu'
+        enum_env (enum): 'Env.NA' or 'Env.EU'
+        enum_region (enum): 'Region.PROD' or 'Region.PREPROD'
         str_priority_queue (str): 'realtime' or 'bulk'
     """
 
@@ -59,17 +59,17 @@ class Geosys:
         str_api_client_secret,
         str_api_username,
         str_api_password,
-        str_env,
-        str_region,
+        enum_env,
+        enum_region,
         str_priority_queue="realtime",
     ):
         """Initializes a Geosys instance with the required credentials
         to connect to the GEOSYS API.
         """
-        self.region = str_region
-        self.env = str_env
-        self.str_id_server_url = platforms.IDENTITY_URLS[str_region][str_env]
-        self.base_url = platforms.GEOSYS_API_URLS[str_region][str_env]
+        self.region = enum_region
+        self.env = enum_env
+        self.str_id_server_url = platforms.IDENTITY_URLS[enum_region.value][enum_env.value]
+        self.base_url = platforms.GEOSYS_API_URLS[enum_region.value][enum_env.value]
         self.master_data_management_endpoint = "master-data-management/v6/seasonfields"
         self.vts_endpoint = "vegetation-time-series/v1/season-fields"
         self.vts_by_pixel_endpoint = "vegetation-time-series/v1/season-fields/pixels"
@@ -753,7 +753,7 @@ class Geosys:
         logging.info("Calling APIs for metrics")
         str_start_date = start_date.strftime("%Y-%m-%d")
         str_end_date = end_date.strftime("%Y-%m-%d")
-        parameters = f'?%24limit=9999&Timestamp=$between:{str_start_date}|{str_end_date}&$filter=Entity.ExternalTypedIds.Contains("SeasonField:{season_field_id}@LEGACY_ID_{self.region.upper()}")&$filter=Schema.Id=={schema_id}'
+        parameters = f'?%24limit=9999&Timestamp=$between:{str_start_date}|{str_end_date}&$filter=Entity.ExternalTypedIds.Contains("SeasonField:{season_field_id}@LEGACY_ID_{self.region.value.upper()}")&$filter=Schema.Id=={schema_id}'
         str_af_url = urljoin(
             self.base_url,
             self.analytics_fabric_endpoint + parameters,
@@ -789,7 +789,7 @@ class Geosys:
         for value in values:
             prop = {
                 "Entity": {
-                    "TypedId": f"SeasonField:{season_field_id}@LEGACY_ID_{self.region.upper()}"
+                    "TypedId": f"SeasonField:{season_field_id}@LEGACY_ID_{self.region.value.upper()}"
                 },
                 "Schema": {"Id": schema_id, "Version": 1},
             }

@@ -9,3 +9,4 @@ plugins:
 nav:
     - Home: index.md
     - Geosys class: geosys-reference.md
+    - Constants: constants-reference.md

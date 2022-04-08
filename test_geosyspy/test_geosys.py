@@ -4,8 +4,7 @@ from dotenv import load_dotenv
 import os
 import datetime as dt
 import numpy as np
-from geosyspy.constants import Collection
-
+from geosyspy.constants import Collection, Env, Region
 # read .env file
 load_dotenv()
 
@@ -20,7 +19,7 @@ class TestGeosys:
     # polygon with two pixels : mh11v4i225j4612, mh11v4i226j4612
     polygon = "POLYGON((-91.29152885756007 40.39177489815265,-91.28403789132507 40.391776131485386,-91.28386736508233 40.389390758655935,-91.29143832829979 40.38874592864832,-91.29152885756007 40.39177489815265))"
     client = Geosys(
-        API_CLIENT_ID, API_CLIENT_SECRET, API_USERNAME, API_PASSWORD, "preprod", "na"
+        API_CLIENT_ID, API_CLIENT_SECRET, API_USERNAME, API_PASSWORD, Env.PREPROD, Region.NA
     )
 
     def test_authenticate(self):
