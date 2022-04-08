@@ -300,7 +300,7 @@ class Geosys:
                 )
             elif set(collections).issubset(set(self.list_collection_mr)):
                 return self.__get_images_as_dataset(
-                    polygon, start_date, end_date, [enum.value for enum in collections]
+                    polygon, start_date, end_date, collections
                 )
         else:
             raise TypeError(
@@ -522,7 +522,7 @@ class Geosys:
             logging.info(f"writing to {str_path}")
             f.write(response_zipped_tiff.content)
 
-    def __get_images_as_dataset(self, polygon, start_date, end_date, sensors_list):
+    def __get_images_as_dataset(self, polygon, start_date, end_date, collections):
         """Returns all the 'sensors_list' images covering 'polygon' between
         'start_date' and 'end_date' as an xarray dataset.
 
@@ -557,7 +557,7 @@ class Geosys:
         # and sorts them by resolution, from the highest to the lowest.
         # Keeps only the first image if two are found on the same date.
         df_coverage = self.__get_satellite_coverage(
-            polygon, start_date, end_date, sensors_list
+            polygon, start_date, end_date, collections
         )
         df_coverage["image.date"] = pd.to_datetime(
             df_coverage["image.date"], infer_datetime_format=True
