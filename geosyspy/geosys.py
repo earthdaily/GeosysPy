@@ -337,7 +337,7 @@ class Geosys:
         str_season_field_id = self.__extract_season_field_id(polygon)
         str_start_date = start_date.strftime("%Y-%m-%d")
         str_end_date = end_date.strftime("%Y-%m-%d")
-        parameters = f"/values?$offset=0&$limit=2000&$count=false&SeasonField.Id={str_season_field_id}&index={indicator}&$filter=Date >= '{str_start_date}' and Date <= '{str_end_date}'"
+        parameters = f"/values?$offset=0&$limit=9999&$count=false&SeasonField.Id={str_season_field_id}&index={indicator}&$filter=Date >= '{str_start_date}' and Date <= '{str_end_date}'"
         str_vts_url = urljoin(self.base_url, self.vts_endpoint + parameters)
 
         response = self.__get(
@@ -387,7 +387,7 @@ class Geosys:
         str_season_field_id = self.__extract_season_field_id(polygon)
         str_start_date = start_date.strftime("%Y-%m-%d")
         str_end_date = end_date.strftime("%Y-%m-%d")
-        parameters = f"/values?$offset=0&$limit=2000&$count=false&SeasonField.Id={str_season_field_id}&index={indicator}&$filter=Date >= '{str_start_date}' and Date <= '{str_end_date}'"
+        parameters = f"/values?$offset=0&$limit=9999&$count=false&SeasonField.Id={str_season_field_id}&index={indicator}&$filter=Date >= '{str_start_date}' and Date <= '{str_end_date}'"
         str_vts_url = urljoin(self.base_url, self.vts_by_pixel_endpoint + parameters)
         # PSX/PSY : size in meters of one pixel
         # MODIS_GRID_LENGTH : theoretical length of the modis grid in meters
@@ -465,7 +465,7 @@ class Geosys:
         str_start_date = start_date.strftime("%Y-%m-%d")
         str_end_date = end_date.strftime("%Y-%m-%d")
         sensors = [elem.value for elem in sensors]
-        parameters = f"?maps.type=INSEASON_NDVI&Image.Sensor=$in:{'|'.join(sensors)}&CoverageType=CLEAR&$limit=2000&$filter=Image.Date >= '{str_start_date}' and Image.Date <= '{str_end_date}'"
+        parameters = f"?maps.type=INSEASON_NDVI&Image.Sensor=$in:{'|'.join(sensors)}&CoverageType=CLEAR&$limit=9999&$filter=Image.Date >= '{str_start_date}' and Image.Date <= '{str_end_date}'"
 
         str_flm_url = urljoin(
             self.base_url,
@@ -686,7 +686,7 @@ class Geosys:
         str_end_date = end_date.strftime("%Y-%m-%d")
         polygon_wkt = wkt.loads(polygon)
         str_weather_fields = ",".join(fields)
-        parameters = f"?%24offset=0&%24limit=20&%24count=false&Location={polygon_wkt.centroid.wkt}&Date=%24between%3A{str_start_date}T00%3A00%3A00.0000000Z%7C{str_end_date}T00%3A00%3A00.0000000Z&Provider=GLOBAL1&WeatherType={weather_type}&$fields={str_weather_fields}"
+        parameters = f"?%24offset=0&%24limit=9999&%24count=false&Location={polygon_wkt.centroid.wkt}&Date=%24between%3A{str_start_date}T00%3A00%3A00.0000000Z%7C{str_end_date}T00%3A00%3A00.0000000Z&Provider=GLOBAL1&WeatherType={weather_type}&$fields={str_weather_fields}"
         str_weather_url = urljoin(self.base_url, self.weather_endpoint + parameters)
 
         response = self.__get(str_weather_url)
