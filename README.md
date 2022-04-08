@@ -16,7 +16,7 @@
   <h1 align="center">GeosysPy</h3>
 
   <p align="center">
-    To be able to discover, request and use imagery products based on <geosys/> virtual constellation within QGIS, using the &ltgeosys/&gt API.
+    To be able to discover, request and use imagery products based on <geosys/> virtual constellation using the &ltgeosys/&gt API.
     <br />
     <a href="https://earthdailyagro.com/"><strong>Who we are</strong></a>
     <br />
@@ -133,6 +133,7 @@ API_PASSWORD=
 
 3. Run the Jupyter notebook
 
+
 ### Run the package inside a Docker container
 
 Build the image locally :
@@ -151,8 +152,10 @@ Then :
 
 ```python
 >>> from geosyspy.geosys import Geosys
+>>> from geosyspy.constants import Collection, Region, Env
 >>> import os
->>> client = Geosys(os.getenv('API_CLIENT_ID'), os.getenv('API_CLIENT_SECRET'), os.getenv('API_USERNAME'), os.getenv('API_PASSWORD'))
+>>> client = Geosys(os.getenv('API_CLIENT_ID'), os.getenv('API_CLIENT_SECRET'), os.getenv('API_USERNAME'), os.getenv('API_PASSWORD'), Env.PREPROD, Region.NA)
+
 ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -163,10 +166,10 @@ Initialize client:
 
 ```python
 from geosyspy.geosys import Geosys
+from geosyspy.constants import Collection, Region, Env
 
-client = Geosys("API_CLIENT_ID", "API_CLIENT_SECRET", "API_USERNAME", "API_PASSWORD")
+client = Geosys("API_CLIENT_ID", "API_CLIENT_SECRET", "API_USERNAME", "API_PASSWORD", Env.PREPROD, Region.NA)
 
-client.get_time_series(polygon, year_ago, today, "NDVI")
 ```
 
 Query data:
@@ -177,7 +180,7 @@ polygon = "POLYGON((...))"
 today = dt.date.today()
 year_ago = dt.date.today() + relativedelta(months=-12)
 
-dataframe = client.get_time_series(polygon, year_ago, today, "NDVI")
+dataframe = client.get_time_series(polygon, year_ago, today, collection=Collection.MODIS, indicators=["NDVI"])
 ```
 
 See the Jupyter notebook `examples.ipynb` for a working example.
