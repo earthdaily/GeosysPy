@@ -48,8 +48,8 @@ class Geosys:
         str_api_client_secret (str): The client secret
         str_api_username (str): The api username
         str_api_password (str): The api user password
-        enum_env (enum): 'Env.NA' or 'Env.EU'
-        enum_region (enum): 'Region.PROD' or 'Region.PREPROD'
+        enum_env (enum): 'Env.PROD' or 'Env.PREPROD'
+        enum_region (enum): 'Region.NA' or 'Region.EU'
         str_priority_queue (str): 'realtime' or 'bulk'
     """
 
