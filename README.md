@@ -102,9 +102,14 @@ This package has been tested on Python 3.9.7.
 
 ### Installation
 
+#### For Linux / Mac OS
 ```
 pip install geosyspy
 ```
+
+#### For Windows
+
+Please refer to the installation.md file.
 
 ### Run the package from source
 
