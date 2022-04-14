@@ -597,7 +597,7 @@ class Geosys:
                             with memfile.open() as raster:
                                 dict_coords = get_coordinates_by_pixel(raster)
                                 xarr = xr.DataArray(
-                                    raster.read(),
+                                    raster.read(masked=True),
                                     dims=["band", "y", "x"],
                                     coords={
                                         "band": dict_data["bands"],
