@@ -146,33 +146,33 @@ class TestGeosys:
         ).issubset(set(df.columns))
         assert df.index.name == "date"
 
-    def test_get_metrics(self):
+    # def test_get_metrics(self):
 
-        lai_radar_polygon = "POLYGON((-52.72591542 -18.7395779,-52.72604885 -18.73951122,-52.72603114 -18.73908689,-52.71556835 -18.72490316,-52.71391916 -18.72612966,-52.71362802 -18.72623726,-52.71086473 -18.72804231,-52.72083542 -18.74173696,-52.72118937 -18.74159174,-52.72139229 -18.7418552,-52.72600257 -18.73969719,-52.72591542 -18.7395779))"
-        schema_id = "LAI_RADAR"
-        start_date = dt.datetime.strptime("2022-01-24", "%Y-%m-%d")
-        end_date = dt.datetime.strptime("2022-01-30", "%Y-%m-%d")
-        df = self.client.get_metrics(lai_radar_polygon, schema_id, start_date, end_date)
+    #     lai_radar_polygon = "POLYGON((-52.72591542 -18.7395779,-52.72604885 -18.73951122,-52.72603114 -18.73908689,-52.71556835 -18.72490316,-52.71391916 -18.72612966,-52.71362802 -18.72623726,-52.71086473 -18.72804231,-52.72083542 -18.74173696,-52.72118937 -18.74159174,-52.72139229 -18.7418552,-52.72600257 -18.73969719,-52.72591542 -18.7395779))"
+    #     schema_id = "LAI_RADAR"
+    #     start_date = dt.datetime.strptime("2022-01-24", "%Y-%m-%d")
+    #     end_date = dt.datetime.strptime("2022-01-30", "%Y-%m-%d")
+    #     df = self.client.get_metrics(lai_radar_polygon, schema_id, start_date, end_date)
 
-        assert set(
-            [
-                "Values.RVI",
-                "Values.LAI",
-                "Schema.Id",
-            ]
-        ).issubset(set(df.columns))
-        assert set(
-            [
-                "2022-01-24T00:00:00Z",
-                "2022-01-25T00:00:00Z",
-                "2022-01-26T00:00:00Z",
-                "2022-01-27T00:00:00Z",
-                "2022-01-28T00:00:00Z",
-                "2022-01-29T00:00:00Z",
-                "2022-01-30T00:00:00Z",
-            ]
-        ).issubset(set(df.index))
-        assert df.index.name == "date"
+    #     assert set(
+    #         [
+    #             "Values.RVI",
+    #             "Values.LAI",
+    #             "Schema.Id",
+    #         ]
+    #     ).issubset(set(df.columns))
+    #     assert set(
+    #         [
+    #             "2022-01-24T00:00:00Z",
+    #             "2022-01-25T00:00:00Z",
+    #             "2022-01-26T00:00:00Z",
+    #             "2022-01-27T00:00:00Z",
+    #             "2022-01-28T00:00:00Z",
+    #             "2022-01-29T00:00:00Z",
+    #             "2022-01-30T00:00:00Z",
+    #         ]
+    #     ).issubset(set(df.index))
+    #     assert df.index.name == "date"
 
     def test_get_satellite_image_time_series(self):
         start_date = dt.datetime.strptime("2021-03-01", "%Y-%m-%d")
