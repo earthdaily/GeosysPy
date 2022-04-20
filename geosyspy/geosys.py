@@ -88,7 +88,7 @@ class Geosys:
         self.priority_queue = str_priority_queue
         self.priority_headers = {"bulk": "Geosys_API_Bulk", "realtime": ""}
         self.list_collection_lr = [Collection.MODIS]
-        self.list_collection_mr = [Collection.LANDSAT_8, Collection.SENTINEL_2]
+        self.list_collection_mr = [Collection.LANDSAT_8, Collection.LANDSAT_9, Collection.SENTINEL_2]
         self.list_collection_weather = [
             Collection.WEATHER_FORECAST_DAILY,
             Collection.WEATHER_FORECAST_HOURLY,
