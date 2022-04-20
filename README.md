@@ -91,6 +91,15 @@ The `geosyspy` python package aims to provide an easy and ready to use library a
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+## Features
+
+* Get aggregated NDVI/EVI times series from Modis satellite imagery
+* Get aggregated historical and forecast weather data (precipitation, temperatures...) time series
+* Get SENTINEL 2, LANDSAT 8 and LANSAT 9 satellite images time series in [xarray](https://docs.xarray.dev/en/stable/) format
+* Save and retrieve custom data in Analytics Fabrics
+
+See [Examples](examples.ipynb) notebook for more information
+
 ## Getting started
 
 ### Prerequisites
@@ -100,7 +109,7 @@ Make sure you have valid credentials. If you need to get trial access, please re
 This package has been tested on Python 3.9.7.
 
 
-### Installation
+### Installing
 
 #### For Linux / Mac OS
 ```
@@ -109,7 +118,7 @@ pip install geosyspy
 
 #### For Windows
 
-Please refer to the installation.md file.
+Please refer to the [install.md](install.md) file.
 
 ### Run the package from source
 
@@ -127,7 +136,7 @@ pip install -r requirements.txt
 
 2. Create .env file
 
-You need a .env file with your credentials to run the example Jupyter notebook.
+You need a .env file with your credentials to run the [Examples](examples.ipynb) Jupyter notebook.
 
 ```
 API_CLIENT_ID=
@@ -188,7 +197,7 @@ year_ago = dt.date.today() + relativedelta(months=-12)
 dataframe = client.get_time_series(polygon, year_ago, today, collection=Collection.MODIS, indicators=["NDVI"])
 ```
 
-See the Jupyter notebook `examples.ipynb` for a working example.
+See the Jupyter notebook [Examples](examples.ipynb) for a working example.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
