@@ -109,7 +109,7 @@ Make sure you have valid credentials. If you need to get trial access, please re
 This package has been tested on Python 3.9.7.
 
 
-### Installation
+### Installing
 
 #### For Linux / Mac OS
 ```
