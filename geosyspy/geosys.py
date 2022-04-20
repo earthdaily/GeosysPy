@@ -478,19 +478,22 @@ class Geosys:
 
         if response.status_code == 200:
             df = pd.json_normalize(response.json())
-            return df[
-                [
-                    "coverageType",
-                    "image.id",
-                    "image.availableBands",
-                    "image.sensor",
-                    "image.soilMaterial",
-                    "image.spatialResolution",
-                    "image.weather",
-                    "image.date",
-                    "seasonField.id",
+            if df.empty:
+                return df
+            else:
+                return df[
+                    [
+                        "coverageType",
+                        "image.id",
+                        "image.availableBands",
+                        "image.sensor",
+                        "image.soilMaterial",
+                        "image.spatialResolution",
+                        "image.weather",
+                        "image.date",
+                        "seasonField.id",
+                    ]       
                 ]
-            ]
         else:
             logging.info(response.status_code)
 
@@ -559,6 +562,11 @@ class Geosys:
         df_coverage = self.__get_satellite_coverage(
             polygon, start_date, end_date, collections
         )
+
+        # Return empty dataset if no coverage on the polygon between start_date, end_date
+        if df_coverage.empty:
+            return xr.Dataset()
+
         df_coverage["image.date"] = pd.to_datetime(
             df_coverage["image.date"], infer_datetime_format=True
         )
