@@ -693,9 +693,12 @@ class Geosys:
 
         if response.status_code == 200:
             df = pd.json_normalize(response.json())
-            df.set_index("date", inplace=True)
-            df["Location"] = polygon_wkt.centroid.wkt
-            return df.sort_index()
+            if df.empty:
+                return df
+            else:
+                df.set_index("date", inplace=True)
+                df["Location"] = polygon_wkt.centroid.wkt
+                return df.sort_index()
         else:
             logging.error(response.status_code)
             raise ValueError(response.content)
