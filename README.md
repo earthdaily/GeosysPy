@@ -98,7 +98,7 @@ The `geosyspy` python package aims to provide an easy and ready to use library a
 * Get SENTINEL 2, LANDSAT 8 and LANSAT 9 satellite images time series in [xarray](https://docs.xarray.dev/en/stable/) format
 * Save and retrieve custom data in Analytics Fabrics
 
-See examples.ipynb for more information
+See [Examples](examples.ipynb) notebook for more information
 
 ## Getting started
 
@@ -118,7 +118,7 @@ pip install geosyspy
 
 #### For Windows
 
-Please refer to the [installation.md](installation.md) file.
+Please refer to the [install.md](install.md) file.
 
 ### Run the package from source
 
@@ -136,7 +136,7 @@ pip install -r requirements.txt
 
 2. Create .env file
 
-You need a .env file with your credentials to run the example Jupyter notebook.
+You need a .env file with your credentials to run the [Examples](examples.ipynb) Jupyter notebook.
 
 ```
 API_CLIENT_ID=
@@ -197,7 +197,7 @@ year_ago = dt.date.today() + relativedelta(months=-12)
 dataframe = client.get_time_series(polygon, year_ago, today, collection=Collection.MODIS, indicators=["NDVI"])
 ```
 
-See the Jupyter notebook `examples.ipynb` for a working example.
+See the Jupyter notebook [Examples](examples.ipynb) for a working example.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
