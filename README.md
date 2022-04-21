@@ -93,8 +93,8 @@ The `geosyspy` python package aims to provide an easy and ready to use library a
 
 ## Features
 
-* Get aggregated NDVI/EVI times series from Modis satellite imagery
-* Get aggregated historical and forecast weather data (precipitation, temperatures...) time series
+* Get aggregated NDVI/EVI times series from Modis satellite imagery as pandas dataframe
+* Get aggregated historical and forecast weather data (precipitation, temperatures...) time series as pandas dataframe
 * Get SENTINEL 2, LANDSAT 8 and LANSAT 9 satellite images time series in [xarray](https://docs.xarray.dev/en/stable/) format
 * Save and retrieve custom data in Analytics Fabrics
 
