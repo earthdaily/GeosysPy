@@ -340,10 +340,7 @@ class Geosys:
         parameters = f"/values?$offset=0&$limit=9999&$count=false&SeasonField.Id={str_season_field_id}&index={indicator}&$filter=Date >= '{str_start_date}' and Date <= '{str_end_date}'"
         str_vts_url = urljoin(self.base_url, self.vts_endpoint + parameters)
 
-        response = self.__get(
-            str_vts_url,
-            {"X-Geosys-Task-Code": self.priority_headers[self.priority_queue]},
-        )
+        response = self.__get(str_vts_url)
 
         if response.status_code == 200:
             dict_response = response.json()
@@ -397,10 +394,7 @@ class Geosys:
         MODIS_GRID_LENGTH = 4800 * PSX * 36
         MODIS_GRID_HEIGHT = 4800 * PSY * 18
 
-        response = self.__get(
-            str_vts_url,
-            {"X-Geosys-Task-Code": self.priority_headers[self.priority_queue]},
-        )
+        response = self.__get(str_vts_url)
 
         if response.status_code == 200:
             df = pd.json_normalize(response.json())
