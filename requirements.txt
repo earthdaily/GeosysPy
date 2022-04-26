@@ -1,6 +1,8 @@
 requests
 requests-oauthlib
 oauthlib
-pandas
-rasterio
+scipy
+pandas==1.3.5
 shapely
+rasterio
+xarray

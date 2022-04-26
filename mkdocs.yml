@@ -1,4 +1,4 @@
-site_name: My Docs
+site_name: GeosysPy documentation
 theme:
   name: readthedocs
 
@@ -8,5 +8,5 @@ plugins:
 
 nav:
     - Home: index.md
-    - Code Reference:
-        - Workflow: geosys-reference.md
+    - Geosys class: geosys-reference.md
+    - Constants: constants-reference.md

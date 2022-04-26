@@ -1,10 +1,10 @@
 from datetime import datetime
-from geosyspy.geosys import Geosys
+from geosyspy import Geosys
 from dotenv import load_dotenv
 import os
 import datetime as dt
 import numpy as np
-
+from geosyspy.constants import Collection, Env, Region
 # read .env file
 load_dotenv()
 
@@ -19,7 +19,7 @@ class TestGeosys:
     # polygon with two pixels : mh11v4i225j4612, mh11v4i226j4612
     polygon = "POLYGON((-91.29152885756007 40.39177489815265,-91.28403789132507 40.391776131485386,-91.28386736508233 40.389390758655935,-91.29143832829979 40.38874592864832,-91.29152885756007 40.39177489815265))"
     client = Geosys(
-        API_CLIENT_ID, API_CLIENT_SECRET, API_USERNAME, API_PASSWORD, "preprod", "na"
+        API_CLIENT_ID, API_CLIENT_SECRET, API_USERNAME, API_PASSWORD, Env.PREPROD, Region.NA
     )
 
     def test_authenticate(self):
@@ -34,12 +34,14 @@ class TestGeosys:
             ]
         ).issubset(set(self.client.token.keys()))
 
-    def test_get_time_series(self):
+    def test_get_time_series_modis_ndvi(self):
 
         start_date = dt.datetime.strptime("2020-01-01", "%Y-%m-%d")
         end_date = dt.datetime.strptime("2020-01-07", "%Y-%m-%d")
 
-        df = self.client.get_time_series(self.polygon, start_date, end_date, "NDVI")
+        df = self.client.get_time_series(
+            self.polygon, start_date, end_date, Collection.MODIS, ["NDVI"]
+        )
 
         assert df.index.name == "date"
         assert "value" in df.columns
@@ -58,13 +60,13 @@ class TestGeosys:
             ]
         ).issubset(set(date_range))
 
-    def test_get_time_series_by_pixel(self):
+    def test_get_satellite_image_time_series_modis_ndvi(self):
 
         start_date = dt.datetime.strptime("2020-01-01", "%Y-%m-%d")
         end_date = dt.datetime.strptime("2020-01-07", "%Y-%m-%d")
 
-        df = self.client.get_time_series_by_pixel(
-            self.polygon, start_date, end_date, "NDVI"
+        df = self.client.get_satellite_image_time_series(
+            self.polygon, start_date, end_date, [Collection.MODIS], ["NDVI"]
         )
         assert df.index.name == "date"
         assert set(["value", "index", "pixel.id"]).issubset(set(df.columns))
@@ -85,10 +87,12 @@ class TestGeosys:
 
         assert set(["mh11v4i225j4612", "mh11v4i226j4612"]).issubset(set(df["pixel.id"]))
 
-    def test_get_coverage_in_season_ndvi(self):
+    def test_get_satellite_coverage_image_references(self):
         start_date = dt.datetime.strptime("2021-01-01", "%Y-%m-%d")
         end_date = dt.datetime.strptime("2022-01-01", "%Y-%m-%d")
-        df = self.client.get_coverage_in_season_ndvi(self.polygon, start_date, end_date, "SENTINEL_2")
+        info, images_references = self.client.get_satellite_coverage_image_references(
+            self.polygon, start_date, end_date, [Collection.SENTINEL_2]
+        )
 
         assert set(
             [
@@ -100,29 +104,36 @@ class TestGeosys:
                 "image.spatialResolution",
                 "image.weather",
                 "image.date",
-                "seasonField.id"
+                "seasonField.id",
             ]
-        ).issubset(set(df.columns))
+        ).issubset(set(info.columns))
 
-    def test_get_image_as_array(self):
-        """
-        """
+        assert len(info) == len(images_references)
+        for i, image_info in info.iterrows():
+            assert (
+                image_info["image.date"],
+                image_info["image.sensor"],
+            ) in images_references
 
-        # The following image has 4 bands, and contains 76*71 pixels.
-
-        img_field_id = "d1bqwqq"
-        img_id = "IKc73hpUQ6spGyDC80dOd8SDFIKHF1CezmxsZGmXlzg"
-        img_arr = self.client.get_image_as_array(img_field_id, img_id)
-        assert img_arr.shape == (4,76,71)
-        assert type(img_arr) ==  np.ndarray
-
-    def test_get_weather(self):
+    def get_time_series_weather_historical_daily(self):
 
         start_date = dt.datetime.strptime("2021-01-01", "%Y-%m-%d")
         end_date = dt.datetime.strptime("2022-01-01", "%Y-%m-%d")
-        weather_fields = ["Precipitation", "Temperature.Ground", "Temperature.Standard", "Temperature.StandardMax", "Date"]
+        indicators = [
+            "Precipitation",
+            "Temperature.Ground",
+            "Temperature.Standard",
+            "Temperature.StandardMax",
+            "Date",
+        ]
 
-        df = self.client.get_weather(self.polygon, start_date, end_date, "HISTORICAL_DAILY", weather_fields)
+        df = self.client.get_time_series(
+            self.polygon,
+            start_date,
+            end_date,
+            Collection.WEATHER_HISTORICAL_DAILY,
+            indicators,
+        )
 
         assert set(
             [
@@ -134,3 +145,44 @@ class TestGeosys:
             ]
         ).issubset(set(df.columns))
         assert df.index.name == "date"
+
+    # def test_get_metrics(self):
+
+    #     lai_radar_polygon = "POLYGON((-52.72591542 -18.7395779,-52.72604885 -18.73951122,-52.72603114 -18.73908689,-52.71556835 -18.72490316,-52.71391916 -18.72612966,-52.71362802 -18.72623726,-52.71086473 -18.72804231,-52.72083542 -18.74173696,-52.72118937 -18.74159174,-52.72139229 -18.7418552,-52.72600257 -18.73969719,-52.72591542 -18.7395779))"
+    #     schema_id = "LAI_RADAR"
+    #     start_date = dt.datetime.strptime("2022-01-24", "%Y-%m-%d")
+    #     end_date = dt.datetime.strptime("2022-01-30", "%Y-%m-%d")
+    #     df = self.client.get_metrics(lai_radar_polygon, schema_id, start_date, end_date)
+
+    #     assert set(
+    #         [
+    #             "Values.RVI",
+    #             "Values.LAI",
+    #             "Schema.Id",
+    #         ]
+    #     ).issubset(set(df.columns))
+    #     assert set(
+    #         [
+    #             "2022-01-24T00:00:00Z",
+    #             "2022-01-25T00:00:00Z",
+    #             "2022-01-26T00:00:00Z",
+    #             "2022-01-27T00:00:00Z",
+    #             "2022-01-28T00:00:00Z",
+    #             "2022-01-29T00:00:00Z",
+    #             "2022-01-30T00:00:00Z",
+    #         ]
+    #     ).issubset(set(df.index))
+    #     assert df.index.name == "date"
+
+    def test_get_satellite_image_time_series(self):
+        start_date = dt.datetime.strptime("2021-03-01", "%Y-%m-%d")
+        end_date = dt.datetime.strptime("2021-04-30", "%Y-%m-%d")
+        dataset = self.client.get_satellite_image_time_series(
+            self.polygon,
+            start_date,
+            end_date,
+            collections=[Collection.SENTINEL_2, Collection.LANDSAT_8],
+            indicators=["Reflectance"],
+        )
+
+        assert dict(dataset.dims) == {'band': 5, 'y': 36, 'x': 66, 'time': 7}
