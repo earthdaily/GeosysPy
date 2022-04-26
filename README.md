@@ -100,7 +100,7 @@ The `geosyspy` python package aims to provide an easy and ready to use library a
 * Analytic publication:
      * Save and retrieve custom data in Analytics Fabrik
 
-See [Examples](examples.ipynb) notebook for more information
+See [documentation](https://geosys.github.io/GeosysPy/) and [Examples](examples.ipynb) notebook for more information
 
 ## Getting started
 
@@ -207,7 +207,7 @@ See the Jupyter notebook [Examples](examples.ipynb) for a working example.
 ## Resources 
 The following links will provide access to more information:
 - [EarthDaily agro developer portal  ](https://developer.geosys.com/)
-- 
+- [Pypi package](https://pypi.org/project/geosyspy/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
