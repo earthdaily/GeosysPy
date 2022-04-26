@@ -15,6 +15,11 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: '3.x'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install wheel
+        pip install -r requirements-dev.txt 
     - name: Build package
       run: make build
     - name: Publish package
@@ -23,6 +28,4 @@ jobs:
       with:
         user: __token__
         password: ${{ secrets.PYPI_API_TOKEN }}
-    
-    - run: pip install -r requirements-dev.txt 
     - run: mkdocs gh-deploy --force
