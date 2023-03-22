@@ -36,7 +36,7 @@
 [![Twitter][twitter-shield]][twitter-url]
 [![Youtube][youtube-shield]][youtube-url]
 [![languages][language-python-shiedl]][issues-url]
-[![CITest][CITest-shield]][CITest-url]
+<!-- [![CITest][CITest-shield]][CITest-url]-->
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
   
@@ -263,4 +263,4 @@ For any additonal information, please [email us](mailto:sales@earthdailyagro.com
 [GitStars-shield]: https://img.shields.io/github/stars/GEOSYS?style=social
 [GitStars-url]: https://img.shields.io/github/stars/GEOSYS?style=social
 [CITest-shield]: https://img.shields.io/github/workflow/status/GEOSYS/GeosysPy/Continous%20Integration
-[CITest-url]: https://img.shields.io/github/workflow/status/GEOSYS/qgis-plugin/Continous%20Integration
+[CITest-url]: https://img.shields.io/github/workflow/status/GEOSYS/GeosysPy/Continous%20Integration
