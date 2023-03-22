@@ -248,7 +248,7 @@ For any additonal information, please [email us](mailto:sales@earthdailyagro.com
 [forks-url]: https://github.com/github_username/repo/network/members
 [stars-shield]: https://img.shields.io/github/stars/qgis-plugin/repo.svg?style=plastic&logo=appveyor
 [stars-url]: https://github.com/github_username/repo/stargazers
-[issues-shield]: https://img.shields.io/github/issues/GEOSYS/qgis-plugin/repo.svg?style=social
+[issues-shield]: https://img.shields.io/github/issues/GEOSYS/GeosysPy/repo.svg?style=social
 [issues-url]: https://github.com/github_username/repo/issues
 [license-shield]: https://img.shields.io/github/license/GEOSYS/qgis-plugin
 [license-url]: https://www.gnu.org/licenses/gpl-3.0.en.html
