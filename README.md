@@ -262,5 +262,5 @@ For any additonal information, please [email us](mailto:sales@earthdailyagro.com
 [language-python-url]: https://pypi.org/ 
 [GitStars-shield]: https://img.shields.io/github/stars/GEOSYS?style=social
 [GitStars-url]: https://img.shields.io/github/stars/GEOSYS?style=social
-[CITest-shield]: https://img.shields.io/github/workflow/status/GEOSYS/qgis-plugin/Continous%20Integration
+[CITest-shield]: https://img.shields.io/github/workflow/status/GEOSYS/GeosysPy/Continous%20Integration
 [CITest-url]: https://img.shields.io/github/workflow/status/GEOSYS/qgis-plugin/Continous%20Integration
