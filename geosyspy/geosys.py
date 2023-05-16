@@ -80,6 +80,8 @@ class Geosys:
         self.weather_endpoint = "Weather/v1/weather"
         self.analytics_fabric_endpoint = "analytics/metrics"
         self.analytics_fabric_schema_endpoint = "analytics/schemas"
+        self.mrts_processor_endpoint = "https://api-pp.geosys-na.net/analytics-pipeline/v1/processors/mrts/launch"
+        self.mrts_processor_events_endpoint = "https://api-pp.geosys-na.net/analytics-pipeline/v1/processors/events"
         self.str_api_client_id = str_api_client_id
         self.str_api_client_secret = str_api_client_secret
         self.str_api_username = str_api_username
@@ -741,6 +743,52 @@ class Geosys:
         else:
             logging.info(response.status_code)
 
+    def _get_s3_path(self, str_task_id):
+
+        str_endpoint = self.mrts_processor_events_endpoint + "/" + str_task_id
+        response = self.__get(str_endpoint)
+        if response.ok:
+            dict_resp = json.loads(response.content)
+            str_customer_code = dict_resp["customerCode"].lower().replace("_", "-")
+            str_user_id = dict_resp["userId"]
+            str_task_id = dict_resp["taskId"]
+            return "s3://geosys-" + str_customer_code + "/" + str_user_id + "/mrts/" + str_task_id
+        else:
+            logging.info(response.status_code)
+    
+
+    def get_mr_time_series(self, str_start_date, str_end_date, list_sensors, bool_denoiser, str_smoother, bool_eoc, str_func, str_index, bool_raw_data, str_polygon):
+        payload = {
+            "parametersProfile": {
+                "code":"mrts_default",
+                "version":1
+            },
+            "parameters": {
+                "start_date": str_start_date,
+                "end_date": str_end_date,
+                "sensors": list_sensors,
+                "denoiser" : bool_denoiser,
+                "smoother" : str_smoother,
+                "eoc" : bool_eoc,
+                "aggregation": str_func,
+                "index": str_index,
+                "raw_data": bool_raw_data
+                },
+            "data": [
+                { "wkt": str_polygon }
+            ]
+        }
+
+        response = self.__post(self.mrts_processor_endpoint, payload)
+
+        if response.ok:
+            str_task_id = json.loads(response.content)["taskId"]
+            return self._get_s3_path(str_task_id)
+        else:
+            logging.info(response.status_code)
+
+    
+    
     def get_metrics(self, polygon, schema_id, start_date, end_date):
         """Returns metrics from Analytics Fabrics in a pandas dataframe.
 
@@ -810,3 +858,7 @@ class Geosys:
             return response.status_code
         else:
             logging.info(response.status_code)
+
+
+    
+
