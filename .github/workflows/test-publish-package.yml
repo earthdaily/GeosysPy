@@ -1,0 +1,38 @@
+name: Publish package and docs
+
+on:
+  push:
+    tags:        
+      - test-v**
+
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.10'
+    - name: Install dependencies
+      run: |
+        sudo apt-add-repository ppa:ubuntugis/ubuntugis-unstable
+        sudo apt-get update
+        sudo apt-get install gdal-bin libgdal-dev
+        pip install gdal
+        python -m pip install --upgrade pip
+        pip install wheel
+        pip install -r requirements.txt
+        pip install -r requirements-dev.txt 
+    - name: Build package
+      run: make build
+    - name: Publish package
+      uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
+      with:
+        repository-url: https://test.pypi.org/project/geosyspy
+        user: __token__
+        password: ${{ secrets.PYPI_API_TOKEN }}
+    - run: mkdocs gh-deploy --force
