@@ -5,8 +5,6 @@ import pandas as pd
 import logging
 import io
 import zipfile
-
-from geosyspy.platforms import GEOSYS_API_URLS
 from rasterio.io import MemoryFile
 from requests import HTTPError
 from shapely import wkt
