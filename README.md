@@ -110,7 +110,7 @@ See [documentation](https://geosys.github.io/GeosysPy/) and [Examples](examples.
 
 Make sure you have valid credentials. If you need to get trial access, please register [here](https://earthdailyagro.com/geosys-api/#get-started).
 
-This package has been tested on Python 3.9.7.
+This package has been tested on Python 3.10.11.
 
 
 ### Installing
@@ -169,8 +169,8 @@ or, without .env file :
 Then :
 
 ```python
->>> from geosyspy.geosys import Geosys
->>> from geosyspy.constants import Collection, Region, Env
+>>> from geosyspy import Geosys
+>>> from geosyspy.utils.constants import *
 >>> import os
 >>> client = Geosys(os.getenv('API_CLIENT_ID'), os.getenv('API_CLIENT_SECRET'), os.getenv('API_USERNAME'), os.getenv('API_PASSWORD'), Env.PREPROD, Region.NA)
 
@@ -183,8 +183,8 @@ Then :
 Initialize client:
 
 ```python
-from geosyspy.geosys import Geosys
-from geosyspy.constants import Collection, Region, Env
+from geosyspy import Geosys
+from geosyspy.utils.constants import *
 
 client = Geosys("API_CLIENT_ID", "API_CLIENT_SECRET", "API_USERNAME", "API_PASSWORD", Env.PREPROD, Region.NA)
 
@@ -198,7 +198,7 @@ polygon = "POLYGON((...))"
 today = dt.date.today()
 year_ago = dt.date.today() + relativedelta(months=-12)
 
-dataframe = client.get_time_series(polygon, year_ago, today, collection=Collection.MODIS, indicators=["NDVI"])
+dataframe = client.get_time_series(polygon, year_ago, today, collection=SatelliteImageryCollection.MODIS, indicators=["NDVI"])
 ```
 
 See the Jupyter notebook [Examples](examples.ipynb) for a working example.

@@ -1,0 +1,80 @@
+[
+  {
+    "precipitation": {
+      "cumulative": 0.0,
+      "probabilities": 10.0
+    },
+    "temperature": {
+      "standard": 67.20799998623355,
+      "standardMax": 78.97999997681599
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2023-04-28T00:00:00Z",
+    "weatherType": "FORECAST_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.610236220472441,
+      "probabilities": 79.0
+    },
+    "temperature": {
+      "standard": 62.455999990035174,
+      "standardMax": 68.35999998531203
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2023-04-29T00:00:00Z",
+    "weatherType": "FORECAST_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.30708661417322836,
+      "probabilities": 70.0
+    },
+    "temperature": {
+      "standard": 58.927999992857615,
+      "standardMax": 65.11999998790401
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2023-04-30T00:00:00Z",
+    "weatherType": "FORECAST_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.11811023622047245,
+      "probabilities": 70.0
+    },
+    "temperature": {
+      "standard": 57.18199999425436,
+      "standardMax": 64.30999998855202
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2023-05-01T00:00:00Z",
+    "weatherType": "FORECAST_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.007874015748031496,
+      "probabilities": 13.9
+    },
+    "temperature": {
+      "standard": 57.361999994110406,
+      "standardMax": 67.54999998595994
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2023-05-02T00:00:00Z",
+    "weatherType": "FORECAST_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0,
+      "probabilities": 0.0
+    },
+    "temperature": {
+      "standard": 60.583999991532735,
+      "standardMax": 71.68999998264796
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2023-05-03T00:00:00Z",
+    "weatherType": "FORECAST_DAILY"
+  }
+]
