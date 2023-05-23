@@ -302,7 +302,7 @@ class Geosys:
                 )
             elif set(collections).issubset(set(self.list_collection_mr)):
                 return self.__get_images_as_dataset(
-                    polygon, start_date, end_date, collections
+                    polygon, start_date, end_date, collections, indicators[0]
                 )
         else:
             raise TypeError(
@@ -438,7 +438,7 @@ class Geosys:
             (tuple): images list and image references for downloading
         """
 
-        df = self.__get_satellite_coverage(polygon, start_date, end_date, collections)
+        df = self.__get_satellite_coverage(polygon, start_date, end_date, "", collections)
         images_references = {}
 
         for i, image in df.iterrows():
@@ -454,15 +454,20 @@ class Geosys:
         return df, images_references
 
     def __get_satellite_coverage(
-        self, polygon, start_date, end_date, sensors=[Collection.SENTINEL_2, Collection.LANDSAT_8]
+        self, polygon, start_date, end_date, indicator, sensors=[Collection.SENTINEL_2, Collection.LANDSAT_8]
     ):
         logging.info("Calling APIs for coverage")
         str_season_field_id = self.__extract_season_field_id(polygon)
         str_start_date = start_date.strftime("%Y-%m-%d")
         str_end_date = end_date.strftime("%Y-%m-%d")
         sensors = [elem.value for elem in sensors]
-        parameters = f"?maps.type=INSEASON_NDVI&Image.Sensor=$in:{'|'.join(sensors)}&CoverageType=CLEAR&$limit=9999&$filter=Image.Date >= '{str_start_date}' and Image.Date <= '{str_end_date}'"
 
+        if indicator == "" or indicator.upper() == "REFLECTANCE" or indicator.upper() == "NDVI":
+            mapType = "INSEASON_NDVI"
+        else:
+            mapType = f"INSEASON_{indicator.upper()}"
+
+        parameters = f"?maps.type={mapType}&Image.Sensor=$in:{'|'.join(sensors)}&CoverageType=CLEAR&$limit=9999&$filter=Image.Date >= '{str_start_date}' and Image.Date <= '{str_end_date}'"
         str_flm_url = urljoin(
             self.base_url,
             self.flm_catalog_imagery.format(str_season_field_id) + parameters,
@@ -493,8 +498,12 @@ class Geosys:
         else:
             logging.info(response.status_code)
 
-    def __get_zipped_tiff(self, field_id, image_id):
+    def __get_zipped_tiff(self, field_id, image_id, indicator: str = ""):
         parameters = f"/{image_id}/reflectance-map/TOC/image.tiff.zip"
+
+        if indicator != "" and indicator.upper() != "REFLECTANCE":
+            parameters = f"/{image_id}/base-reference-map/INSEASON_{indicator.upper()}/image.tiff.zip?resolution=Sensor"
+
         download_tiff_url = urljoin(
             self.base_url, self.flm_coverage.format(field_id) + parameters
         )
@@ -521,7 +530,7 @@ class Geosys:
             logging.info(f"writing to {str_path}")
             f.write(response_zipped_tiff.content)
 
-    def __get_images_as_dataset(self, polygon, start_date, end_date, collections):
+    def __get_images_as_dataset(self, polygon, start_date, end_date, collections, indicator: str):
         """Returns all the 'sensors_list' images covering 'polygon' between
         'start_date' and 'end_date' as an xarray dataset.
 
@@ -530,6 +539,7 @@ class Geosys:
             start_date : The date from which the method will start looking for images.
             end_date : The date at which the methd will stop looking images.
             sensors_list : A list of the sensors' names as strings.
+            indicator : A string representing the indicator whose time series the user wants.
 
         Returns:
             The image's numpy array.
@@ -556,7 +566,7 @@ class Geosys:
         # and sorts them by resolution, from the highest to the lowest.
         # Keeps only the first image if two are found on the same date.
         df_coverage = self.__get_satellite_coverage(
-            polygon, start_date, end_date, collections
+            polygon, start_date, end_date, indicator, collections
         )
 
         # Return empty dataset if no coverage on the polygon between start_date, end_date
@@ -574,11 +584,15 @@ class Geosys:
         # for each image id and some additional data (bands, sensor...)
         dict_archives = {}
         for i, row in df_coverage.iterrows():
+            if indicator.upper() != "REFLECTANCE":
+                bands = [indicator]
+            else:
+                bands = row["image.availableBands"]
             dict_archives[row["image.id"]] = {
                 "byte_archive": self.__get_zipped_tiff(
-                    row["seasonField.id"], row["image.id"]
+                    row["seasonField.id"], row["image.id"], indicator
                 ).content,
-                "bands": row["image.availableBands"],
+                "bands": bands,
                 "date": row["image.date"],
                 "sensor": row["image.sensor"],
             }
@@ -638,7 +652,7 @@ class Geosys:
         # an xarray Dataset containing one data variable "reflectance".
 
         final_xarr = xr.concat(list_xarr, "time")
-        dataset = xr.Dataset(data_vars={"reflectance": final_xarr})
+        dataset = xr.Dataset(data_vars={indicator.lower(): final_xarr})
 
         # Adds additional metadata to the dataset.
         dataset = dataset.assign_coords(
