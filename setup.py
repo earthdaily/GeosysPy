@@ -4,7 +4,7 @@
 import pathlib
 
 # Third party imports
-from setuptools import setup
+from setuptools import setup, find_packages
 
 # The directory containing this file
 HERE = pathlib.Path(__file__).resolve().parent
@@ -22,8 +22,8 @@ setup(
     long_description=README,
     long_description_content_type="text/markdown",
     author="Geosys",
-    packages=["geosyspy"],
+    packages=find_packages(),
     include_package_data=True,
     data_files=[('', ['VERSION.txt'])],
-    install_requires=["requests", "requests-oauthlib", "oauthlib", "scipy", "pandas==1.3.5", "shapely", "rasterio", "xarray"]
+    install_requires=["requests", "requests-oauthlib", "oauthlib", "scipy", "pandas==1.3.5", "shapely", "rasterio", "xarray", "boto3"]
 )
