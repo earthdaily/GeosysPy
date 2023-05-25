@@ -17,7 +17,7 @@ import xarray as xr
 import rasterio
 import numpy as np
 from .constants import Collection
-
+from datetime import date
 
 def renew_access_token(func):
     """Decorator used to wrap the Geosys class's http methods.
@@ -771,7 +771,25 @@ class Geosys:
             logging.info(response.status_code)
     
 
-    def get_mr_time_series(self, str_start_date, str_end_date, list_sensors, bool_denoiser, str_smoother, bool_eoc, str_func, str_index, bool_raw_data, str_polygon):
+    def get_mr_time_series(self,
+                           str_polygon,
+                           str_start_date="2010-01-01", 
+                           str_end_date=None,
+                           list_sensors=["micasense", "sequoia", "m4c", "sentinel_2", 
+                                         "landsat_8", "landsat_9", "cbers4", "kazstsat", 
+                                         "alsat_1b", "huanjing_2", "deimos", "gaofen_1", "gaofen_6",
+                                        "resourcesat2","dmc_2","landsat_5","landsat_7",
+                                        "spot","rapideye_3a", "rapideye_1b"],
+                            bool_denoiser=True,
+                            str_smoother="ww",
+                            bool_eoc=True, 
+                            str_func="mean", 
+                            str_index="ndvi", 
+                            bool_raw_data=False
+                            ):
+        
+        if str_end_date is None:
+            str_end_date = date.today().strftime("%Y-%m-%d")
         payload = {
             "parametersProfile": {
                 "code":"mrts_default",
