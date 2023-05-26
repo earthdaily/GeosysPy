@@ -71,26 +71,64 @@ def plot_mrts_dict(dict_data):
     metadata = dict_data['metadata']
     index = metadata['parameters']['index']
     
-    if dict_data['raw_df'] is not None:
-        raw_df = dict_data['raw_df']
-        raw_df['date'] = pd.to_datetime(raw_df['date'], format='%Y-%m-%d')
-        raw_df = raw_df.set_index('date')
-        plt.plot(raw_df[index] ,'.', markersize=12, label=index)
-        plt.plot(raw_df[index].loc[raw_df['denoised'] == True] ,'x', color='r', markersize=12, label='Denoised')
-    if dict_data['df'] is not None:
-        df = dict_data['df']
-        df['date'] = pd.to_datetime(df['date'], format='%Y-%m-%d')
-        df = df.set_index('date')
-        plt.plot(df['vegetation_index'] ,'.', markersize=12, label=index)
-    if dict_data['ts'] is not None:
-        df_smooth = dict_data['ts']
-        df_smooth['date'] = pd.to_datetime(df_smooth['date'], format='%Y-%m-%d')
-        df_smooth = df_smooth.set_index('date')
-        plt.plot(df_smooth, linewidth=2, label='Smooth ' + index)        
+    if index != 'reflectances':
+        if dict_data['raw_df'] is not None:
+            raw_df = dict_data['raw_df']
+            raw_df['date'] = pd.to_datetime(raw_df['date'], format='%Y-%m-%d')
+            raw_df = raw_df.set_index('date')
+            plt.plot(raw_df[index] ,'.', markersize=12, label=index)
+            plt.plot(raw_df[index].loc[raw_df['denoised'] == True] ,'x', color='r', markersize=12, label='Denoised')
+        if dict_data['df'] is not None:
+            df = dict_data['df']
+            df['date'] = pd.to_datetime(df['date'], format='%Y-%m-%d')
+            df = df.set_index('date')
+            plt.plot(df['vegetation_index'] ,'.', markersize=12, label=index)
+        if dict_data['ts'] is not None:
+            df_smooth = dict_data['ts']
+            df_smooth['date'] = pd.to_datetime(df_smooth['date'], format='%Y-%m-%d')
+            df_smooth = df_smooth.set_index('date')
+            plt.plot(df_smooth, linewidth=2, label='Smooth ' + index) 
+    else:
+        if dict_data['raw_df'] is not None:
+            raw_df = dict_data['raw_df']
+            raw_df['date'] = pd.to_datetime(raw_df['date'], format='%Y-%m-%d')
+            raw_df = raw_df.set_index('date')
+            plt.plot(raw_df['nir'] ,'.', markersize=12, label='nir')
+            plt.plot(raw_df['nir'].loc[raw_df['denoised'] == True] ,'x', color='r', markersize=12, label='Denoised') 
+            plt.plot(raw_df['red'] ,'.', markersize=12, label='red')
+            plt.plot(raw_df['red'].loc[raw_df['denoised'] == True] ,'x', color='r', markersize=12)
+            plt.plot(raw_df['green'] ,'.', markersize=12, label='green')
+            plt.plot(raw_df['green'].loc[raw_df['denoised'] == True] ,'x', color='r', markersize=12)
+            plt.plot(raw_df['blue'] ,'.', markersize=12, label='blue')
+            plt.plot(raw_df['blue'].loc[raw_df['denoised'] == True] ,'x', color='r', markersize=12)
+        if dict_data['df'] is not None:
+            df = dict_data['df']
+            df['date'] = pd.to_datetime(df['date'], format='%Y-%m-%d')
+            df = df.set_index('date')
+            plt.plot(df['nir'] ,'.', markersize=12, label=index)
+            plt.plot(df['red'] ,'.', markersize=12, label=index)
+            plt.plot(df['green'] ,'.', markersize=12, label=index)
+            plt.plot(df['blue'] ,'.', markersize=12, label=index)
+        if dict_data['ts'] is not None:
+            df_smooth = dict_data['ts']
+            df_smooth['date'] = pd.to_datetime(df_smooth['date'], format='%Y-%m-%d')
+            df_smooth = df_smooth.set_index('date')
+            plt.plot(df_smooth['nir'], linewidth=2, label='Smooth ' + 'nir')
+            plt.plot(df_smooth['red'], linewidth=2, label='Smooth ' + 'red') 
+            plt.plot(df_smooth['green'], linewidth=2, label='Smooth ' + 'green') 
+            plt.plot(df_smooth['blue'], linewidth=2, label='Smooth ' + 'blue')  
     
-    elif index == 'ndvi':
+    if index == 'ndvi':
+        plt.ylim((0,1))
+    elif index == 'evi':
+        plt.ylim((0,1))
+    elif index == 'cvin':
+        plt.ylim((0,1))
+    elif index == 'gndvi':
         plt.ylim((0,1))
     elif index == 'ndwi':
+        plt.ylim((0,1))
+    elif index == 'reflectances':
         plt.ylim((0,1))
     elif index == 's2rep':
         plt.ylim((710,730))    
