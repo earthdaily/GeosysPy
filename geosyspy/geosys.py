@@ -783,7 +783,7 @@ class Geosys:
                             bool_denoiser=True,
                             str_smoother="ww",
                             bool_eoc=True, 
-                            str_func="mean", 
+                            str_aggregation="mean", 
                             str_index="ndvi", 
                             bool_raw_data=False
                             ):
@@ -802,7 +802,7 @@ class Geosys:
                 "denoiser" : bool_denoiser,
                 "smoother" : str_smoother,
                 "eoc" : bool_eoc,
-                "aggregation": str_func,
+                "aggregation": str_aggregation,
                 "index": str_index,
                 "raw_data": bool_raw_data
                 },
