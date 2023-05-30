@@ -1,196 +1,56 @@
-from oauthlib.oauth2 import LegacyApplicationClient
-from requests_oauthlib import OAuth2Session
-from oauthlib.oauth2 import TokenExpiredError
+from datetime import datetime
 import json
 import re
 from urllib.parse import urljoin
 import pandas as pd
-from . import platforms
 import logging
 import io
 import zipfile
 from rasterio.io import MemoryFile
+from requests import HTTPError
 from shapely import wkt
 from pathlib import Path
-from . import image_reference
+from geosyspy import image_reference
 import xarray as xr
 import rasterio
 import numpy as np
-from .constants import Collection
-from datetime import date
 
-def renew_access_token(func):
-    """Decorator used to wrap the Geosys class's http methods.
-
-    This decorator wraps the geosys http methods (get,post...) and checks
-    wether the used token is still valid or not. If not, it fetches a new token and
-    uses it to make another request.
-
-    """
-
-    def wrapper(self, *args, **kwargs):
-        try:
-            return func(self, *args, **kwargs)
-        except TokenExpiredError:
-            self._Geosys__refresh_token()
-            return func(self, *args, **kwargs)
-
-    return wrapper
-
+from geosyspy.utils.helper import *
+from geosyspy.utils.constants import *
+from geosyspy.utils.http_client import *
+from geosyspy.utils.geosys_platform_urls import *
 
 class Geosys:
+    def __init__(self, client_id: str,
+                 client_secret: str,
+                 username: str,
+                 password: str,
+                 enum_env: Env,
+                 enum_region: Region,
+                 priority_queue: str = "realtime",
+                 ):
+        """Initializes a Geosys instance with the required credentials
+        to connect to the GEOSYS API.
+        """
+        self.region: str = enum_region.value
+        self.env: str = enum_env.value
+        self.base_url: str = GEOSYS_API_URLS[enum_region.value][enum_env.value]
+        self.priority_queue: str = priority_queue
+        self.http_client: HttpClient = HttpClient(client_id, client_secret, username, password, enum_env.value,
+                                                  enum_region.value)
+
     """Geosys is the main client class to access all the Geosys APIs capabilities.
 
     `client = Geosys(api_client_id, api_client_secret, api_username, api_password, env, region)`
 
     Parameters:
-        str_api_client_id (str): The client id
-        str_api_client_secret (str): The client secret
-        str_api_username (str): The api username
-        str_api_password (str): The api user password
-        enum_env (enum): 'Env.PROD' or 'Env.PREPROD'
-        enum_region (enum): 'Region.NA' or 'Region.EU'
-        str_priority_queue (str): 'realtime' or 'bulk'
+        enum_env: 'Env.PROD' or 'Env.PREPROD'
+        enum_region: 'Region.NA' or 'Region.EU'
+        priority_queue: 'realtime' or 'bulk'
     """
 
-    def __init__(
-        self,
-        str_api_client_id,
-        str_api_client_secret,
-        str_api_username,
-        str_api_password,
-        enum_env,
-        enum_region,
-        str_priority_queue="realtime",
-    ):
-        """Initializes a Geosys instance with the required credentials
-        to connect to the GEOSYS API.
-        """
-        self.region = enum_region
-        self.env = enum_env
-        self.str_id_server_url = platforms.IDENTITY_URLS[enum_region.value][enum_env.value]
-        self.base_url = platforms.GEOSYS_API_URLS[enum_region.value][enum_env.value]
-        self.master_data_management_endpoint = "master-data-management/v6/seasonfields"
-        self.vts_endpoint = "vegetation-time-series/v1/season-fields"
-        self.vts_by_pixel_endpoint = "vegetation-time-series/v1/season-fields/pixels"
-        self.flm_catalog_imagery = (
-            "field-level-maps/v4/season-fields/{}/catalog-imagery"
-        )
-        self.flm_coverage = "field-level-maps/v4/season-fields/{}/coverage"
-        self.weather_endpoint = "Weather/v1/weather"
-        self.analytics_fabric_endpoint = "analytics/metrics"
-        self.analytics_fabric_schema_endpoint = "analytics/schemas"
-        self.mrts_processor_endpoint = "https://api-pp.geosys-na.net/analytics-pipeline/v1/processors/mrts/launch"
-        self.mrts_processor_events_endpoint = "https://api-pp.geosys-na.net/analytics-pipeline/v1/processors/events"
-        self.str_api_client_id = str_api_client_id
-        self.str_api_client_secret = str_api_client_secret
-        self.str_api_username = str_api_username
-        self.str_api_password = str_api_password
-        self.token = None
-        self.priority_queue = str_priority_queue
-        self.priority_headers = {"bulk": "Geosys_API_Bulk", "realtime": ""}
-        self.list_collection_lr = [Collection.MODIS]
-        self.list_collection_mr = [Collection.LANDSAT_8, Collection.LANDSAT_9, Collection.SENTINEL_2]
-        self.list_collection_weather = [
-            Collection.WEATHER_FORECAST_DAILY,
-            Collection.WEATHER_FORECAST_HOURLY,
-            Collection.WEATHER_HISTORICAL_DAILY,
-        ]
-        self.__authenticate()
 
-    def __authenticate(self):
-        """Authenticates the client to the API.
-
-        This method connects the user to the API which generates a token that
-        will be valid for one hour. A refresh token is also generated, which
-        makes it possible for the http methods wrappers to get a new token
-        once the previous one is no more valid through the renew_access_token
-        decorator. This method is only run once when a Geosys object is instantiated.
-
-        """
-
-        try:
-            oauth = OAuth2Session(
-                client=LegacyApplicationClient(client_id=self.str_api_client_id)
-            )
-            self.token = oauth.fetch_token(
-                token_url=self.str_id_server_url,
-                username=self.str_api_username,
-                password=self.str_api_password,
-                client_id=self.str_api_client_id,
-                client_secret=self.str_api_client_secret,
-            )
-            self.token["refresh_token"] = oauth.cookies["refresh_token"]
-            logging.info("Authenticated")
-        except Exception as e:
-            logging.error(e)
-
-    def __refresh_token(self):
-        """Fetches a new token."""
-
-        client = OAuth2Session(self.str_api_client_id, token=self.token)
-        self.token = client.refresh_token(
-            self.str_id_server_url,
-            client_id=self.str_api_client_id,
-            client_secret=self.str_api_client_secret,
-        )
-
-    def __get_matched_str_from_pattern(self, pattern, text):
-        """Returns the first occurence of the matched pattern in text.
-
-        Args:
-            pattern : A string representing the regex pattern to look for.
-            text : The text to look into.
-
-        Returns:
-            A string representing the first occurence in text of the pattern.
-
-        """
-        p = re.compile(pattern)
-        return p.findall(text)[0]
-
-    @renew_access_token
-    def __get(self, url_endpoint, headers={}):
-        """Gets the url_endpopint.
-
-        Args:
-            url_endpoint : A string representing the url to get.
-
-        Returns:
-            A response object.
-        """
-        client = OAuth2Session(self.str_api_client_id, token=self.token)
-        return client.get(url_endpoint, headers=headers)
-
-    @renew_access_token
-    def __post(self, url_endpoint, payload, headers={}):
-        """Posts payload to the url_endpoint.
-
-        Args:
-            url_endpoint : A string representing the url to post paylaod to.
-            payload : A python dict representing the payload.
-
-        Returns:
-            A response object.
-        """
-        client = OAuth2Session(self.str_api_client_id, token=self.token)
-        return client.post(url_endpoint, json=payload, headers=headers)
-
-    @renew_access_token
-    def __patch(self, url_endpoint, payload):
-        """Patchs payload to the url_endpoint.
-
-        Args:
-            url_endpoint : A string representing the url to patch paylaod to.
-            payload : A python dict representing the payload.
-
-        Returns:
-            A response object.
-        """
-        client = OAuth2Session(self.str_api_client_id, token=self.token)
-        return client.patch(url_endpoint, json=payload)
-
-    def __create_season_field_id(self, polygon):
+    def __create_season_field_id(self, polygon: str) -> object:
         """Posts the payload below to the master data management endpoint.
 
         This method returns a season field id. The season field id is required
@@ -208,11 +68,10 @@ class Geosys:
             "Crop": {"Id": "CORN"},
             "SowingDate": "2022-01-01",
         }
-        str_mdm_url = urljoin(self.base_url, self.master_data_management_endpoint)
+        mdm_url: str = urljoin(self.base_url, GeosysApiEndpoints.MASTER_DATA_MANAGEMENT_ENDPOINT.value)
+        return self.http_client.post(mdm_url, payload)
 
-        return self.__post(str_mdm_url, payload)
-
-    def __extract_season_field_id(self, polygon):
+    def __extract_season_field_id(self, polygon: str) -> str:
         """Extracts the season field id from the response object.
 
         Args:
@@ -229,12 +88,12 @@ class Geosys:
         dict_response = response.json()
 
         if (
-            response.status_code == 400
-            and "sowingDate" in dict_response["errors"]["body"]
+                response.status_code == 400
+                and "sowingDate" in dict_response["errors"]["body"]
         ):
-            pattern = r"\sId:\s(\w+),"
-            str_text = dict_response["errors"]["body"]["sowingDate"][0]["message"]
-            return self.__get_matched_str_from_pattern(pattern, str_text)
+
+            text: str = dict_response["errors"]["body"]["sowingDate"][0]["message"]
+            return Helper.get_matched_str_from_pattern(SEASON_FIELD_ID_REGEX, text)
 
         elif response.status_code == 201:
             return dict_response["id"]
@@ -243,15 +102,19 @@ class Geosys:
                 f"Cannot handle HTTP response : {str(response.status_code)} : {str(response.json())}"
             )
 
-    def get_time_series(self, polygon, start_date, end_date, collection, indicators):
+    def get_time_series(self, polygon: str,
+                        start_date: datetime,
+                        end_date: datetime,
+                        collection: enumerate,
+                        indicators: [str]) -> pd.DataFrame:
         """Retrieve a time series of the indicator for the aggregated polygon on the collection targeted.
 
         Args:
-            polygon (str): The polygon
-            start_date (datetime): The start date of the time series
-            end_date (datetime): The end date of the time series
-            collection (enum): The collection targeted
-            indicators (str list): The indicators to retrieve on the collection
+            polygon : The polygon
+            start_date : The start date of the time series
+            end_date : The end date of the time series
+            collection : The collection targeted
+            indicators : The indicators to retrieve on the collection
 
         Returns:
             (dataframe): A pandas dataframe for the time series
@@ -259,57 +122,61 @@ class Geosys:
         Raises:
             ValueError: The collection doesn't exist
         """
-
-        if collection in self.list_collection_weather:
+        if collection in WeatherTypeCollection:
             return self.__get_weather(
                 polygon,
                 start_date,
                 end_date,
-                collection.value.split(".").pop(),
+                collection,
                 indicators,
             )
-        elif collection in self.list_collection_lr:
+        elif collection in LR_SATELLITE_COLLECTION:
             return self.__get_modis_time_series(
                 polygon, start_date, end_date, indicators[0]
             )
         else:
             raise ValueError(f"{collection} collection doesn't exist")
 
-    def get_satellite_image_time_series(
-        self, polygon, start_date, end_date, collections, indicators
-    ):
-        """Retrieve a pixel-by-pxel time series of the indicator on the collection targeted.
+    def get_satellite_image_time_series(self, polygon: str,
+                                        start_date: datetime,
+                                        end_date: datetime,
+                                        collections: list[SatelliteImageryCollection],
+                                        indicators: [str]
+                                        ):
+        """Retrieve a pixel-by-pixel time series of the indicator on the collection targeted.
 
         Args:
-            polygon (str): The polygon
-            start_date (datetime): The start date of the time series
-            end_date (datetime): The end date of the time series
-            collections (enum list): The collections targeted
-            indicators (str list): The indicators to retrieve on the collections
+            polygon : The polygon
+            start_date : The start date of the time series
+            end_date : The end date of the time series
+            collections : The Satellite Imagery Collection targeted
+            indicators : The indicators to retrieve on the collections
 
         Returns:
-            ('dataframe or xarray'): Either a pandas dataframe or an xarray for the time series
+            ('dataframe or xarray'): Either a pandas dataframe or a xarray for the time series
         """
-
         if not collections:
             raise ValueError(
-                "The argument collections is empty. It must be a list of constants.Collection objects"
+                "The argument collections is empty. It must be a list of SatelliteImageryCollection objects"
             )
-        elif all([isinstance(elem, Collection) for elem in collections]):
-            if set(collections).issubset(set(self.list_collection_lr)):
+        elif all([isinstance(elem, SatelliteImageryCollection) for elem in collections]):
+            if set(collections).issubset(set(LR_SATELLITE_COLLECTION)):
                 return self.__get_time_series_by_pixel(
                     polygon, start_date, end_date, indicators[0]
                 )
-            elif set(collections).issubset(set(self.list_collection_mr)):
+            elif set(collections).issubset(set(MR_SATELLITE_COLLECTION)):
                 return self.__get_images_as_dataset(
                     polygon, start_date, end_date, collections, indicators[0]
                 )
         else:
             raise TypeError(
-                f"Argument collections must be a list of constants.Collection objects"
+                f"Argument collections must be a list of SatelliteImageryCollection objects"
             )
 
-    def __get_modis_time_series(self, polygon, start_date, end_date, indicator):
+    def __get_modis_time_series(self, polygon: str,
+                                start_date: datetime,
+                                end_date: datetime,
+                                indicator: str) -> pd.DataFrame:
         """Returns a pandas DataFrame.
 
         This method returns a time series of 'indicator' within the range
@@ -336,13 +203,12 @@ class Geosys:
 
         """
         logging.info("Calling APIs for aggregated time series")
-        str_season_field_id = self.__extract_season_field_id(polygon)
-        str_start_date = start_date.strftime("%Y-%m-%d")
-        str_end_date = end_date.strftime("%Y-%m-%d")
-        parameters = f"/values?$offset=0&$limit=9999&$count=false&SeasonField.Id={str_season_field_id}&index={indicator}&$filter=Date >= '{str_start_date}' and Date <= '{str_end_date}'"
-        str_vts_url = urljoin(self.base_url, self.vts_endpoint + parameters)
-
-        response = self.__get(str_vts_url)
+        season_field_id: str = self.__extract_season_field_id(polygon)
+        start_date: str = start_date.strftime("%Y-%m-%d")
+        end_date: str = end_date.strftime("%Y-%m-%d")
+        parameters: str = f"/values?$offset=0&$limit=9999&$count=false&SeasonField.Id={season_field_id}&index={indicator}&$filter=Date >= '{start_date}' and Date <= '{end_date}'"
+        vts_url: str = urljoin(self.base_url, GeosysApiEndpoints.VTS_ENDPOINT.value + parameters)
+        response = self.http_client.get(vts_url)
 
         if response.status_code == 200:
             dict_response = response.json()
@@ -352,7 +218,10 @@ class Geosys:
         else:
             logging.info(response.status_code)
 
-    def __get_time_series_by_pixel(self, polygon, start_date, end_date, indicator):
+    def __get_time_series_by_pixel(self, polygon: str,
+                                   start_date: datetime,
+                                   end_date: datetime,
+                                   indicator: str) -> pd.DataFrame:
         """Returns a pandas DataFrame.
 
         This method returns a time series of 'indicator' by pixel within the range 'start_date' -> 'end_date'
@@ -383,20 +252,20 @@ class Geosys:
         """
 
         logging.info("Calling APIs for time series by the pixel")
-        str_season_field_id = self.__extract_season_field_id(polygon)
-        str_start_date = start_date.strftime("%Y-%m-%d")
-        str_end_date = end_date.strftime("%Y-%m-%d")
-        parameters = f"/values?$offset=0&$limit=9999&$count=false&SeasonField.Id={str_season_field_id}&index={indicator}&$filter=Date >= '{str_start_date}' and Date <= '{str_end_date}'"
-        str_vts_url = urljoin(self.base_url, self.vts_by_pixel_endpoint + parameters)
+        season_field_id: str = self.__extract_season_field_id(polygon)
+        start_date: str = start_date.strftime("%Y-%m-%d")
+        end_date: str = end_date.strftime("%Y-%m-%d")
+        parameters: str = f"/values?$offset=0&$limit=9999&$count=false&SeasonField.Id={season_field_id}&index={indicator}&$filter=Date >= '{start_date}' and Date <= '{end_date}'"
+        vts_url: str = urljoin(self.base_url, GeosysApiEndpoints.VTS_BY_PIXEL_ENDPOINT.value + parameters)
         # PSX/PSY : size in meters of one pixel
         # MODIS_GRID_LENGTH : theoretical length of the modis grid in meters
-        # MOIS_GRID_HEIGHT : theoretical height of the modis grid in meters
+        # MODIS_GRID_HEIGHT : theoretical height of the modis grid in meters
         PSX = 231.65635826
         PSY = -231.65635826
         MODIS_GRID_LENGTH = 4800 * PSX * 36
         MODIS_GRID_HEIGHT = 4800 * PSY * 18
 
-        response = self.__get(str_vts_url)
+        response = self.http_client.get(vts_url)
 
         if response.status_code == 200:
             df = pd.json_normalize(response.json())
@@ -420,19 +289,23 @@ class Geosys:
         else:
             logging.info(response.status_code)
 
-    def get_satellite_coverage_image_references(
-        self, polygon, start_date, end_date, collections=[Collection.SENTINEL_2, Collection.LANDSAT_8]
-    ):
+    def get_satellite_coverage_image_references(self, polygon: str,
+                                                start_date: datetime,
+                                                end_date: datetime,
+                                                collections: list[SatelliteImageryCollection] = [
+                                                    SatelliteImageryCollection.SENTINEL_2,
+                                                    SatelliteImageryCollection.LANDSAT_8]
+                                                ) -> tuple:
         """Retrieves a list of images that covers a polygon on a specific date range.
-        The return is a tuple: a dataframe with all the images covering the polygon, and 
-                    an dictionary images_references. Key= a tuple (image_date, image_sensor).
+        The return is a tuple: a dataframe with all the images covering the polygon, and
+                    a dictionary images_references. Key= a tuple (image_date, image_sensor).
                     Value = an object image_reference, to use with the method `download_image()`
 
         Args:
-            polygon (str): The polygon
-            start_date (datetime): The start date of the time series
-            end_date (datetime): The end date of the time series
-            sensors (str list): The sensors to check the coverage on
+            polygon: The polygon
+            start_date: The start date of the time series
+            end_date: The end date of the time series
+            collections: The sensors to check the coverage on
 
         Returns:
             (tuple): images list and image references for downloading
@@ -453,28 +326,34 @@ class Geosys:
 
         return df, images_references
 
-    def __get_satellite_coverage(
-        self, polygon, start_date, end_date, indicator, sensors=[Collection.SENTINEL_2, Collection.LANDSAT_8]
-    ):
+    def __get_satellite_coverage(self, polygon: str,
+                                 start_date: datetime,
+                                 end_date: datetime,
+                                 indicator,
+                                 sensors_collection: list[SatelliteImageryCollection] = [
+                                     SatelliteImageryCollection.SENTINEL_2,
+                                     SatelliteImageryCollection.LANDSAT_8]
+                                 ):
         logging.info("Calling APIs for coverage")
-        str_season_field_id = self.__extract_season_field_id(polygon)
-        str_start_date = start_date.strftime("%Y-%m-%d")
-        str_end_date = end_date.strftime("%Y-%m-%d")
-        sensors = [elem.value for elem in sensors]
+        season_field_id: str = self.__extract_season_field_id(polygon)
+        start_date: str = start_date.strftime("%Y-%m-%d")
+        end_date: str = end_date.strftime("%Y-%m-%d")
+        sensors: list[str] = [elem.value for elem in sensors_collection]
 
         if indicator == "" or indicator.upper() == "REFLECTANCE" or indicator.upper() == "NDVI":
             mapType = "INSEASON_NDVI"
         else:
             mapType = f"INSEASON_{indicator.upper()}"
 
-        parameters = f"?maps.type={mapType}&Image.Sensor=$in:{'|'.join(sensors)}&CoverageType=CLEAR&$limit=9999&$filter=Image.Date >= '{str_start_date}' and Image.Date <= '{str_end_date}'"
-        str_flm_url = urljoin(
+        parameters = f"?maps.type={mapType}&Image.Sensor=$in:{'|'.join(sensors)}&CoverageType=CLEAR&$limit=9999&$filter=Image.Date >= '{start_date}' and Image.Date <= '{end_date}'"
+
+        flm_url: str = urljoin(
             self.base_url,
-            self.flm_catalog_imagery.format(str_season_field_id) + parameters,
+            GeosysApiEndpoints.FLM_CATALOG_IMAGERY.value.format(season_field_id) + parameters,
         )
-        response = self.__get(
-            str_flm_url,
-            {"X-Geosys-Task-Code": self.priority_headers[self.priority_queue]},
+        response = self.http_client.get(
+            flm_url,
+            {"X-Geosys-Task-Code": PRIORITY_HEADERS[self.priority_queue]},
         )
 
         if response.status_code == 200:
@@ -485,6 +364,7 @@ class Geosys:
                 return df[
                     [
                         "coverageType",
+                        "maps",
                         "image.id",
                         "image.availableBands",
                         "image.sensor",
@@ -493,52 +373,62 @@ class Geosys:
                         "image.weather",
                         "image.date",
                         "seasonField.id",
-                    ]       
+                    ]
                 ]
         else:
             logging.info(response.status_code)
 
-    def __get_zipped_tiff(self, field_id, image_id, indicator: str = ""):
+    def __get_zipped_tiff(self, field_id: str,
+                          image_id: str,
+                          indicator: str = ""):
         parameters = f"/{image_id}/reflectance-map/TOC/image.tiff.zip"
 
         if indicator != "" and indicator.upper() != "REFLECTANCE":
             parameters = f"/{image_id}/base-reference-map/INSEASON_{indicator.upper()}/image.tiff.zip?resolution=Sensor"
 
-        download_tiff_url = urljoin(
-            self.base_url, self.flm_coverage.format(field_id) + parameters
+        download_tiff_url: str = urljoin(
+            self.base_url, GeosysApiEndpoints.FLM_COVERAGE.value.format(field_id) + parameters
         )
 
-        response_zipped_tiff = self.__get(
+        response_zipped_tiff = self.http_client.get(
             download_tiff_url,
-            {"X-Geosys-Task-Code": self.priority_headers[self.priority_queue]},
+            {"X-Geosys-Task-Code": PRIORITY_HEADERS[self.priority_queue]},
         )
+        if response_zipped_tiff.status_code != 200:
+            raise HTTPError("Unable to download tiff.zip file. Server error: " + str(response_zipped_tiff.status_code))
         return response_zipped_tiff
 
-    def download_image(self, image_reference, str_path=""):
+    def download_image(self, image_reference,
+                       path: str = ""):
         """Downloads a satellite image locally
 
         Args:
             image_reference (ImageReference): An ImageReference object representing the image to download
-            str_path (str): the path to download the image to
+            path (str): the path to download the image to
         """
+
         response_zipped_tiff = self.__get_zipped_tiff(
             image_reference.season_field_id, image_reference.image_id
         )
-        if str_path == "":
-            str_path = Path.cwd() / f"image_{image_reference.image_id}_tiff.zip"
-        with open(str_path, "wb") as f:
-            logging.info(f"writing to {str_path}")
+        if path == "":
+            path = Path.cwd() / f"image_{image_reference.image_id}_tiff.zip"
+        with open(path, "wb") as f:
+            logging.info(f"writing to {path}")
             f.write(response_zipped_tiff.content)
 
-    def __get_images_as_dataset(self, polygon, start_date, end_date, collections, indicator: str):
+    def __get_images_as_dataset(self, polygon: str,
+                                start_date: datetime,
+                                end_date: datetime,
+                                collections: list[SatelliteImageryCollection],
+                                indicator: str) -> 'np.ndarray[Any , np.dtype[np.float64]]':
         """Returns all the 'sensors_list' images covering 'polygon' between
-        'start_date' and 'end_date' as an xarray dataset.
+        'start_date' and 'end_date' as a xarray dataset.
 
         Args:
             polygon : A string representing the polygon that the images will be covering.
             start_date : The date from which the method will start looking for images.
-            end_date : The date at which the methd will stop looking images.
-            sensors_list : A list of the sensors' names as strings.
+            end_date : The date at which the method will stop looking images.
+            collections : A list of Satellite Imagery Collection.
             indicator : A string representing the indicator whose time series the user wants.
 
         Returns:
@@ -606,42 +496,39 @@ class Geosys:
         first_img_id = df_coverage.iloc[0]["image.id"]
         for img_id, dict_data in dict_archives.items():
             with zipfile.ZipFile(io.BytesIO(dict_data["byte_archive"]), "r") as archive:
-                list_files = archive.namelist()
-                for file in list_files:
-                    list_words = file.split(".")
-                    if list_words[-1] == "tif":
-                        img_in_bytes = archive.read(file)
-                        with MemoryFile(img_in_bytes) as memfile:
-                            with memfile.open() as raster:
-                                dict_coords = get_coordinates_by_pixel(raster)
-                                xarr = xr.DataArray(
-                                    raster.read(masked=True),
-                                    dims=["band", "y", "x"],
-                                    coords={
-                                        "band": dict_data["bands"],
-                                        "y": dict_coords["y"],
-                                        "x": dict_coords["x"],
-                                        "time": dict_data["date"],
-                                    },
-                                )
+                images_in_bytes = [archive.read(file) for file in archive.namelist() if file.endswith('.tif')]
+                for image in images_in_bytes:
+                    with MemoryFile(image) as memfile:
+                        with memfile.open() as raster:
+                            dict_coords = get_coordinates_by_pixel(raster)
+                            xarr = xr.DataArray(
+                                raster.read(masked=True),
+                                dims=["band", "y", "x"],
+                                coords={
+                                    "band": dict_data["bands"],
+                                    "y": dict_coords["y"],
+                                    "x": dict_coords["x"],
+                                    "time": dict_data["date"],
+                                },
+                            )
 
-                                if img_id == first_img_id:
-                                    len_y = len(dict_coords["y"])
-                                    len_x = len(dict_coords["x"])
-                                    print(
-                                        f"The highest resolution's image grid size is {(len_x, len_y)}"
-                                    )
-                                else:
-                                    logging.info(
-                                        f"interpolating {img_id} to {first_img_id}'s grid"
-                                    )
-                                    xarr = xarr.interp(
-                                        x=list_xarr[0].coords["x"].data,
-                                        y=list_xarr[0].coords["y"].data,
-                                        method="linear",
-                                    )
-                                list_xarr.append(xarr)
-                                list_crs.append(raster.crs.to_string())
+                            if img_id == first_img_id:
+                                len_y = len(dict_coords["y"])
+                                len_x = len(dict_coords["x"])
+                                print(
+                                    f"The highest resolution's image grid size is {(len_x, len_y)}"
+                                )
+                            else:
+                                logging.info(
+                                    f"interpolating {img_id} to {first_img_id}'s grid"
+                                )
+                                xarr = xarr.interp(
+                                    x=list_xarr[0].coords["x"].data,
+                                    y=list_xarr[0].coords["y"].data,
+                                    method="linear",
+                                )
+                            list_xarr.append(xarr)
+                            list_crs.append(raster.crs.to_string())
 
         # Adds the img's raster's crs to the initial dataframe
         df_coverage["crs"] = list_crs
@@ -649,7 +536,7 @@ class Geosys:
         # Concatenates all the DataArrays in list_xarr in order
         # to create one final DataArray with an additional dimension
         # 'time'. This final DataArray is then transformed into
-        # an xarray Dataset containing one data variable "reflectance".
+        # a xarray Dataset containing one data variable "reflectance".
 
         final_xarr = xr.concat(list_xarr, "time")
         dataset = xr.Dataset(data_vars={indicator.lower(): final_xarr})
@@ -674,40 +561,39 @@ class Geosys:
         )
         return dataset
 
-    def __get_weather(self, polygon, start_date, end_date, weather_type, fields):
+    def __get_weather(self, polygon: str,
+                      start_date: datetime,
+                      end_date: datetime,
+                      weather_type: WeatherTypeCollection,
+                      fields: [str]):
         """Returns the weather data as a pandas dataframe.
 
         Args:
             polygon : A string representing a polygon.
             start_date : A datetime object representing the start date of the date interval the user wants to filter on.
             end_date : A datetime object representing the final date of the date interval the user wants to filter on.
-            weather_type : A string representing the collection ["HISTORICAL_DAILY", "FORECAST_DAILY", "FORECAST_HOURLY"]
-            fields : An array of strings representings the fields to select (eg: Precipitation, Temperature)
+            weather_type : A list representing the weather type collection ["HISTORICAL_DAILY", "FORECAST_DAILY", "FORECAST_HOURLY"]
+            fields : A list of strings representing the fields to select (eg: Precipitation, Temperature)
 
         Returns:
             The image's numpy array.
 
         """
 
-        allowed_weather_types = [
-            "HISTORICAL_DAILY",
-            "FORECAST_DAILY",
-            "FORECAST_HOURLY",
-        ]
-        if weather_type not in allowed_weather_types:
-            raise ValueError(f"weather_type should be either {allowed_weather_types}")
-
+        if weather_type not in WeatherTypeCollection:
+            raise ValueError(f"weather_type should be either {[item.value for item in WeatherTypeCollection]}")
+        weather_type = weather_type.value
         if "Date" not in fields:
             fields.append("Date")
 
-        str_start_date = start_date.strftime("%Y-%m-%d")
-        str_end_date = end_date.strftime("%Y-%m-%d")
+        start_date: str = start_date.strftime("%Y-%m-%d")
+        end_date: str = end_date.strftime("%Y-%m-%d")
         polygon_wkt = wkt.loads(polygon)
-        str_weather_fields = ",".join(fields)
-        parameters = f"?%24offset=0&%24limit=9999&%24count=false&Location={polygon_wkt.centroid.wkt}&Date=%24between%3A{str_start_date}T00%3A00%3A00.0000000Z%7C{str_end_date}T00%3A00%3A00.0000000Z&Provider=GLOBAL1&WeatherType={weather_type}&$fields={str_weather_fields}"
-        str_weather_url = urljoin(self.base_url, self.weather_endpoint + parameters)
+        weather_fields: str = ",".join(fields)
+        parameters: str = f"?%24offset=0&%24limit=9999&%24count=false&Location={polygon_wkt.centroid.wkt}&Date=%24between%3A{start_date}T00%3A00%3A00.0000000Z%7C{end_date}T00%3A00%3A00.0000000Z&Provider=GLOBAL1&WeatherType={weather_type}&$fields={weather_fields}"
+        weather_url: str = urljoin(self.base_url, GeosysApiEndpoints.WEATHER_ENDPOINT.value + parameters)
 
-        response = self.__get(str_weather_url)
+        response = self.http_client.get(weather_url)
 
         if response.status_code == 200:
             df = pd.json_normalize(response.json())
@@ -721,12 +607,13 @@ class Geosys:
             logging.error(response.status_code)
             raise ValueError(response.content)
 
-    def create_schema_id(self, schema_id, schema):
+    def create_schema_id(self, schema_id: str,
+                         schema: dict):
         """Create a schema in Analytics Fabrics
 
         Args:
-            schema_id (str): The schema id to create
-            schema (dict): Dict representing the schema {'property_name': 'property_type'}
+            schema_id: The schema id to create
+            schema: Dict representing the schema {'property_name': 'property_type'}
 
         Returns:
             A http response object.
@@ -747,106 +634,113 @@ class Geosys:
             "Properties": properties,
             "Metadata": {"OnAggregationCompleted": "Off"},
         }
-        str_af_url = urljoin(
+        af_url: str = urljoin(
             self.base_url,
-            self.analytics_fabric_schema_endpoint,
+            GeosysApiEndpoints.ANALYTICS_FABRIC_SCHEMA_ENDPOINT.value,
         )
-        response = self.__post(str_af_url, payload)
+        response = self.http_client.post(af_url, payload)
         if response.status_code == 201:
             return response.content
         else:
             logging.info(response.status_code)
 
-    def _get_s3_path(self, str_task_id):
+    def _get_s3_path(self, task_id: str):
 
-        str_endpoint = self.mrts_processor_events_endpoint + "/" + str_task_id
-        response = self.__get(str_endpoint)
+        endpoint: str = GeosysApiEndpoints.MRTS_PROCESSOR_EVENTS_ENDPOINT.value + "/" + task_id
+        response = self.http_client.get(endpoint)
         if response.ok:
             dict_resp = json.loads(response.content)
-            str_customer_code = dict_resp["customerCode"].lower().replace("_", "-")
-            str_user_id = dict_resp["userId"]
-            str_task_id = dict_resp["taskId"]
-            return "s3://geosys-" + str_customer_code + "/" + str_user_id + "/mrts/" + str_task_id
+            customer_code: str = dict_resp["customerCode"].lower().replace("_", "-")
+            user_id: str = dict_resp["userId"]
+            task_id = dict_resp["taskId"]
+            return "s3://geosys-" + customer_code + "/" + user_id + "/mrts/" + task_id
         else:
             logging.info(response.status_code)
     
 
     def get_mr_time_series(self,
-                           str_polygon,
-                           str_start_date="2010-01-01", 
-                           str_end_date=None,
-                           list_sensors=["micasense", "sequoia", "m4c", "sentinel_2", 
-                                         "landsat_8", "landsat_9", "cbers4", "kazstsat", 
+                           polygon,
+                           start_date: str ="2010-01-01",
+                           end_date=None,
+                           list_sensors=["micasense", "sequoia", "m4c", "sentinel_2",
+                                         "landsat_8", "landsat_9", "cbers4", "kazstsat",
                                          "alsat_1b", "huanjing_2", "deimos", "gaofen_1", "gaofen_6",
                                         "resourcesat2","dmc_2","landsat_5","landsat_7",
                                         "spot","rapideye_3a", "rapideye_1b"],
-                            bool_denoiser=True,
-                            str_smoother="ww",
-                            bool_eoc=True, 
-                            str_func="mean", 
-                            str_index="ndvi", 
-                            bool_raw_data=False
+                            denoiser: bool =True,
+                            smoother: str ="ww",
+                            eoc: bool =True,
+                            func: str ="mean",
+                            index: str ="ndvi",
+                            raw_data: bool =False
                             ):
-        
-        if str_end_date is None:
-            str_end_date = date.today().strftime("%Y-%m-%d")
+
+        if end_date is None:
+            end_date = datetime.today().strftime("%Y-%m-%d")
         payload = {
             "parametersProfile": {
-                "code":"mrts_default",
-                "version":1
+                "code": "mrts_default",
+                "version": 1
             },
             "parameters": {
-                "start_date": str_start_date,
-                "end_date": str_end_date,
+                "start_date": start_date,
+                "end_date": end_date,
                 "sensors": list_sensors,
-                "denoiser" : bool_denoiser,
-                "smoother" : str_smoother,
-                "eoc" : bool_eoc,
-                "aggregation": str_func,
-                "index": str_index,
-                "raw_data": bool_raw_data
-                },
+                "denoiser": denoiser,
+                "smoother": smoother,
+                "eoc": eoc,
+                "aggregation": func,
+                "index": index,
+                "raw_data": raw_data
+            },
             "data": [
-                { "wkt": str_polygon }
+                {"wkt": polygon}
             ]
         }
 
-        response = self.__post(self.mrts_processor_endpoint, payload)
+        response = self.http_client.post(GeosysApiEndpoints.MRTS_PROCESSOR_ENDPOINT.value, payload)
 
         if response.ok:
-            str_task_id = json.loads(response.content)["taskId"]
-            return self._get_s3_path(str_task_id)
+            task_id = json.loads(response.content)["taskId"]
+            return self._get_s3_path(task_id)
         else:
             logging.info(response.status_code)
 
-    
-    
-    def get_metrics(self, polygon, schema_id, start_date, end_date):
+    def get_metrics(self, polygon: str,
+                    schema_id: str,
+                    start_date: datetime,
+                    end_date: datetime):
         """Returns metrics from Analytics Fabrics in a pandas dataframe.
 
         Args:
-            polygon (str): A string representing a polygon.
-            start_date (datetime): A datetime object representing the start date of the date interval the user wants to filter on.
-            end_date (datetime): A datetime object representing the final date of the date interval the user wants to filter on.
-            schema_id (str): A string representing a schema existing in Analytics Fabrics
+            polygon : A string representing a polygon.
+            start_date : A datetime object representing the start date of the date interval the user wants to filter on.
+            end_date : A datetime object representing the final date of the date interval the user wants to filter on.
+            schema_id : A string representing a schema existing in Analytics Fabrics
 
         Returns:
             df : A Pandas DataFrame containing severals columns with metrics
 
         """
-        season_field_id = self.__extract_season_field_id(polygon)
+        season_field_id: str = self.__extract_season_field_id(polygon)
         logging.info("Calling APIs for metrics")
-        str_start_date = start_date.strftime("%Y-%m-%d")
-        str_end_date = end_date.strftime("%Y-%m-%d")
-        parameters = f'?%24limit=9999&Timestamp=$between:{str_start_date}|{str_end_date}&$filter=Entity.ExternalTypedIds.Contains("SeasonField:{season_field_id}@LEGACY_ID_{self.region.value.upper()}")&$filter=Schema.Id=={schema_id}'
-        str_af_url = urljoin(
+        start_date: str = start_date.strftime("%Y-%m-%d")
+        end_date: str = end_date.strftime("%Y-%m-%d")
+        parameters: str = f'?%24limit=9999&Timestamp=$between:{start_date}|{end_date}&$filter=Entity.ExternalTypedIds.Contains("SeasonField:{season_field_id}@LEGACY_ID_{self.region.upper()}")&$filter=Schema.Id=={schema_id}'
+        af_url: str = urljoin(
             self.base_url,
-            self.analytics_fabric_endpoint + parameters,
+            GeosysApiEndpoints.ANALYTICS_FABRIC_ENDPOINT.value + parameters,
         )
-        response = self.__get(str_af_url)
+        response = self.http_client.get(af_url)
 
         if response.status_code == 200:
             df = pd.json_normalize(response.json())
+            if df.empty:
+                logging.info(f"No metrics found in Analytic Fabric with "
+                             f"SchemaId: {schema_id}, "
+                             f"SeasonField:{season_field_id}@LEGACY_ID_{self.region.upper()} "
+                             f"between:{start_date} and{end_date} ")
+                return df
             df.drop("Entity.TypedId", inplace=True, axis=1)
             df.rename(
                 columns={"Timestamp": "date"},
@@ -858,7 +752,9 @@ class Geosys:
         else:
             logging.info(response.status_code)
 
-    def push_metrics(self, polygon, schema_id, values):
+    def push_metrics(self, polygon: str,
+                     schema_id: str,
+                     values: dict):
         """Push metrics in Analytics Fabrics
 
         Args:
@@ -869,23 +765,23 @@ class Geosys:
         Returns:
             A response object.
         """
-        season_field_id = self.__extract_season_field_id(polygon)
+        season_field_id: str = self.__extract_season_field_id(polygon)
         payload = []
         for value in values:
             prop = {
                 "Entity": {
-                    "TypedId": f"SeasonField:{season_field_id}@LEGACY_ID_{self.region.value.upper()}"
+                    "TypedId": f"SeasonField:{season_field_id}@LEGACY_ID_{self.region.upper()}"
                 },
                 "Schema": {"Id": schema_id, "Version": 1},
             }
             prop = dict(prop, **value)
             payload.append(prop)
 
-        str_af_url = urljoin(
+        af_url: str = urljoin(
             self.base_url,
-            self.analytics_fabric_endpoint,
+            GeosysApiEndpoints.ANALYTICS_FABRIC_SCHEMA_ENDPOINT.value,
         )
-        response = self.__patch(str_af_url, payload)
+        response = self.http_client.patch(af_url, payload)
         if response.status_code == 200:
             return response.status_code
         else:

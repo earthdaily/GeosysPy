@@ -1,0 +1,64 @@
+[
+  {
+    "coverageType": "CLEAR",
+    "image": {
+      "id": "IKc73hpUQ6w8nSGtmog9A7iGsm9eKYT2SN42mZg0JWO",
+      "availableBands": [
+        "Nir",
+        "Red",
+        "Blue",
+        "Green"
+      ],
+      "sensor": "LANDSAT_8",
+      "soilMaterial": "BARE",
+      "spatialResolution": 15.0,
+      "weather": "COLD",
+      "zenithAngleInDegree": 0.0,
+      "date": "2022-11-30"
+    },
+    "maps": [
+      {
+        "type": "INSEASON_NDVI"
+      }
+    ],
+    "seasonField": {
+      "id": "d1l2nqm",
+      "customerExternalId": null,
+      "externalIds": {
+        "id": "3Ec2mBmZRLcrLfChu9ZlJz",
+        "legacY_ID_NA": "d1l2nqm"
+      }
+    }
+  },
+  {
+    "coverageType": "CLEAR",
+    "image": {
+      "id": "IKc73hpUQ6uPitMqTFtBQGpp6rcDKT21cEHm34LPQc0",
+      "availableBands": [
+        "Nir",
+        "Red",
+        "Blue",
+        "Green"
+      ],
+      "sensor": "LANDSAT_9",
+      "soilMaterial": "VEGETATION",
+      "spatialResolution": 15.0,
+      "weather": "WET",
+      "zenithAngleInDegree": 0.0,
+      "date": "2022-05-11"
+    },
+    "maps": [
+      {
+        "type": "INSEASON_NDVI"
+      }
+    ],
+    "seasonField": {
+      "id": "d1l2nqm",
+      "customerExternalId": null,
+      "externalIds": {
+        "id": "3Ec2mBmZRLcrLfChu9ZlJz",
+        "legacY_ID_NA": "d1l2nqm"
+      }
+    }
+  }
+]
