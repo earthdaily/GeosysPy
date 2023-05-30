@@ -1,0 +1,4394 @@
+[
+  {
+    "precipitation": {
+      "cumulative": 0.027559055118110236
+    },
+    "temperature": {
+      "standard": 39.12800000869761,
+      "standardMax": 43.394000005284816
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-01T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.011811023622047244
+    },
+    "temperature": {
+      "standard": 34.934000012052735,
+      "standardMax": 38.89400000888482
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-02T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.05905511811023623
+    },
+    "temperature": {
+      "standard": 37.220000010224005,
+      "standardMax": 46.580000002735986
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-03T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.027559055118110236
+    },
+    "temperature": {
+      "standard": 36.57200001074238,
+      "standardMax": 40.42400000766076
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-04T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.003937007874015748
+    },
+    "temperature": {
+      "standard": 35.7620000113904,
+      "standardMax": 37.004000010396794
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-05T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 36.248000011001565,
+      "standardMax": 42.0620000063504
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-06T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 30.326000015739233,
+      "standardMax": 39.47000000842401
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-07T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 29.426000016459234,
+      "standardMax": 38.534000009172736
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-08T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.003937007874015748
+    },
+    "temperature": {
+      "standard": 31.08200001513436,
+      "standardMax": 36.15800001107355
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-09T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 32.360000014112025,
+      "standardMax": 38.10200000951842
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-10T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 27.626000017899234,
+      "standardMax": 34.23200001261436
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-11T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 34.646000012283196,
+      "standardMax": 46.1120000031104
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-12T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.015748031496062992
+    },
+    "temperature": {
+      "standard": 46.50800000279355,
+      "standardMax": 51.745999998603196
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-13T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.043307086614173235
+    },
+    "temperature": {
+      "standard": 46.40000000287994,
+      "standardMax": 49.712000000230404
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-14T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.03937007874015748
+    },
+    "temperature": {
+      "standard": 45.80600000335517,
+      "standardMax": 49.58600000033122
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-15T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 37.9040000096768,
+      "standardMax": 45.626000003499236
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-16T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.1889763779527559
+    },
+    "temperature": {
+      "standard": 45.158000003873546,
+      "standardMax": 49.74800000020157
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-17T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.003937007874015748
+    },
+    "temperature": {
+      "standard": 36.770000010584006,
+      "standardMax": 49.568000000345634
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-18T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 40.13600000789121,
+      "standardMax": 60.36799999170563
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-19T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 43.16000000547203,
+      "standardMax": 51.09799999912157
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-20T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.011811023622047244
+    },
+    "temperature": {
+      "standard": 52.789999997767964,
+      "standardMax": 58.83799999292959
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-21T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.40551181102362205
+    },
+    "temperature": {
+      "standard": 47.4620000020304,
+      "standardMax": 54.625999996299235
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-22T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.5118110236220472
+    },
+    "temperature": {
+      "standard": 44.99600000400319,
+      "standardMax": 50.14399999988482
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-23T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.2362204724409449
+    },
+    "temperature": {
+      "standard": 43.88000000489598,
+      "standardMax": 49.85600000011517
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-24T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.3818897637795276
+    },
+    "temperature": {
+      "standard": 45.19400000384482,
+      "standardMax": 48.506000001195176
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-25T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.011811023622047244
+    },
+    "temperature": {
+      "standard": 39.020000008784,
+      "standardMax": 48.23600000141121
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-26T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.3307086614173228
+    },
+    "temperature": {
+      "standard": 52.195999998243195,
+      "standardMax": 55.48999999560797
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-27T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.003937007874015748
+    },
+    "temperature": {
+      "standard": 56.22799999501761,
+      "standardMax": 63.80599998895517
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-28T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.3937007874015748
+    },
+    "temperature": {
+      "standard": 54.49999999639994,
+      "standardMax": 58.819999992944005
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-29T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.5433070866141733
+    },
+    "temperature": {
+      "standard": 51.13399999909274,
+      "standardMax": 53.97799999681761
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-30T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.9921259842519685
+    },
+    "temperature": {
+      "standard": 51.583999998732736,
+      "standardMax": 55.14799999588157
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-01-31T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.26377952755905515
+    },
+    "temperature": {
+      "standard": 52.789999997767964,
+      "standardMax": 54.84199999612634
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-02-01T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.01968503937007874
+    },
+    "temperature": {
+      "standard": 56.947999994441574,
+      "standardMax": 67.85599998571517
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-02-02T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 51.78199999857436,
+      "standardMax": 58.54999999315994
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-02-03T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 52.77199999778238,
+      "standardMax": 61.84399999052482
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-02-04T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 50.773999999380756,
+      "standardMax": 56.87599999449924
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-02-05T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.4724409448818898
+    },
+    "temperature": {
+      "standard": 49.98200000001436,
+      "standardMax": 52.699999997839946
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-02-06T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.05905511811023623
+    },
+    "temperature": {
+      "standard": 44.99600000400319,
+      "standardMax": 49.622000000302386
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-02-07T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.15748031496062992
+    },
+    "temperature": {
+      "standard": 46.74200000260634,
+      "standardMax": 52.82599999773924
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-02-08T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.15748031496062992
+    },
+    "temperature": {
+      "standard": 46.95800000243355,
+      "standardMax": 49.85600000011517
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-02-09T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.1968503937007874
+    },
+    "temperature": {
+      "standard": 45.320000003744006,
+      "standardMax": 49.04600000076319
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-02-10T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.051181102362204724
+    },
+    "temperature": {
+      "standard": 49.676000000259236,
+      "standardMax": 57.54199999396634
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-02-11T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.06692913385826771
+    },
+    "temperature": {
+      "standard": 49.514000000388776,
+      "standardMax": 56.191999995046345
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-02-12T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 47.82200000174238,
+      "standardMax": 52.35799999811355
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-02-13T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 43.700000005039946,
+      "standardMax": 53.905999996875174
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-02-14T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 44.456000004435175,
+      "standardMax": 56.15599999507518
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-02-15T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 46.832000002534365,
+      "standardMax": 61.98799999040959
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-02-16T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 51.583999998732736,
+      "standardMax": 64.50799998839355
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-02-17T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 52.80799999775355,
+      "standardMax": 66.34399998692481
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-02-18T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 51.87199999850238,
+      "standardMax": 63.823999988940756
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-02-19T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 49.964000000028776,
+      "standardMax": 57.451999994038424
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-02-20T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.003937007874015748
+    },
+    "temperature": {
+      "standard": 51.70999999863203,
+      "standardMax": 58.20799999343355
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-02-21T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.047244094488188976
+    },
+    "temperature": {
+      "standard": 50.75599999939517,
+      "standardMax": 52.42999999805598
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-02-22T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 50.35999999971203,
+      "standardMax": 63.30199998935842
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-02-23T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 53.58199999713436,
+      "standardMax": 67.33399998613274
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-02-24T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 50.881999999294365,
+      "standardMax": 62.059999990352026
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-02-25T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 47.87600000169923,
+      "standardMax": 50.521999999582384
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-02-26T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 47.120000002304,
+      "standardMax": 56.65999999467203
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-02-27T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 44.25800000459355,
+      "standardMax": 58.06399999354878
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-02-28T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 48.56000000115203,
+      "standardMax": 61.82599999053924
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-01T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 50.03599999997122,
+      "standardMax": 61.57399999074076
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-02T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 49.316000000547156,
+      "standardMax": 58.49599999320319
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-03T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 51.385999998891215,
+      "standardMax": 64.23799998860959
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-04T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 49.87400000010076,
+      "standardMax": 60.745999991403195
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-05T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 44.906000004075175,
+      "standardMax": 49.22600000061924
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-06T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.003937007874015748
+    },
+    "temperature": {
+      "standard": 48.434000001252734,
+      "standardMax": 53.85199999691842
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-07T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.047244094488188976
+    },
+    "temperature": {
+      "standard": 47.06600000234715,
+      "standardMax": 50.6119999995104
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-08T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 44.600000004319945,
+      "standardMax": 51.637999998689594
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-09T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 44.07800000473761,
+      "standardMax": 58.96399999282878
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-10T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.015748031496062992
+    },
+    "temperature": {
+      "standard": 55.219999995824004,
+      "standardMax": 67.56799998594563
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-11T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.03543307086614173
+    },
+    "temperature": {
+      "standard": 49.92800000005761,
+      "standardMax": 54.19399999664482
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-12T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.031496062992125984
+    },
+    "temperature": {
+      "standard": 49.98200000001436,
+      "standardMax": 59.6119999923104
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-13T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.05511811023622047
+    },
+    "temperature": {
+      "standard": 48.2540000013968,
+      "standardMax": 53.707999997033546
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-14T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.011811023622047244
+    },
+    "temperature": {
+      "standard": 47.40800000207355,
+      "standardMax": 52.861999997710406
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-15T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 51.13399999909274,
+      "standardMax": 56.137999995089594
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-16T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.011811023622047244
+    },
+    "temperature": {
+      "standard": 51.13399999909274,
+      "standardMax": 55.99399999520482
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-17T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 43.89800000488157,
+      "standardMax": 49.19000000064796
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-18T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.1220472440944882
+    },
+    "temperature": {
+      "standard": 42.24200000620634,
+      "standardMax": 47.4620000020304
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-19T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 40.11800000790563,
+      "standardMax": 51.439999998847966
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-20T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 41.720000006624005,
+      "standardMax": 54.931999996054365
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-21T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 46.670000002664004,
+      "standardMax": 58.981999992814366
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-22T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 45.17600000385924,
+      "standardMax": 60.889999991287965
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-23T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 48.344000001324815,
+      "standardMax": 65.82199998734238
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-24T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 51.439999998847966,
+      "standardMax": 58.99999999279994
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-25T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 49.154000000676795,
+      "standardMax": 59.59399999232482
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-26T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.003937007874015748
+    },
+    "temperature": {
+      "standard": 50.19799999984157,
+      "standardMax": 59.14399999268482
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-27T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 52.08799999832959,
+      "standardMax": 69.02599998477923
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-28T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 55.29199999576634,
+      "standardMax": 70.21399998382878
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-29T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 57.667999993865635,
+      "standardMax": 74.29999998055995
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-30T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 59.1619999926704,
+      "standardMax": 73.61599998110715
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-03-31T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 57.253999994196796,
+      "standardMax": 70.50199998359842
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-01T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 57.18199999425436,
+      "standardMax": 70.77199998338239
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-02T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 55.09399999592482,
+      "standardMax": 64.72399998822075
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-03T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 48.506000001195176,
+      "standardMax": 63.40999998927203
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-04T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 52.051999998358426,
+      "standardMax": 66.4879999868096
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-05T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 48.21800000142563,
+      "standardMax": 55.633999995492736
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-06T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 41.25200000699842,
+      "standardMax": 53.68999999704796
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-07T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 47.984000001612735,
+      "standardMax": 65.33599998773121
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-08T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.06692913385826771
+    },
+    "temperature": {
+      "standard": 52.57399999794076,
+      "standardMax": 62.599999989919944
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-09T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.003937007874015748
+    },
+    "temperature": {
+      "standard": 55.03999999596797,
+      "standardMax": 65.55199998755842
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-10T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.08661417322834647
+    },
+    "temperature": {
+      "standard": 50.98999999920797,
+      "standardMax": 54.53599999637122
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-11T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 44.33000000453598,
+      "standardMax": 53.94199999684634
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-12T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 45.626000003499236,
+      "standardMax": 58.117999993505634
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-13T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 47.9120000016704,
+      "standardMax": 61.033999991172735
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-14T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 46.70600000263517,
+      "standardMax": 59.82799999213761
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-15T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 44.43800000444959,
+      "standardMax": 56.245999995003196
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-16T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 43.394000005284816,
+      "standardMax": 52.32199999814238
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-17T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 49.35200000051842,
+      "standardMax": 60.835999991331214
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-18T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 51.18799999904959,
+      "standardMax": 64.95799998803355
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-19T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 56.26399999498878,
+      "standardMax": 66.9379999864496
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-20T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 57.84799999372157,
+      "standardMax": 69.72799998421762
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-21T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 56.911999994470406,
+      "standardMax": 68.12599998549923
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-22T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 59.89999999207995,
+      "standardMax": 75.63199997949437
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-23T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 62.221999990222386,
+      "standardMax": 76.9459999784432
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-24T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 59.08999999272797,
+      "standardMax": 67.42399998606076
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-25T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.33858267716535434
+    },
+    "temperature": {
+      "standard": 53.88799999688959,
+      "standardMax": 58.78399999297274
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-26T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.06692913385826771
+    },
+    "temperature": {
+      "standard": 54.96799999602563,
+      "standardMax": 59.66599999226715
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-27T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.027559055118110236
+    },
+    "temperature": {
+      "standard": 56.443999994844816,
+      "standardMax": 63.28399998937274
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-28T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.22834645669291337
+    },
+    "temperature": {
+      "standard": 51.15199999907842,
+      "standardMax": 54.30199999655842
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-29T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.07086614173228346
+    },
+    "temperature": {
+      "standard": 52.195999998243195,
+      "standardMax": 56.71399999462878
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-04-30T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.2952755905511811
+    },
+    "temperature": {
+      "standard": 50.19799999984157,
+      "standardMax": 55.95799999523355
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-01T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 50.28799999976959,
+      "standardMax": 61.717999990625636
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-02T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 52.591999997926344,
+      "standardMax": 65.78599998737121
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-03T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 55.579999995535985,
+      "standardMax": 67.54999998595994
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-04T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.05511811023622047
+    },
+    "temperature": {
+      "standard": 55.92199999526238,
+      "standardMax": 62.725999989819236
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-05T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.031496062992125984
+    },
+    "temperature": {
+      "standard": 57.57799999393761,
+      "standardMax": 67.96399998562877
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-06T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.15354330708661418
+    },
+    "temperature": {
+      "standard": 58.819999992944005,
+      "standardMax": 68.07199998554239
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-07T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 66.32599998693924,
+      "standardMax": 81.53599997477122
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-08T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.31102362204724415
+    },
+    "temperature": {
+      "standard": 64.79599998816319,
+      "standardMax": 70.7539999833968
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-09T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.3346456692913386
+    },
+    "temperature": {
+      "standard": 56.73199999461436,
+      "standardMax": 70.80799998335355
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-10T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.40157480314960636
+    },
+    "temperature": {
+      "standard": 50.269999999784005,
+      "standardMax": 57.79399999376482
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-11T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.06692913385826771
+    },
+    "temperature": {
+      "standard": 53.815999996947156,
+      "standardMax": 67.62199998590238
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-12T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.14173228346456693
+    },
+    "temperature": {
+      "standard": 52.53799999796959,
+      "standardMax": 60.78199999137436
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-13T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.16929133858267717
+    },
+    "temperature": {
+      "standard": 53.79799999696157,
+      "standardMax": 61.46599999082716
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-14T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.45275590551181105
+    },
+    "temperature": {
+      "standard": 55.50799999559355,
+      "standardMax": 59.70199999223843
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-15T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.6299212598425197
+    },
+    "temperature": {
+      "standard": 56.443999994844816,
+      "standardMax": 59.73799999220959
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-16T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.07874015748031496
+    },
+    "temperature": {
+      "standard": 54.80599999615517,
+      "standardMax": 60.76399999138878
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-17T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.13385826771653542
+    },
+    "temperature": {
+      "standard": 51.529999998775985,
+      "standardMax": 59.86399999210878
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-18T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.015748031496062992
+    },
+    "temperature": {
+      "standard": 53.99599999680319,
+      "standardMax": 62.059999990352026
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-19T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 55.939999995247966,
+      "standardMax": 71.97799998241761
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-20T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.3346456692913386
+    },
+    "temperature": {
+      "standard": 53.04199999756634,
+      "standardMax": 61.411999990870406
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-21T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.007874015748031496
+    },
+    "temperature": {
+      "standard": 52.051999998358426,
+      "standardMax": 58.513999993188776
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-22T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 54.78799999616959,
+      "standardMax": 62.815999989747155
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-23T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.051181102362204724
+    },
+    "temperature": {
+      "standard": 52.645999997883195,
+      "standardMax": 60.09799999192157
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-24T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 54.91399999606878,
+      "standardMax": 61.89799999048157
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-25T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 53.56399999714878,
+      "standardMax": 65.94799998724157
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-26T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 60.385999991691214,
+      "standardMax": 74.06599998074715
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-27T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 65.53399998757274,
+      "standardMax": 75.86599997930716
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-28T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.01968503937007874
+    },
+    "temperature": {
+      "standard": 65.51599998758715,
+      "standardMax": 75.63199997949437
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-29T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.4488188976377953
+    },
+    "temperature": {
+      "standard": 65.64199998748634,
+      "standardMax": 75.52399997958076
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-30T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 69.43999998444797,
+      "standardMax": 81.62599997469924
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-05-31T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.20078740157480318
+    },
+    "temperature": {
+      "standard": 66.8119999865504,
+      "standardMax": 75.7039999794368
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-01T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.003937007874015748
+    },
+    "temperature": {
+      "standard": 67.00999998639203,
+      "standardMax": 74.83999998012797
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-02T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.03543307086614173
+    },
+    "temperature": {
+      "standard": 64.68799998824959,
+      "standardMax": 73.9039999808768
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-03T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.84251968503937
+    },
+    "temperature": {
+      "standard": 58.44199999324634,
+      "standardMax": 66.79399998656483
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-04T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 60.691999991446345,
+      "standardMax": 68.48599998521122
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-05T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 62.563999989948776,
+      "standardMax": 73.05799998155355
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-06T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 64.66999998826401,
+      "standardMax": 75.97399997922076
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-07T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 66.19999998703994,
+      "standardMax": 79.48399997641273
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-08T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 68.3959999852832,
+      "standardMax": 81.21199997503041
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-09T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 68.79199998496634,
+      "standardMax": 81.24799997500158
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-10T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 68.0539999855568,
+      "standardMax": 79.78999997616796
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-11T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 68.59399998512482,
+      "standardMax": 77.82799997773762
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-12T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 74.73199998021437,
+      "standardMax": 88.19599996944319
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-13T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 72.93199998165436,
+      "standardMax": 86.48599997081122
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-14T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 75.18199997985437,
+      "standardMax": 86.75599997059518
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-15T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 75.75799997939355,
+      "standardMax": 89.76199996819041
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-16T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.25984251968503935
+    },
+    "temperature": {
+      "standard": 68.44999998523994,
+      "standardMax": 75.95599997923517
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-17T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 69.169999984664,
+      "standardMax": 79.35799997651355
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-18T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.17322834645669294
+    },
+    "temperature": {
+      "standard": 71.11399998310878,
+      "standardMax": 79.33999997652796
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-19T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.14960629921259844
+    },
+    "temperature": {
+      "standard": 70.3039999837568,
+      "standardMax": 77.64799997788157
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-20T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.15354330708661418
+    },
+    "temperature": {
+      "standard": 64.63399998829274,
+      "standardMax": 73.07599998153924
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-21T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.031496062992125984
+    },
+    "temperature": {
+      "standard": 62.617999989905634,
+      "standardMax": 69.72799998421762
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-22T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.15748031496062992
+    },
+    "temperature": {
+      "standard": 59.75599999219517,
+      "standardMax": 64.09399998872482
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-23T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 62.005999990395175,
+      "standardMax": 70.32199998374239
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-24T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 65.2459999878032,
+      "standardMax": 74.53399998037274
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-25T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.1377952755905512
+    },
+    "temperature": {
+      "standard": 68.19799998544157,
+      "standardMax": 83.89399997288483
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-26T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0984251968503937
+    },
+    "temperature": {
+      "standard": 61.105999991115176,
+      "standardMax": 64.18399998865274
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-27T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.09448818897637795
+    },
+    "temperature": {
+      "standard": 61.77199999058238,
+      "standardMax": 69.56599998434716
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-28T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.03543307086614173
+    },
+    "temperature": {
+      "standard": 61.3039999909568,
+      "standardMax": 66.2539999869968
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-29T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 64.36399998850878,
+      "standardMax": 72.48199998201436
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-06-30T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 67.54999998595994,
+      "standardMax": 79.73599997621122
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-01T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 71.77999998257599,
+      "standardMax": 85.819999971344
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-02T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.8503937007874016
+    },
+    "temperature": {
+      "standard": 69.83599998413122,
+      "standardMax": 76.42399997886076
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-03T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.07086614173228346
+    },
+    "temperature": {
+      "standard": 67.2619999861904,
+      "standardMax": 73.92199998086238
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-04T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 71.67199998266238,
+      "standardMax": 81.75199997459842
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-05T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.031496062992125984
+    },
+    "temperature": {
+      "standard": 65.73199998741437,
+      "standardMax": 74.08399998073274
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-06T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.11811023622047245
+    },
+    "temperature": {
+      "standard": 62.02399999038076,
+      "standardMax": 71.52799998277762
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-07T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 61.91599999046716,
+      "standardMax": 68.719999985024
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-08T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 65.85799998731355,
+      "standardMax": 76.09999997911994
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-09T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 64.70599998823518,
+      "standardMax": 74.28199998057437
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-10T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.007874015748031496
+    },
+    "temperature": {
+      "standard": 67.8379999857296,
+      "standardMax": 79.77199997618239
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-11T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.12992125984251968
+    },
+    "temperature": {
+      "standard": 61.17799999105761,
+      "standardMax": 66.18199998705437
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-12T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.531496062992126
+    },
+    "temperature": {
+      "standard": 59.125999992699235,
+      "standardMax": 64.77799998817761
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-13T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.3582677165354331
+    },
+    "temperature": {
+      "standard": 60.09799999192157,
+      "standardMax": 64.61599998830715
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-14T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 63.39199998928634,
+      "standardMax": 70.89799998328157
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-15T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 66.57799998673761,
+      "standardMax": 77.46799997802563
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-16T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 69.1879999846496,
+      "standardMax": 79.32199997654239
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-17T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 70.44799998364157,
+      "standardMax": 83.1379999734896
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-18T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 72.57199998194238,
+      "standardMax": 86.5039999707968
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-19T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 75.28999997976797,
+      "standardMax": 88.66399996906878
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-20T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 74.1379999806896,
+      "standardMax": 83.8039999729568
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-21T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 76.09999997911994,
+      "standardMax": 89.29399996856482
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-22T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 71.27599998297924,
+      "standardMax": 78.8539999769168
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-23T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 67.18999998624797,
+      "standardMax": 75.2539999797968
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-24T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 65.53399998757274,
+      "standardMax": 73.18399998145274
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-25T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 67.06399998634878,
+      "standardMax": 76.62199997870239
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-26T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.4173228346456693
+    },
+    "temperature": {
+      "standard": 65.73199998741437,
+      "standardMax": 74.10199998071843
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-27T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.027559055118110236
+    },
+    "temperature": {
+      "standard": 66.45199998683843,
+      "standardMax": 71.86999998250401
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-28T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 69.20599998463517,
+      "standardMax": 77.55799997795356
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-29T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.08661417322834647
+    },
+    "temperature": {
+      "standard": 66.45199998683843,
+      "standardMax": 71.38399998289275
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-30T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.17716535433070865
+    },
+    "temperature": {
+      "standard": 58.315999993347155,
+      "standardMax": 63.03199998957436
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-07-31T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.003937007874015748
+    },
+    "temperature": {
+      "standard": 61.44799999084157,
+      "standardMax": 67.45999998603203
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-01T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 65.08399998793274,
+      "standardMax": 76.11799997910563
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-02T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.027559055118110236
+    },
+    "temperature": {
+      "standard": 64.63399998829274,
+      "standardMax": 71.90599998247518
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-03T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.2874015748031496
+    },
+    "temperature": {
+      "standard": 66.43399998685274,
+      "standardMax": 73.54399998116482
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-04T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.003937007874015748
+    },
+    "temperature": {
+      "standard": 69.02599998477923,
+      "standardMax": 79.32199997654239
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-05T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 66.8119999865504,
+      "standardMax": 70.24999998379995
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-06T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.26771653543307083
+    },
+    "temperature": {
+      "standard": 64.68799998824959,
+      "standardMax": 71.38399998289275
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-07T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 64.52599998837924,
+      "standardMax": 72.71599998182715
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-08T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 69.42199998446239,
+      "standardMax": 81.12199997510238
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-09T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 73.68799998104959,
+      "standardMax": 84.09199997272634
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-10T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 75.54199997956634,
+      "standardMax": 87.51199996999041
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-11T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.007874015748031496
+    },
+    "temperature": {
+      "standard": 76.62199997870239,
+      "standardMax": 91.32799996693761
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-12T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 74.31799998054564,
+      "standardMax": 84.77599997217924
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-13T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 79.17799997665762,
+      "standardMax": 92.96599996562716
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-14T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.003937007874015748
+    },
+    "temperature": {
+      "standard": 72.03199998237436,
+      "standardMax": 77.98999997760797
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-15T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.027559055118110236
+    },
+    "temperature": {
+      "standard": 67.00999998639203,
+      "standardMax": 73.07599998153924
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-16T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 66.16399998706878,
+      "standardMax": 73.4539999812368
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-17T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 64.9039999880768,
+      "standardMax": 74.15599998067518
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-18T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 67.69399998584483,
+      "standardMax": 76.96399997842877
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-19T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 71.40199998287842,
+      "standardMax": 84.12799997269761
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-20T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 73.25599998139518,
+      "standardMax": 84.34399997252483
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-21T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 69.33199998453436,
+      "standardMax": 76.80199997855843
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-22T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 70.05199998395842,
+      "standardMax": 79.05199997675842
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-23T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 69.45799998443356,
+      "standardMax": 79.32199997654239
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-24T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 70.93399998325273,
+      "standardMax": 82.6879999738496
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-25T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 73.0039999815968,
+      "standardMax": 85.3879999716896
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-26T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 68.70199998503843,
+      "standardMax": 79.68199997625436
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-27T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 66.27199998698238,
+      "standardMax": 76.98199997841436
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-28T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 66.00199998719843,
+      "standardMax": 78.13399997749273
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-29T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 66.43399998685274,
+      "standardMax": 78.7459999770032
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-30T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 67.89199998568634,
+      "standardMax": 80.50999997559202
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-08-31T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 69.11599998470716,
+      "standardMax": 80.41999997566401
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-01T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.3228346456692914
+    },
+    "temperature": {
+      "standard": 67.20799998623355,
+      "standardMax": 74.15599998067518
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-02T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.07086614173228346
+    },
+    "temperature": {
+      "standard": 67.18999998624797,
+      "standardMax": 76.62199997870239
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-03T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 69.07999998473599,
+      "standardMax": 80.14999997587995
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-04T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 73.83199998093437,
+      "standardMax": 87.27799997017762
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-05T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 77.93599997765122,
+      "standardMax": 91.77799996657761
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-06T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 79.28599997657122,
+      "standardMax": 92.4619999660304
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-07T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 1.3070866141732285
+    },
+    "temperature": {
+      "standard": 72.94999998163995,
+      "standardMax": 83.26399997338878
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-08T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.07480314960629922
+    },
+    "temperature": {
+      "standard": 68.7379999850096,
+      "standardMax": 75.3619999797104
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-09T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.023622047244094488
+    },
+    "temperature": {
+      "standard": 67.2619999861904,
+      "standardMax": 74.10199998071843
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-10T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 68.46799998522563,
+      "standardMax": 77.75599997779517
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-11T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 71.67199998266238,
+      "standardMax": 81.76999997458401
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-12T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.011811023622047244
+    },
+    "temperature": {
+      "standard": 74.17399998066075,
+      "standardMax": 88.71799996902564
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-13T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.1220472440944882
+    },
+    "temperature": {
+      "standard": 73.99399998080482,
+      "standardMax": 84.34399997252483
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-14T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.36220472440944884
+    },
+    "temperature": {
+      "standard": 70.33999998372796,
+      "standardMax": 79.41199997647041
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-15T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.031496062992125984
+    },
+    "temperature": {
+      "standard": 65.9119999872704,
+      "standardMax": 71.88799998248959
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-16T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 64.65199998827842,
+      "standardMax": 75.63199997949437
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-17T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.9960629921259843
+    },
+    "temperature": {
+      "standard": 60.385999991691214,
+      "standardMax": 62.38399999009274
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-18T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.12598425196850394
+    },
+    "temperature": {
+      "standard": 61.37599999089924,
+      "standardMax": 69.13399998469274
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-19T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.1889763779527559
+    },
+    "temperature": {
+      "standard": 59.80999999215203,
+      "standardMax": 66.82999998653598
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-20T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.01968503937007874
+    },
+    "temperature": {
+      "standard": 58.927999992857615,
+      "standardMax": 65.47999998761598
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-21T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 62.18599999025122,
+      "standardMax": 72.60799998191355
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-22T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 66.28999998696797,
+      "standardMax": 75.27199997978238
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-23T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 66.63199998669437,
+      "standardMax": 76.69399997864483
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-24T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 1.1023622047244095
+    },
+    "temperature": {
+      "standard": 68.3779999852976,
+      "standardMax": 79.57399997634076
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-25T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.007874015748031496
+    },
+    "temperature": {
+      "standard": 65.78599998737121,
+      "standardMax": 75.12799997989761
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-26T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 65.85799998731355,
+      "standardMax": 74.38999998048797
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-27T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.2795275590551181
+    },
+    "temperature": {
+      "standard": 62.617999989905634,
+      "standardMax": 69.67399998426076
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-28T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.003937007874015748
+    },
+    "temperature": {
+      "standard": 61.42999999085599,
+      "standardMax": 66.34399998692481
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-29T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.003937007874015748
+    },
+    "temperature": {
+      "standard": 59.0539999927568,
+      "standardMax": 67.80199998575843
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-09-30T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 60.0619999919504,
+      "standardMax": 71.77999998257599
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-01T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 66.82999998653598,
+      "standardMax": 80.11399997590878
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-02T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.5708661417322836
+    },
+    "temperature": {
+      "standard": 61.39399999088482,
+      "standardMax": 70.42999998365599
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-03T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 57.01999999438401,
+      "standardMax": 64.0039999887968
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-04T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.7519685039370079
+    },
+    "temperature": {
+      "standard": 57.649999993879945,
+      "standardMax": 65.58799998752959
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-05T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.007874015748031496
+    },
+    "temperature": {
+      "standard": 57.10999999431203,
+      "standardMax": 64.27399998858075
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-06T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 55.48999999560797,
+      "standardMax": 64.23799998860959
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-07T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 55.41799999566563,
+      "standardMax": 65.58799998752959
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-08T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 55.92199999526238,
+      "standardMax": 64.0039999887968
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-09T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 57.57799999393761,
+      "standardMax": 64.72399998822075
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-10T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 53.905999996875174,
+      "standardMax": 66.469999986824
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-11T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 52.44799999804157,
+      "standardMax": 64.70599998823518
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-12T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 52.3039999981568,
+      "standardMax": 62.29399999016482
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-13T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 52.645999997883195,
+      "standardMax": 65.10199998791842
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-14T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 55.97599999521923,
+      "standardMax": 68.3779999852976
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-15T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 55.84999999531995,
+      "standardMax": 65.13799998788959
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-16T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 58.65799999307355,
+      "standardMax": 72.06799998234564
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-17T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 60.079999991935985,
+      "standardMax": 72.64399998188482
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-18T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 62.49199999000634,
+      "standardMax": 74.26399998058878
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-19T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 65.92999998725598,
+      "standardMax": 76.65799997867356
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-20T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.003937007874015748
+    },
+    "temperature": {
+      "standard": 60.27799999177761,
+      "standardMax": 64.0039999887968
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-21T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.03543307086614173
+    },
+    "temperature": {
+      "standard": 54.64399999628482,
+      "standardMax": 61.141999991086344
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-22T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 51.45799999883355,
+      "standardMax": 61.98799999040959
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-23T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 52.141999998286344,
+      "standardMax": 66.18199998705437
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-24T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 53.13199999749436,
+      "standardMax": 65.3539999877168
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-25T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 56.083999995132736,
+      "standardMax": 63.22999998941599
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-26T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 53.94199999684634,
+      "standardMax": 63.30199998935842
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-27T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 55.65199999547843,
+      "standardMax": 67.99999998559994
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-28T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.03937007874015748
+    },
+    "temperature": {
+      "standard": 55.75999999539203,
+      "standardMax": 62.11399999030878
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-29T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.09055118110236221
+    },
+    "temperature": {
+      "standard": 58.89199999288634,
+      "standardMax": 64.29199998856635
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-30T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.6456692913385828
+    },
+    "temperature": {
+      "standard": 60.65599999147518,
+      "standardMax": 72.94999998163995
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-10-31T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.17716535433070865
+    },
+    "temperature": {
+      "standard": 54.463999996428775,
+      "standardMax": 58.44199999324634
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-01T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.7283464566929134
+    },
+    "temperature": {
+      "standard": 53.959999996832025,
+      "standardMax": 63.03199998957436
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-02T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0826771653543307
+    },
+    "temperature": {
+      "standard": 48.47000000122401,
+      "standardMax": 53.79799999696157
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-03T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 46.34600000292319,
+      "standardMax": 52.71799999782563
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-04T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 43.700000005039946,
+      "standardMax": 49.910000000072024
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-05T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 41.37800000689761,
+      "standardMax": 48.57800000113761
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-06T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.011811023622047244
+    },
+    "temperature": {
+      "standard": 44.456000004435175,
+      "standardMax": 50.86399999930878
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-07T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.01968503937007874
+    },
+    "temperature": {
+      "standard": 49.69400000024482,
+      "standardMax": 54.067999996745634
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-08T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 43.700000005039946,
+      "standardMax": 50.08999999992797
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-09T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.003937007874015748
+    },
+    "temperature": {
+      "standard": 44.348000004521566,
+      "standardMax": 53.13199999749436
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-10T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 48.16400000146878,
+      "standardMax": 56.8039999945568
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-11T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 50.34199999972634,
+      "standardMax": 59.53999999236797
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-12T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.007874015748031496
+    },
+    "temperature": {
+      "standard": 52.60999999791203,
+      "standardMax": 57.055999994355176
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-13T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.11023622047244094
+    },
+    "temperature": {
+      "standard": 51.09799999912157,
+      "standardMax": 53.869999996904006
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-14T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 48.146000001483195,
+      "standardMax": 50.34199999972634
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-15T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.003937007874015748
+    },
+    "temperature": {
+      "standard": 47.246000002203196,
+      "standardMax": 51.09799999912157
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-16T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 45.95000000323994,
+      "standardMax": 48.97400000082076
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-17T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 47.3540000021168,
+      "standardMax": 54.78799999616959
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-18T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 44.85200000411842,
+      "standardMax": 55.4539999956368
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-19T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 44.52800000437761,
+      "standardMax": 53.40199999727842
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-20T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.027559055118110236
+    },
+    "temperature": {
+      "standard": 46.364000002908774,
+      "standardMax": 54.265999996587155
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-21T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.28346456692913385
+    },
+    "temperature": {
+      "standard": 43.62800000509761,
+      "standardMax": 49.38800000048959
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-22T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.007874015748031496
+    },
+    "temperature": {
+      "standard": 42.620000005904004,
+      "standardMax": 49.38800000048959
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-23T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.1377952755905512
+    },
+    "temperature": {
+      "standard": 45.572000003542385,
+      "standardMax": 48.84800000092157
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-24T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.17322834645669294
+    },
+    "temperature": {
+      "standard": 46.724000002620755,
+      "standardMax": 51.00799999919355
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-25T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.13385826771653542
+    },
+    "temperature": {
+      "standard": 42.29600000616319,
+      "standardMax": 45.14000000388796
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-26T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.5078740157480315
+    },
+    "temperature": {
+      "standard": 42.29600000616319,
+      "standardMax": 45.19400000384482
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-27T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0984251968503937
+    },
+    "temperature": {
+      "standard": 39.47000000842401,
+      "standardMax": 44.150000004679946
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-28T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.03937007874015748
+    },
+    "temperature": {
+      "standard": 38.28200000937436,
+      "standardMax": 46.166000003067154
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-29T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 39.99200000800634,
+      "standardMax": 47.8040000017568
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-11-30T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.18503937007874016
+    },
+    "temperature": {
+      "standard": 47.60600000191518,
+      "standardMax": 50.97199999922238
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-01T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.1062992125984252
+    },
+    "temperature": {
+      "standard": 43.14200000548634,
+      "standardMax": 45.608000003513546
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-02T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.01968503937007874
+    },
+    "temperature": {
+      "standard": 43.21400000542878,
+      "standardMax": 51.36799999890563
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-03T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.3188976377952756
+    },
+    "temperature": {
+      "standard": 49.47800000041761,
+      "standardMax": 52.789999997767964
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-04T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.5984251968503937
+    },
+    "temperature": {
+      "standard": 41.9540000064368,
+      "standardMax": 43.71800000502563
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-05T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.027559055118110236
+    },
+    "temperature": {
+      "standard": 45.212000003830404,
+      "standardMax": 51.25999999899203
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-06T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.2874015748031496
+    },
+    "temperature": {
+      "standard": 47.40800000207355,
+      "standardMax": 50.9539999992368
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-07T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.688976377952756
+    },
+    "temperature": {
+      "standard": 41.32400000694076,
+      "standardMax": 46.76000000259203
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-08T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.5157480314960631
+    },
+    "temperature": {
+      "standard": 40.65800000747355,
+      "standardMax": 49.568000000345634
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-09T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.6456692913385828
+    },
+    "temperature": {
+      "standard": 48.02000000158401,
+      "standardMax": 53.6539999970768
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-10T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.043307086614173235
+    },
+    "temperature": {
+      "standard": 45.39200000368634,
+      "standardMax": 48.52400000118076
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-11T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.003937007874015748
+    },
+    "temperature": {
+      "standard": 47.21000000223203,
+      "standardMax": 53.85199999691842
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-12T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 45.69800000344157,
+      "standardMax": 56.101999995118426
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-13T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 41.30600000695517,
+      "standardMax": 51.889999998487966
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-14T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 40.964000007228776,
+      "standardMax": 47.624000001900754
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-15T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 43.57400000514075,
+      "standardMax": 53.203999997436796
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-16T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 41.45000000683994,
+      "standardMax": 52.10599999831518
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-17T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 43.10600000551517,
+      "standardMax": 52.89799999768157
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-18T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 38.786000008971214,
+      "standardMax": 49.766000000187155
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-19T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 37.38200001009436,
+      "standardMax": 46.670000002664004
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-20T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 39.05600000875517,
+      "standardMax": 46.0040000031968
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-21T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 43.57400000514075,
+      "standardMax": 55.16599999586715
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-22T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 46.166000003067154,
+      "standardMax": 55.97599999521923
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-23T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 47.840000001727965,
+      "standardMax": 55.219999995824004
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-24T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.003937007874015748
+    },
+    "temperature": {
+      "standard": 47.85800000171355,
+      "standardMax": 57.451999994038424
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-25T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.007874015748031496
+    },
+    "temperature": {
+      "standard": 49.17200000066238,
+      "standardMax": 55.525999995579234
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-26T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.5157480314960631
+    },
+    "temperature": {
+      "standard": 52.68199999785436,
+      "standardMax": 57.12799999429761
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-27T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.28346456692913385
+    },
+    "temperature": {
+      "standard": 56.8039999945568,
+      "standardMax": 60.20599999183518
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-28T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.01968503937007874
+    },
+    "temperature": {
+      "standard": 57.97399999362076,
+      "standardMax": 63.64399998908482
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-29T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 54.1039999967168,
+      "standardMax": 59.179999992655986
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-30T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 52.35799999811355,
+      "standardMax": 62.77999998977599
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2021-12-31T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  },
+  {
+    "precipitation": {
+      "cumulative": 0.0
+    },
+    "temperature": {
+      "standard": 51.15199999907842,
+      "standardMax": 63.28399998937274
+    },
+    "location": "POINT (0.0872845021171696 43.69457564315705)",
+    "date": "2022-01-01T00:00:00Z",
+    "weatherType": "HISTORICAL_DAILY"
+  }
+]
