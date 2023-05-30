@@ -21,23 +21,6 @@ from geosyspy.utils.http_client import *
 from geosyspy.utils.geosys_platform_urls import *
 
 class Geosys:
-    def __init__(self, client_id: str,
-                 client_secret: str,
-                 username: str,
-                 password: str,
-                 enum_env: Env,
-                 enum_region: Region,
-                 priority_queue: str = "realtime",
-                 ):
-        """Initializes a Geosys instance with the required credentials
-        to connect to the GEOSYS API.
-        """
-        self.region: str = enum_region.value
-        self.env: str = enum_env.value
-        self.base_url: str = GEOSYS_API_URLS[enum_region.value][enum_env.value]
-        self.priority_queue: str = priority_queue
-        self.http_client: HttpClient = HttpClient(client_id, client_secret, username, password, enum_env.value,
-                                                  enum_region.value)
 
     """Geosys is the main client class to access all the Geosys APIs capabilities.
 
@@ -48,6 +31,20 @@ class Geosys:
         enum_region: 'Region.NA' or 'Region.EU'
         priority_queue: 'realtime' or 'bulk'
     """
+    def __init__(self, client_id: str,
+                 client_secret: str,
+                 username: str,
+                 password: str,
+                 enum_env: Env,
+                 enum_region: Region,
+                 priority_queue: str = "realtime",
+                 ):
+        self.region: str = enum_region.value
+        self.env: str = enum_env.value
+        self.base_url: str = GEOSYS_API_URLS[enum_region.value][enum_env.value]
+        self.priority_queue: str = priority_queue
+        self.http_client: HttpClient = HttpClient(client_id, client_secret, username, password, enum_env.value,
+                                                  enum_region.value)
 
 
     def __create_season_field_id(self, polygon: str) -> object:
@@ -313,16 +310,16 @@ class Geosys:
 
         df = self.__get_satellite_coverage(polygon, start_date, end_date, "", collections)
         images_references = {}
-
-        for i, image in df.iterrows():
-            images_references[
-                (image["image.date"], image["image.sensor"])
-            ] = image_reference.ImageReference(
-                image["image.id"],
-                image["image.date"],
-                image["image.sensor"],
-                image["seasonField.id"],
-            )
+        if df is not None:
+            for i, image in df.iterrows():
+                images_references[
+                    (image["image.date"], image["image.sensor"])
+                ] = image_reference.ImageReference(
+                    image["image.id"],
+                    image["image.date"],
+                    image["image.sensor"],
+                    image["seasonField.id"],
+                )
 
         return df, images_references
 
@@ -644,8 +641,16 @@ class Geosys:
         else:
             logging.info(response.status_code)
 
-    def _get_s3_path(self, task_id: str):
+    def __get_s3_path(self, task_id: str):
+        """Returns S3 path related to task_id
 
+        Args:
+            task_id : A string representing a task id
+
+        Returns:
+            path : uri
+
+        """
         endpoint: str = GeosysApiEndpoints.MRTS_PROCESSOR_EVENTS_ENDPOINT.value + "/" + task_id
         response = self.http_client.get(endpoint)
         if response.ok:
@@ -656,7 +661,7 @@ class Geosys:
             return "s3://geosys-" + customer_code + "/" + user_id + "/mrts/" + task_id
         else:
             logging.info(response.status_code)
-    
+
 
     def get_mr_time_series(self,
                            polygon,
@@ -675,6 +680,23 @@ class Geosys:
                             raw_data: bool =False
                             ):
 
+        """Retrieve mr time series on the collection targeted.
+
+        Args:
+            start_date : The start date of the time series
+            end_date : The end date of the time series
+            list_sensors : The Satellite Imagery Collection targeted
+            denoiser : A boolean value indicating whether a denoising operation should be applied or not.
+            smoother : The type or name of the smoothing technique or algorithm to be used.
+            eoc : A boolean value indicating whether the "end of curve" detection should be performed.
+            func : The type or name of the function to be applied to the data.
+            index : The type or name of the index used for data manipulation or referencing
+            raw_data : A boolean value indicating whether the data is in its raw/unprocessed form.
+            polygon : A string representing a polygon.
+
+        Returns:
+            string : s3 bucket path
+        """
         if end_date is None:
             end_date = datetime.today().strftime("%Y-%m-%d")
         payload = {
@@ -702,7 +724,7 @@ class Geosys:
 
         if response.ok:
             task_id = json.loads(response.content)["taskId"]
-            return self._get_s3_path(task_id)
+            return self.__get_s3_path(task_id)
         else:
             logging.info(response.status_code)
 
@@ -786,7 +808,3 @@ class Geosys:
             return response.status_code
         else:
             logging.info(response.status_code)
-
-
-    
-
