@@ -6,4 +6,3 @@ pandas==1.3.5
 shapely
 rasterio
 xarray
-boto3
