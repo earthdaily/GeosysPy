@@ -5,3 +5,12 @@ black
 twine
 mkdocs
 mkdocstrings
+requests-mock
+pandas==1.3.5
+shapely
+xarray
+requests
+requests-oauthlib
+oauthlib
+matplotlib
+boto3

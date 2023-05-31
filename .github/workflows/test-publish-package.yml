@@ -1,14 +1,15 @@
-name: Publish package and docs
+name: Publish package and docs test
 
 on:
   push:
     tags:        
-      - v**
+      - test-v**
 
 jobs:
   deploy:
 
     runs-on: ubuntu-22.04
+
 
     steps:
     - uses: actions/checkout@v3
@@ -29,9 +30,10 @@ jobs:
         pip install mkdocstrings-python
     - name: Build package
       run: make build
-    - name: Publish package
-      uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
+    - name: Publish package distributions to TestPyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
       with:
+        repository-url: https://test.pypi.org/legacy/
         user: __token__
-        password: ${{ secrets.PYPI_API_TOKEN }}
+        password: ${{ secrets.TEST_PYPI_API_TOKEN }}
     - run: mkdocs gh-deploy --force
