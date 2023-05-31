@@ -22,6 +22,5 @@ If you're using Conda, there are the steps to follow :
 
     conda create --name demo
     conda activate demo
-    conda install rasterio
     conda install pip
     pip install geosyspy
