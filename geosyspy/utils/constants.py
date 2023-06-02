@@ -48,8 +48,8 @@ class GeosysApiEndpoints(Enum):
     WEATHER_ENDPOINT = "Weather/v1/weather"
     ANALYTICS_FABRIC_ENDPOINT = "analytics/metrics"
     ANALYTICS_FABRIC_SCHEMA_ENDPOINT = "analytics/schemas"
-    MRTS_PROCESSOR_EVENTS_ENDPOINT = "https://api-pp.geosys-na.net/analytics-pipeline/v1/processors/events"
-    MRTS_PROCESSOR_ENDPOINT = "https://api-pp.geosys-na.net/analytics-pipeline/v1/processors/mrts/launch"
+    MRTS_PROCESSOR_EVENTS_ENDPOINT = "analytics-pipeline/v1/processors/events"
+    MRTS_PROCESSOR_ENDPOINT = "analytics-pipeline/v1/processors/mrts/launch"
 
 LR_SATELLITE_COLLECTION = [SatelliteImageryCollection.MODIS]
 MR_SATELLITE_COLLECTION = [SatelliteImageryCollection.LANDSAT_8, SatelliteImageryCollection.LANDSAT_9,
