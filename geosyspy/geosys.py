@@ -19,6 +19,7 @@ from geosyspy.utils.helper import *
 from geosyspy.utils.constants import *
 from geosyspy.utils.http_client import *
 from geosyspy.utils.geosys_platform_urls import *
+from services.agriquest_service import *
 
 class Geosys:
 
@@ -45,6 +46,8 @@ class Geosys:
         self.priority_queue: str = priority_queue
         self.http_client: HttpClient = HttpClient(client_id, client_secret, username, password, enum_env.value,
                                                   enum_region.value)
+
+
 
 
     def __create_season_field_id(self, polygon: str) -> object:
@@ -133,6 +136,29 @@ class Geosys:
             )
         else:
             raise ValueError(f"{collection} collection doesn't exist")
+
+    def get_agriquest_weather(self,
+                              start_date: datetime,
+                              end_date: datetime,
+                              block_code: AgriquestBlocks,
+                              weather_type: AgriquestWeatherType
+                              ):
+        # date convert
+        start_datetime = datetime.strptime(start_date, "%Y-%m-%d").date()
+        end_datetime = datetime.strptime(end_date, "%Y-%m-%d").date()
+
+        aq_service = AgriquestService(self.base_url, self.http_client)
+
+        # check if the block is dedicated to France
+        isFrance = aq_service.is_block_for_france(block_code)
+
+        # build the weather indicator list
+        weather_indicators = aq_service.weather_indicators_builder(start_datetime, end_datetime, isFrance)
+
+        # call the weather endpiont to retrieve data
+        result = aq_service.get_weather_data(start_date=start_date, end_date=end_date, indicator_list=weather_indicators, weather_type = weather_type)
+
+        return result
 
     def get_satellite_image_time_series(self, polygon: str,
                                         start_date: datetime,
