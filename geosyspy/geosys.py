@@ -137,29 +137,6 @@ class Geosys:
         else:
             raise ValueError(f"{collection} collection doesn't exist")
 
-    def get_agriquest_weather(self,
-                              start_date: datetime,
-                              end_date: datetime,
-                              block_code: AgriquestBlocks,
-                              weather_type: AgriquestWeatherType
-                              ):
-        # date convert
-        start_datetime = datetime.strptime(start_date, "%Y-%m-%d").date()
-        end_datetime = datetime.strptime(end_date, "%Y-%m-%d").date()
-
-        aq_service = AgriquestService(self.base_url, self.http_client)
-
-        # check if the block is dedicated to France
-        isFrance = aq_service.is_block_for_france(block_code)
-
-        # build the weather indicator list
-        weather_indicators = aq_service.weather_indicators_builder(start_datetime, end_datetime, isFrance)
-
-        # call the weather endpiont to retrieve data
-        result = aq_service.get_weather_data(start_date=start_date, end_date=end_date, indicator_list=weather_indicators, weather_type = weather_type)
-
-        return result
-
     def get_satellite_image_time_series(self, polygon: str,
                                         start_date: datetime,
                                         end_date: datetime,
@@ -838,3 +815,59 @@ class Geosys:
             return response.status_code
         else:
             logging.info(response.status_code)
+
+    def get_agriquest_weather_time_series(self,
+                                          start_date: datetime,
+                                          end_date: datetime,
+                                          block_code: AgriquestBlocks,
+                                          weather_type: AgriquestWeatherType
+                                          ):
+        """Retrieve a time series on all AMU of an AgriquestBlock of the weather indicator specified.
+
+               Args:
+                   start_date : The start date of the time series
+                   end_date : The end date of the time series
+                   block_code : The AgriquestBlock name
+                   weather_type : The Agriquest weather indicator to retrieve
+
+               Returns:
+                   result ('dataframe'):  pandas dataframe the time series
+               """
+        # date convert
+        start_datetime = datetime.strptime(start_date, "%Y-%m-%d").date()
+        end_datetime = datetime.strptime(end_date, "%Y-%m-%d").date()
+
+        aq_service = AgriquestService(self.base_url, self.http_client)
+
+        # check if the block is dedicated to France
+        isFrance = aq_service.is_block_for_france(block_code)
+
+        # build the weather indicator list
+        weather_indicators = aq_service.weather_indicators_builder(start_datetime, end_datetime, isFrance)
+
+        # call the weather endpiont to retrieve data
+        result = aq_service.get_year_of_interest_weather_data(start_date=start_date, end_date=end_date,
+                                                              block_code=block_code, indicator_list=weather_indicators,
+                                                              weather_type=weather_type)
+
+        return result
+
+    def get_agriquest_ndvi_time_series(self,
+                                       day_of_measure: datetime,
+                                       block_code: AgriquestBlocks
+                                       ):
+        """Retrieve a time series on all AMU of an AgriquestBlock for NDVI index
+
+               Args:
+                   day_of_measure : The start date of the time series
+                   block_code : The AgriquestBlock name
+               Returns:
+                   result ('dataframe'):  pandas dataframe the time series
+               """
+        aq_service = AgriquestService(self.base_url, self.http_client)
+
+        # call the weather endpoint to retrieve data, indicator of NDVI = 1
+        result = aq_service.get_year_of_interest_ndvi_data(date=day_of_measure, block_code=block_code,
+                                                           indicator_list=[1])
+
+        return result
