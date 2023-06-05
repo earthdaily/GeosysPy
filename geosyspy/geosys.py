@@ -652,8 +652,10 @@ class Geosys:
             path : uri
 
         """
-        endpoint: str = GeosysApiEndpoints.MRTS_PROCESSOR_EVENTS_ENDPOINT.value + "/" + task_id
-        response = self.http_client.get(endpoint)
+
+        mrts_events_endpoint : str = urljoin(self.base_url, GeosysApiEndpoints.MRTS_PROCESSOR_EVENTS_ENDPOINT.value + "/" + task_id)
+        #endpoint: str = GeosysApiEndpoints.MRTS_PROCESSOR_EVENTS_ENDPOINT.value + "/" + task_id
+        response = self.http_client.get(mrts_events_endpoint)
         if response.ok:
             dict_resp = json.loads(response.content)
             customer_code: str = dict_resp["customerCode"].lower().replace("_", "-")
@@ -721,7 +723,8 @@ class Geosys:
             ]
         }
 
-        response = self.http_client.post(GeosysApiEndpoints.MRTS_PROCESSOR_ENDPOINT.value, payload)
+        mrts_endpoint : str = urljoin(self.base_url, GeosysApiEndpoints.MRTS_PROCESSOR_ENDPOINT.value)
+        response = self.http_client.post(mrts_endpoint, payload)
 
         if response.ok:
             task_id = json.loads(response.content)["taskId"]
