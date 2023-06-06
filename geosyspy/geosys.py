@@ -19,7 +19,7 @@ from geosyspy.utils.helper import *
 from geosyspy.utils.constants import *
 from geosyspy.utils.http_client import *
 from geosyspy.utils.geosys_platform_urls import *
-from services.agriquest_service import *
+from geosyspy.services.agriquest_service import *
 
 class Geosys:
 
@@ -854,7 +854,8 @@ class Geosys:
 
     def get_agriquest_ndvi_time_series(self,
                                        day_of_measure: datetime,
-                                       block_code: AgriquestBlocks
+                                       block_code: AgriquestBlocks,
+                                       commodity_code : AgriquestCommodityCode
                                        ):
         """Retrieve a time series on all AMU of an AgriquestBlock for NDVI index
 
@@ -867,7 +868,6 @@ class Geosys:
         aq_service = AgriquestService(self.base_url, self.http_client)
 
         # call the weather endpoint to retrieve data, indicator of NDVI = 1
-        result = aq_service.get_year_of_interest_ndvi_data(date=day_of_measure, block_code=block_code,
-                                                           indicator_list=[1])
+        result = aq_service.get_year_of_interest_ndvi_data(date=day_of_measure, block_code=block_code, commodity=commodity_code, indicator_list=[1])
 
         return result

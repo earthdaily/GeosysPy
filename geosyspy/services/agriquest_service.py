@@ -41,14 +41,14 @@ class AgriquestService:
 
         if start_date < today:
             if not isFrance:
-                # if start_date > today - timedelta(days=15):
+                #if start_date > today - timedelta(days=15):
                 result.append(2)
 
-                # if start_date > today - timedelta(days=15) and start_date < today - timedelta(days=3*30):
-                #     result.append(6)
-                #
-                # if start_date < today - timedelta(days=3*30):
-                #     result.extend([2, 6, 9])
+                #if start_date > today - timedelta(days=15) and start_date < today - timedelta(days=3*30):
+                 #   result.append(6)
+
+                #if start_date < today - timedelta(days=3*30):
+                    #result.extend([2, 6, 9])
             else:
                 result.append(3)
 
@@ -90,7 +90,7 @@ class AgriquestService:
 
         payload = {
             "analyticName": weather_type.name,
-            "commodityId": 33,
+            "commodityId": AgriquestCommodityCode.ALL_VEGETATION.value,
             "startDate": start_date,
             "endDate": end_date,
             "idPixelType": 1,
@@ -122,6 +122,7 @@ class AgriquestService:
     def get_year_of_interest_ndvi_data(self,
                                        date: str,
                                        block_code: AgriquestBlocks,
+                                       commodity: AgriquestCommodityCode,
                                        indicator_list: [int]
                                        ):
         """
@@ -138,7 +139,7 @@ class AgriquestService:
 
         payload = {
             "analyticName": "NDVI",
-            "commodityId": 33,
+            "commodityId": commodity.value,
             "dayOfMeasure": date,
             "idPixelType": 1,
             "idBlock": block_code.value,

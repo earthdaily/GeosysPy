@@ -36,9 +36,16 @@ class Region(Enum):
     EU = "eu"
 
 
+class AgriquestCommodityCode(Enum):
+    """
+    Available AgriQuest Commodity values
+    """
+    ALL_VEGETATION = 33
+    ALL_CROPS = 35
+
 class AgriquestFranceBlockCode(Enum):
     """
-    Agriquest Block code dedicated to France
+    Available AgriQuest Block codes dedicated to France
     """
     FRA_CANTONS = 216
     FRA_COMMUNES = 135
@@ -46,6 +53,9 @@ class AgriquestFranceBlockCode(Enum):
 
 
 class AgriquestBlocks(Enum):
+    """
+    Available AgriQuest Block codes
+    """
     FIRST_LEVEL = 129
     AMU_AUSTRALIA_LEVEL_1 = 205
     AMU_AUSTRALIA_LEVEL_2 = 206
@@ -72,6 +82,9 @@ class AgriquestBlocks(Enum):
     WESTERN_AFRICA_AMU = 122
 
 class AgriquestWeatherType(Enum):
+    """
+    Available AgriQuest Weather types
+    """
     CUMULATIVE_PRECIPITATION = "cumulative-precipitation"
     MIN_TEMPERATURE = "min-temperature"
     AVERAGE_TEMPERATURE = "average-temperature"
