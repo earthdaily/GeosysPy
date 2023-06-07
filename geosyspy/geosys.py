@@ -816,13 +816,13 @@ class Geosys:
         else:
             logging.info(response.status_code)
 
-    def get_agriquest_weather_time_series(self,
-                                          start_date: datetime,
-                                          end_date: datetime,
-                                          block_code: AgriquestBlocks,
-                                          weather_type: AgriquestWeatherType
-                                          ):
-        """Retrieve a time series on all AMU of an AgriquestBlock of the weather indicator specified.
+    def get_agriquest_weather_block_data(self,
+                                         start_date: datetime,
+                                         end_date: datetime,
+                                         block_code: AgriquestBlocks,
+                                         weather_type: AgriquestWeatherType
+                                         ):
+        """Retrieve data on all AMU of an AgriquestBlock for the specified weather indicator.
 
                Args:
                    start_date : The start date of the time series
@@ -852,12 +852,12 @@ class Geosys:
 
         return result
 
-    def get_agriquest_ndvi_time_series(self,
-                                       day_of_measure: datetime,
-                                       block_code: AgriquestBlocks,
-                                       commodity_code : AgriquestCommodityCode
-                                       ):
-        """Retrieve a time series on all AMU of an AgriquestBlock for NDVI index
+    def get_agriquest_ndvi_block_data(self,
+                                      day_of_measure: datetime,
+                                      block_code: AgriquestBlocks,
+                                      commodity_code : AgriquestCommodityCode
+                                      ):
+        """Retrieve data on all AMU of an AgriquestBlock for NDVI index
 
                Args:
                    day_of_measure : The start date of the time series

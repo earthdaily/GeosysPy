@@ -23,10 +23,7 @@ class AgriquestService:
 
             Returns:
                 A list of int (weather indicators)
-                - 2 : ENS observed data, useful for the last 15 days (but not the most accurate as it is based on the weather forecast of the day)
-                - 6 : ERA-5T - first re-analyzed data provided by meteo france, available after 15 days
-                - 9 : ERA-5 - second re-analyzed made by meteo france, more robust, available after 3 month
-                - 3 : Arome Weather Observed data (Meteo France, France only)
+                - 2 : ENS observed data
                 - 4 : ECMWF Weather  Forecast Data
                 - 5 : GFS Weather Forecast Data
 
@@ -41,14 +38,7 @@ class AgriquestService:
 
         if start_date < today:
             if not isFrance:
-                #if start_date > today - timedelta(days=15):
                 result.append(2)
-
-                #if start_date > today - timedelta(days=15) and start_date < today - timedelta(days=3*30):
-                 #   result.append(6)
-
-                #if start_date < today - timedelta(days=3*30):
-                    #result.extend([2, 6, 9])
             else:
                 result.append(3)
 

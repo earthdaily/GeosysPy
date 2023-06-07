@@ -148,3 +148,26 @@ class TestGeosys:
             indicators=["Reflectance"],
         )
         assert dict(dataset.dims) == {'band': 4, 'y': 51, 'x': 48, 'time': 1}
+
+
+    def test_get_agriquest_weather_time_series(self):
+        start_date = "2022-05-01"
+        end_date = "2023-04-28"
+        dataset = self.client.get_agriquest_weather_block_data(
+            start_date= start_date,
+            end_date=end_date,
+            block_code= AgriquestBlocks.FRA_DEPARTEMENTS,
+            weather_type= AgriquestWeatherType.CUMULATIVE_PRECIPITATION
+        )
+        assert dataset.keys()[0] == "AMU"
+        assert len(dataset["AMU"]) == 97
+
+    def test_get_agriquest_ndvi_time_series(self):
+         date = "2023-06-05"
+         dataset = self.client.get_agriquest_ndvi_block_data(
+             day_of_measure= date,
+             commodity_code= AgriquestCommodityCode.ALL_VEGETATION,
+             block_code= AgriquestBlocks.AMU_NORTH_AMERICA,
+         )
+         assert dataset.keys()[0] == "AMU"
+         assert dataset.keys()[-1] == "NDVI"
