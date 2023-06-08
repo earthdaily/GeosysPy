@@ -110,7 +110,7 @@ class GeosysApiEndpoints(Enum):
     ANALYTICS_FABRIC_SCHEMA_ENDPOINT = "analytics/schemas"
     MRTS_PROCESSOR_EVENTS_ENDPOINT = "analytics-pipeline/v1/processors/events"
     MRTS_PROCESSOR_ENDPOINT = "analytics-pipeline/v1/processors/mrts/launch"
-    AGRIQUEST_ENDPOINT = "Agriquest/Geosys.Agriquest.CropMonitoring.WebApi/v0/api"
+    AGRIQUEST_ENDPOINT = "agriquest/Geosys.Agriquest.CropMonitoring.WebApi/v0/api"
 
 LR_SATELLITE_COLLECTION = [SatelliteImageryCollection.MODIS]
 MR_SATELLITE_COLLECTION = [SatelliteImageryCollection.LANDSAT_8, SatelliteImageryCollection.LANDSAT_9,

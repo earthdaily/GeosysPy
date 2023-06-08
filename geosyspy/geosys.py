@@ -825,13 +825,13 @@ class Geosys:
         """Retrieve data on all AMU of an AgriquestBlock for the specified weather indicator.
 
                Args:
-                   start_date : The start date of the time series
-                   end_date : The end date of the time series
+                   start_date : The start date to retrieve data
+                   end_date : The end date to retrieve data
                    block_code : The AgriquestBlock name
                    weather_type : The Agriquest weather indicator to retrieve
 
                Returns:
-                   result ('dataframe'):  pandas dataframe the time series
+                   result ('dataframe'):  pandas dataframe
                """
         # date convert
         start_datetime = datetime.strptime(start_date, "%Y-%m-%d").date()
@@ -845,10 +845,10 @@ class Geosys:
         # build the weather indicator list
         weather_indicators = aq_service.weather_indicators_builder(start_datetime, end_datetime, isFrance)
 
-        # call the weather endpiont to retrieve data
-        result = aq_service.get_year_of_interest_weather_data(start_date=start_date, end_date=end_date,
-                                                              block_code=block_code, indicator_list=weather_indicators,
-                                                              weather_type=weather_type)
+        # call the weather endpoint to retrieve data
+        result = aq_service.get_agriquest_block_weather_data(start_date=start_date, end_date=end_date,
+                                                             block_code=block_code, indicator_list=weather_indicators,
+                                                             weather_type=weather_type)
 
         return result
 
@@ -860,14 +860,14 @@ class Geosys:
         """Retrieve data on all AMU of an AgriquestBlock for NDVI index
 
                Args:
-                   day_of_measure : The start date of the time series
+                   day_of_measure : The date of measure
                    block_code : The AgriquestBlock name
                Returns:
-                   result ('dataframe'):  pandas dataframe the time series
+                   result ('dataframe'):  pandas dataframe result
                """
         aq_service = AgriquestService(self.base_url, self.http_client)
 
         # call the weather endpoint to retrieve data, indicator of NDVI = 1
-        result = aq_service.get_year_of_interest_ndvi_data(date=day_of_measure, block_code=block_code, commodity=commodity_code, indicator_list=[1])
+        result = aq_service.get_agriquest_block_ndvi_data(date=day_of_measure, block_code=block_code, commodity=commodity_code, indicator_list=[1])
 
         return result

@@ -24,6 +24,7 @@ class AgriquestService:
             Returns:
                 A list of int (weather indicators)
                 - 2 : ENS observed data
+                - 3 : Arome Weather Observed data (Meteo France, France only)
                 - 4 : ECMWF Weather  Forecast Data
                 - 5 : GFS Weather Forecast Data
 
@@ -57,13 +58,13 @@ class AgriquestService:
             return True
         return False
 
-    def get_year_of_interest_weather_data(self,
-                                          start_date: str,
-                                          end_date: str,
-                                          block_code: AgriquestBlocks,
-                                          indicator_list: [int],
-                                          weather_type: AgriquestWeatherType
-                                          ):
+    def get_agriquest_block_weather_data(self,
+                                         start_date: str,
+                                         end_date: str,
+                                         block_code: AgriquestBlocks,
+                                         indicator_list: [int],
+                                         weather_type: AgriquestWeatherType
+                                         ):
         """
             method to call Weather AgriQuest Api and build a panda DataFrame
 
@@ -109,12 +110,12 @@ class AgriquestService:
             logging.info(response.status_code)
 
 
-    def get_year_of_interest_ndvi_data(self,
-                                       date: str,
-                                       block_code: AgriquestBlocks,
-                                       commodity: AgriquestCommodityCode,
-                                       indicator_list: [int]
-                                       ):
+    def get_agriquest_block_ndvi_data(self,
+                                      date: str,
+                                      block_code: AgriquestBlocks,
+                                      commodity: AgriquestCommodityCode,
+                                      indicator_list: [int]
+                                      ):
         """
             method to call year-of-interest AgriQuest Api and build a panda DataFrame
 
