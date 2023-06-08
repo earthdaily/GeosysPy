@@ -817,18 +817,18 @@ class Geosys:
             logging.info(response.status_code)
 
     def get_agriquest_weather_block_data(self,
-                                         start_date: datetime,
-                                         end_date: datetime,
+                                         start_date: str,
+                                         end_date: str,
                                          block_code: AgriquestBlocks,
                                          weather_type: AgriquestWeatherType
                                          ):
         """Retrieve data on all AMU of an AgriquestBlock for the specified weather indicator.
 
                Args:
-                   start_date : The start date to retrieve data
-                   end_date : The end date to retrieve data
-                   block_code : The AgriquestBlock name
-                   weather_type : The Agriquest weather indicator to retrieve
+                   start_date (str): The start date to retrieve data (format: 'YYYY-MM-dd')
+                   end_date (str): The end date to retrieve data (format: 'YYYY-MM-dd')
+                   block_code (AgriquestBlocks): The AgriquestBlock name (Enum)
+                   weather_type (AgriquestWeatherType) : The Agriquest weather indicator to retrieve (Enum)
 
                Returns:
                    result ('dataframe'):  pandas dataframe
@@ -853,15 +853,16 @@ class Geosys:
         return result
 
     def get_agriquest_ndvi_block_data(self,
-                                      day_of_measure: datetime,
+                                      day_of_measure: str,
                                       block_code: AgriquestBlocks,
                                       commodity_code : AgriquestCommodityCode
                                       ):
         """Retrieve data on all AMU of an AgriquestBlock for NDVI index
 
                Args:
-                   day_of_measure : The date of measure
-                   block_code : The AgriquestBlock name
+                   day_of_measure (str) : The date of measure (format: 'YYYY-MM-dd')
+                   block_code (AgriquestBlocks) : The AgriquestBlock name (Enum)
+                   commodity_code (AgriquestCommodityCode) : The commodity code (Enum)
                Returns:
                    result ('dataframe'):  pandas dataframe result
                """
