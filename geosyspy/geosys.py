@@ -19,6 +19,7 @@ from geosyspy.utils.helper import *
 from geosyspy.utils.constants import *
 from geosyspy.utils.http_client import *
 from geosyspy.utils.geosys_platform_urls import *
+from geosyspy.services.agriquest_service import *
 
 class Geosys:
 
@@ -45,6 +46,8 @@ class Geosys:
         self.priority_queue: str = priority_queue
         self.http_client: HttpClient = HttpClient(client_id, client_secret, username, password, enum_env.value,
                                                   enum_region.value)
+
+
 
 
     def __create_season_field_id(self, polygon: str) -> object:
@@ -812,3 +815,60 @@ class Geosys:
             return response.status_code
         else:
             logging.info(response.status_code)
+
+    def get_agriquest_weather_block_data(self,
+                                         start_date: str,
+                                         end_date: str,
+                                         block_code: AgriquestBlocks,
+                                         weather_type: AgriquestWeatherType
+                                         ):
+        """Retrieve data on all AMU of an AgriquestBlock for the specified weather indicator.
+
+               Args:
+                   start_date (str): The start date to retrieve data (format: 'YYYY-MM-dd')
+                   end_date (str): The end date to retrieve data (format: 'YYYY-MM-dd')
+                   block_code (AgriquestBlocks): The AgriquestBlock name (Enum)
+                   weather_type (AgriquestWeatherType) : The Agriquest weather indicator to retrieve (Enum)
+
+               Returns:
+                   result ('dataframe'):  pandas dataframe
+               """
+        # date convert
+        start_datetime = datetime.strptime(start_date, "%Y-%m-%d").date()
+        end_datetime = datetime.strptime(end_date, "%Y-%m-%d").date()
+
+        aq_service = AgriquestService(self.base_url, self.http_client)
+
+        # check if the block is dedicated to France
+        isFrance = aq_service.is_block_for_france(block_code)
+
+        # build the weather indicator list
+        weather_indicators = aq_service.weather_indicators_builder(start_datetime, end_datetime, isFrance)
+
+        # call the weather endpoint to retrieve data
+        result = aq_service.get_agriquest_block_weather_data(start_date=start_date, end_date=end_date,
+                                                             block_code=block_code, indicator_list=weather_indicators,
+                                                             weather_type=weather_type)
+
+        return result
+
+    def get_agriquest_ndvi_block_data(self,
+                                      day_of_measure: str,
+                                      block_code: AgriquestBlocks,
+                                      commodity_code : AgriquestCommodityCode
+                                      ):
+        """Retrieve data on all AMU of an AgriquestBlock for NDVI index
+
+               Args:
+                   day_of_measure (str) : The date of measure (format: 'YYYY-MM-dd')
+                   block_code (AgriquestBlocks) : The AgriquestBlock name (Enum)
+                   commodity_code (AgriquestCommodityCode) : The commodity code (Enum)
+               Returns:
+                   result ('dataframe'):  pandas dataframe result
+               """
+        aq_service = AgriquestService(self.base_url, self.http_client)
+
+        # call the weather endpoint to retrieve data, indicator of NDVI = 1
+        result = aq_service.get_agriquest_block_ndvi_data(date=day_of_measure, block_code=block_code, commodity=commodity_code, indicator_list=[1])
+
+        return result

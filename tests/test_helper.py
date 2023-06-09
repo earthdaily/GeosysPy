@@ -25,6 +25,10 @@ def mock_http_response_text_content(method, content=None):
         with requests_mock.Mocker() as m:
             m.get('http://geosys.com', text=content)
             return requests.get('http://geosys.com')
+    if method == "POST":
+        with requests_mock.Mocker() as m:
+            m.post('http://geosys.com', text=content)
+            return requests.post('http://geosys.com')
 def mock_http_response_binary_content(method, binary_content=None):
     if method == "GET":
         with requests_mock.Mocker() as m:

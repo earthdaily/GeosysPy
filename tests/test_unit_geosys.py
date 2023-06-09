@@ -185,3 +185,32 @@ class TestGeosys:
             indicators=["Reflectance"],
         )
         assert dict(dataset.dims) == {'band': 4, 'y': 80, 'x': 81, 'time': 2}
+
+
+    @patch('geosyspy.utils.http_client.HttpClient.post')
+    def test_get_agriquest_weather_block_data(self, get_response):
+        get_response.return_value =  mock_http_response_text_content("POST", load_data_from_textfile(
+           "agriquest_weather_data_mock_http_response"))
+        start_date = "2022-05-01"
+        end_date = "2023-04-28"
+        dataset = self.client.get_agriquest_weather_block_data(
+            start_date=start_date,
+            end_date=end_date,
+            block_code=AgriquestBlocks.FRA_DEPARTEMENTS,
+            weather_type=AgriquestWeatherType.CUMULATIVE_PRECIPITATION
+        )
+        assert dataset.keys()[0] == "AMU"
+        assert len(dataset["AMU"]) == 97
+
+    @patch('geosyspy.utils.http_client.HttpClient.post')
+    def test_get_agriquest_ndvi_block_data(self, get_response):
+        get_response.return_value =  mock_http_response_text_content("POST", load_data_from_textfile(
+           "agriquest_ndvi_data_mock_http_response"))
+        date = "2023-06-05"
+        dataset = self.client.get_agriquest_ndvi_block_data(
+            day_of_measure=date,
+            commodity_code=AgriquestCommodityCode.ALL_VEGETATION,
+            block_code=AgriquestBlocks.AMU_NORTH_AMERICA,
+        )
+        assert dataset.keys()[0] == "AMU"
+        assert dataset.keys()[-1] == "NDVI"
