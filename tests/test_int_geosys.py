@@ -29,6 +29,16 @@ class TestGeosys:
                     Region.NA
                     )
 
+    prod_client = Geosys(API_CLIENT_ID,
+                         API_CLIENT_SECRET,
+                         API_USERNAME,
+                         API_PASSWORD,
+                         Env.PROD,
+                         Region.NA
+                         )
+    # get list of available crops
+    crops = prod_client.get_available_crops()
+
     def test_authenticate(self):
         credentials = self.client.http_client.get_access_token();
         assert {"access_token", "expires_in", "token_type", "scope", "expires_at",
@@ -74,7 +84,9 @@ class TestGeosys:
         end_date = dt.date.today()
         start_date = dt.date.today() + relativedelta(months=-12)
         info, images_references = self.client.get_satellite_coverage_image_references(
-            POLYGON, start_date, end_date,  collections=[SatelliteImageryCollection.SENTINEL_2, SatelliteImageryCollection.LANDSAT_8, SatelliteImageryCollection.LANDSAT_9])
+            POLYGON, start_date, end_date,
+            collections=[SatelliteImageryCollection.SENTINEL_2, SatelliteImageryCollection.LANDSAT_8,
+                         SatelliteImageryCollection.LANDSAT_9])
 
         assert {"coverageType", "image.id", "image.availableBands", "image.sensor", "image.soilMaterial",
                 "image.spatialResolution", "image.weather", "image.date", "seasonField.id"}.issubset(set(info.columns))
@@ -149,25 +161,128 @@ class TestGeosys:
         )
         assert dict(dataset.dims) == {'band': 4, 'y': 51, 'x': 48, 'time': 1}
 
-
     def test_get_agriquest_weather_time_series(self):
         start_date = "2022-05-01"
         end_date = "2023-04-28"
         dataset = self.client.get_agriquest_weather_block_data(
-            start_date= start_date,
+            start_date=start_date,
             end_date=end_date,
-            block_code= AgriquestBlocks.FRA_DEPARTEMENTS,
-            weather_type= AgriquestWeatherType.CUMULATIVE_PRECIPITATION
+            block_code=AgriquestBlocks.FRA_DEPARTEMENTS,
+            weather_type=AgriquestWeatherType.CUMULATIVE_PRECIPITATION
         )
         assert dataset.keys()[0] == "AMU"
         assert len(dataset["AMU"]) == 97
 
     def test_get_agriquest_ndvi_time_series(self):
-         date = "2023-06-05"
-         dataset = self.client.get_agriquest_ndvi_block_data(
-             day_of_measure= date,
-             commodity_code= AgriquestCommodityCode.ALL_VEGETATION,
-             block_code= AgriquestBlocks.AMU_NORTH_AMERICA,
-         )
-         assert dataset.keys()[0] == "AMU"
-         assert dataset.keys()[-1] == "NDVI"
+        date = "2023-06-05"
+        dataset = self.client.get_agriquest_ndvi_block_data(
+            day_of_measure=date,
+            commodity_code=AgriquestCommodityCode.ALL_VEGETATION,
+            block_code=AgriquestBlocks.AMU_NORTH_AMERICA,
+        )
+        assert dataset.keys()[0] == "AMU"
+        assert dataset.keys()[-1] == "NDVI"
+
+    def test_get_harvest_analytics(self):
+        dataset = self.prod_client.get_harvest_analytics(
+            season_duration=215,
+            season_start_day=1,
+            season_start_month=4,
+            crop=self.crops._2ND_CORN,
+            year=2021,
+            geometry="POLYGON ((-56.785919346530768 -21.208154463301554 ,  -56.79078750820733 -21.206043784434833 ,  -56.790973809206818 -21.206069651656232 ,  -56.791373799079636 -21.197107091323097 ,  -56.785129186971687 -21.196010916846863 ,  -56.781397554331065 -21.19535575112814 ,  -56.777108478217059 -21.202038412606473 ,  -56.778435977920665 -21.211398619037478 ,  -56.785919346530768 -21.208154463301554))",
+            harvest_type=Harvest.HARVEST_HISTORICAL)
+
+        assert dataset.keys()[0] == 'Values.harvest_year_1'
+        assert dataset.keys()[-1] == 'Schema.Id'
+        assert dataset.values[0][-1] == 'HISTORICAL_HARVEST'
+
+    def test_get_emergence_analytics(self):
+        dataset = self.prod_client.get_emergence_analytics(
+            season_duration=215,
+            season_start_day=1,
+            season_start_month=4,
+            crop=self.crops._2ND_CORN,
+            year=2021,
+            geometry="POLYGON ((-56.785919346530768 -21.208154463301554 ,  -56.79078750820733 -21.206043784434833 ,  -56.790973809206818 -21.206069651656232 ,  -56.791373799079636 -21.197107091323097 ,  -56.785129186971687 -21.196010916846863 ,  -56.781397554331065 -21.19535575112814 ,  -56.777108478217059 -21.202038412606473 ,  -56.778435977920665 -21.211398619037478 ,  -56.785919346530768 -21.208154463301554))",
+            emergence_type=Emergence.EMERGENCE_IN_SEASON)
+
+        assert dataset.keys()[0] == 'Values.EmergenceDate'
+        assert dataset.keys()[-1] == 'Schema.Id'
+        assert dataset.values[0][-1] == 'INSEASON_EMERGENCE'
+
+    def test_get_potential_score_analytics(self):
+        dataset = self.prod_client.get_potential_score_analytics(
+            end_date="2022-03-06",
+            nb_historical_years=5,
+            season_duration=200,
+            season_start_day=1,
+            season_start_month=10,
+            crop=self.crops.CORN,
+            sowing_date="2021-10-01",
+            geometry="POLYGON ((-54.26027778 -25.38777778, -54.26027778 -25.37444444, -54.26 -25.37416667, -54.25972222 -25.37444444, -54.25944444 -25.37444444, -54.25888889 -25.37472222, -54.258611110000004 -25.37472222, -54.25888889 -25.375, -54.25888889 -25.37555555, -54.258611110000004 -25.37611111, -54.258611110000004 -25.38194444, -54.25833333 -25.38416667, -54.25694444 -25.38361111, -54.25694444 -25.38416667, -54.2575 -25.38416667, -54.2575 -25.38444444, -54.25777778 -25.38416667, -54.25807016 -25.384158120000002, -54.25805556 -25.38444444, -54.258077300000004 -25.38472206, -54.2575 -25.38527778, -54.25694444 -25.385, -54.256388890000004 -25.38361111, -54.25472222 -25.38305555, -54.25472222 -25.3825, -54.254166670000004 -25.38194444, -54.25444444 -25.38166667, -54.25472222 -25.38166667, -54.25472222 -25.37944444, -54.25277778 -25.37944444, -54.25277778 -25.38583333, -54.25419223 -25.3861539, -54.2539067 -25.38589216, -54.25388889 -25.385, -54.25444444 -25.38555555, -54.2547871 -25.385820770000002, -54.25472222 -25.38611111, -54.26027778 -25.38777778))"
+        )
+        assert dataset.keys()[0] == 'Values.historical_potential_score'
+        assert dataset.keys()[-1] == 'Schema.Id'
+        assert dataset.values[0][-1] == 'POTENTIAL_SCORE'
+
+    def test_get_greenness_analytics(self):
+        dataset = self.prod_client.get_greenness_analytics(
+            start_date="2022-01-15",
+            end_date="2022-05-31",
+            crop=self.crops.CORN,
+            sowing_date="2022-01-15",
+            geometry="POLYGON ((-54.26027778 -25.38777778, -54.26027778 -25.37444444, -54.26 -25.37416667, -54.25972222 -25.37444444, -54.25944444 -25.37444444, -54.25888889 -25.37472222, -54.258611110000004 -25.37472222, -54.25888889 -25.375, -54.25888889 -25.37555555, -54.258611110000004 -25.37611111, -54.258611110000004 -25.38194444, -54.25833333 -25.38416667, -54.25694444 -25.38361111, -54.25694444 -25.38416667, -54.2575 -25.38416667, -54.2575 -25.38444444, -54.25777778 -25.38416667, -54.25807016 -25.384158120000002, -54.25805556 -25.38444444, -54.258077300000004 -25.38472206, -54.2575 -25.38527778, -54.25694444 -25.385, -54.256388890000004 -25.38361111, -54.25472222 -25.38305555, -54.25472222 -25.3825, -54.254166670000004 -25.38194444, -54.25444444 -25.38166667, -54.25472222 -25.38166667, -54.25472222 -25.37944444, -54.25277778 -25.37944444, -54.25277778 -25.38583333, -54.25419223 -25.3861539, -54.2539067 -25.38589216, -54.25388889 -25.385, -54.25444444 -25.38555555, -54.2547871 -25.385820770000002, -54.25472222 -25.38611111, -54.26027778 -25.38777778))"
+        )
+        assert dataset.keys()[0] == "Values.peak_found"
+        assert dataset.keys()[-1] == 'Schema.Id'
+        assert dataset.values[0][-1] == 'GREENNESS'
+
+    def test_get_harvest_readinesss_analytics(self):
+        dataset = self.prod_client.get_harvest_readiness_analytics(
+            start_date="2022-01-15",
+            end_date="2022-05-31",
+            crop=self.crops.CORN,
+            sowing_date="2022-01-15",
+            geometry="POLYGON ((-54.26027778 -25.38777778, -54.26027778 -25.37444444, -54.26 -25.37416667, -54.25972222 -25.37444444, -54.25944444 -25.37444444, -54.25888889 -25.37472222, -54.258611110000004 -25.37472222, -54.25888889 -25.375, -54.25888889 -25.37555555, -54.258611110000004 -25.37611111, -54.258611110000004 -25.38194444, -54.25833333 -25.38416667, -54.25694444 -25.38361111, -54.25694444 -25.38416667, -54.2575 -25.38416667, -54.2575 -25.38444444, -54.25777778 -25.38416667, -54.25807016 -25.384158120000002, -54.25805556 -25.38444444, -54.258077300000004 -25.38472206, -54.2575 -25.38527778, -54.25694444 -25.385, -54.256388890000004 -25.38361111, -54.25472222 -25.38305555, -54.25472222 -25.3825, -54.254166670000004 -25.38194444, -54.25444444 -25.38166667, -54.25472222 -25.38166667, -54.25472222 -25.37944444, -54.25277778 -25.37944444, -54.25277778 -25.38583333, -54.25419223 -25.3861539, -54.2539067 -25.38589216, -54.25388889 -25.385, -54.25444444 -25.38555555, -54.2547871 -25.385820770000002, -54.25472222 -25.38611111, -54.26027778 -25.38777778))"
+        )
+        assert dataset.keys()[0] == "Values.date"
+        assert dataset.keys()[-1] == 'Schema.Id'
+        assert dataset.values[0][-1] == 'HARVEST_READINESS'
+
+    def test_get_planted_area_analytics(self):
+        dataset = self.prod_client.get_planted_area_analytics(
+            start_date="2022-01-15",
+            end_date="2022-05-31",
+            geometry="POLYGON ((-54.26027778 -25.38777778, -54.26027778 -25.37444444, -54.26 -25.37416667, -54.25972222 -25.37444444, -54.25944444 -25.37444444, -54.25888889 -25.37472222, -54.258611110000004 -25.37472222, -54.25888889 -25.375, -54.25888889 -25.37555555, -54.258611110000004 -25.37611111, -54.258611110000004 -25.38194444, -54.25833333 -25.38416667, -54.25694444 -25.38361111, -54.25694444 -25.38416667, -54.2575 -25.38416667, -54.2575 -25.38444444, -54.25777778 -25.38416667, -54.25807016 -25.384158120000002, -54.25805556 -25.38444444, -54.258077300000004 -25.38472206, -54.2575 -25.38527778, -54.25694444 -25.385, -54.256388890000004 -25.38361111, -54.25472222 -25.38305555, -54.25472222 -25.3825, -54.254166670000004 -25.38194444, -54.25444444 -25.38166667, -54.25472222 -25.38166667, -54.25472222 -25.37944444, -54.25277778 -25.37944444, -54.25277778 -25.38583333, -54.25419223 -25.3861539, -54.2539067 -25.38589216, -54.25388889 -25.385, -54.25444444 -25.38555555, -54.2547871 -25.385820770000002, -54.25472222 -25.38611111, -54.26027778 -25.38777778))"
+        )
+        assert dataset.keys()[0] == "Values.planted_area"
+        assert dataset.keys()[-1] == 'Schema.Id'
+        assert dataset.values[0][-1] == 'PLANTED_AREA'
+
+    def test_get_brazil_crop_id_analytics(self):
+        dataset = self.prod_client.get_brazil_crop_id_analytics(
+            start_date="2020-10-01",
+            end_date="2021-05-31",
+            season=CropIdSeason.SEASON_1,
+            geometry="POLYGON ((-54.26027778 -25.38777778, -54.26027778 -25.37444444, -54.26 -25.37416667, -54.25972222 -25.37444444, -54.25944444 -25.37444444, -54.25888889 -25.37472222, -54.258611110000004 -25.37472222, -54.25888889 -25.375, -54.25888889 -25.37555555, -54.258611110000004 -25.37611111, -54.258611110000004 -25.38194444, -54.25833333 -25.38416667, -54.25694444 -25.38361111, -54.25694444 -25.38416667, -54.2575 -25.38416667, -54.2575 -25.38444444, -54.25777778 -25.38416667, -54.25807016 -25.384158120000002, -54.25805556 -25.38444444, -54.258077300000004 -25.38472206, -54.2575 -25.38527778, -54.25694444 -25.385, -54.256388890000004 -25.38361111, -54.25472222 -25.38305555, -54.25472222 -25.3825, -54.254166670000004 -25.38194444, -54.25444444 -25.38166667, -54.25472222 -25.38166667, -54.25472222 -25.37944444, -54.25277778 -25.37944444, -54.25277778 -25.38583333, -54.25419223 -25.3861539, -54.2539067 -25.38589216, -54.25388889 -25.385, -54.25444444 -25.38555555, -54.2547871 -25.385820770000002, -54.25472222 -25.38611111, -54.26027778 -25.38777778))"
+        )
+
+        assert dataset.keys()[0] == "Values.crop_code"
+        assert dataset.keys()[-1] == 'Schema.Id'
+        assert dataset.values[0][-1] == 'CROP_IDENTIFICATION'
+
+    def test_get_zarc_analytics(self):
+        dataset = self.prod_client.get_zarc_analytics(
+            start_date_emergence="2022-01-15",
+            end_date_emergence="2022-05-31",
+            nb_days_sowing_emergence=20,
+            crop=self.crops.CORN,
+            soil_type=ZarcSoilType.NONE,
+            cycle=ZarcCycleType.NONE,
+            geometry="POLYGON ((-54.26027778 -25.38777778, -54.26027778 -25.37444444, -54.26 -25.37416667, -54.25972222 -25.37444444, -54.25944444 -25.37444444, -54.25888889 -25.37472222, -54.258611110000004 -25.37472222, -54.25888889 -25.375, -54.25888889 -25.37555555, -54.258611110000004 -25.37611111, -54.258611110000004 -25.38194444, -54.25833333 -25.38416667, -54.25694444 -25.38361111, -54.25694444 -25.38416667, -54.2575 -25.38416667, -54.2575 -25.38444444, -54.25777778 -25.38416667, -54.25807016 -25.384158120000002, -54.25805556 -25.38444444, -54.258077300000004 -25.38472206, -54.2575 -25.38527778, -54.25694444 -25.385, -54.256388890000004 -25.38361111, -54.25472222 -25.38305555, -54.25472222 -25.3825, -54.254166670000004 -25.38194444, -54.25444444 -25.38166667, -54.25472222 -25.38166667, -54.25472222 -25.37944444, -54.25277778 -25.37944444, -54.25277778 -25.38583333, -54.25419223 -25.3861539, -54.2539067 -25.38589216, -54.25388889 -25.385, -54.25444444 -25.38555555, -54.2547871 -25.385820770000002, -54.25472222 -25.38611111, -54.26027778 -25.38777778))"
+        )
+
+        assert dataset.keys()[0] == "Values.emergence_date"
+        assert dataset.keys()[-1] == 'Schema.Id'
+        assert dataset.values[0][-1] == 'ZARC'

@@ -1,0 +1,13 @@
+[
+    [
+        {
+            "layer": "BRAZIL_MUNICIPIOS",
+            "geometry_acreage": 21.99,
+            "status_overlap": true,
+            "intersection_percent": 100,
+            "properties": {
+                "id": 121935
+            }
+        }
+    ]
+]
