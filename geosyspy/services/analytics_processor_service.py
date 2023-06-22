@@ -13,7 +13,7 @@ class AnalyticsProcessorService:
         self.base_url: str = base_url
         self.http_client: HttpClient = http_client
 
-    @retrying.retry(wait_exponential_multiplier=1000, wait_exponential_max=10000, stop_max_attempt_number=20, retry_on_exception=lambda exc: isinstance(exc, KeyError))
+    @retrying.retry(wait_exponential_multiplier=1000, wait_exponential_max=10000, stop_max_attempt_number=50, retry_on_exception=lambda exc: isinstance(exc, KeyError))
     def wait_and_check_task_status(self, task_id: str):
         """Check task status until it is ended for a specific analytics processor run
 
