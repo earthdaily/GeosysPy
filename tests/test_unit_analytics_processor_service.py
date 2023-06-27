@@ -132,3 +132,31 @@ class TestAnalyticsProcessorService:
                                                                 geometry=geometry,
                                                                 seasonfield_id='seasonFieldFakeId')
         assert task_id == "cb58faaf8a5640e4913d16bfde3f5bbf"
+
+    @patch('geosyspy.utils.http_client.HttpClient.post')
+    def test_get_mr_time_series_processor(self, post_response):
+        post_response.return_value = mock_http_response_text_content("POST", load_data_from_textfile(
+            "launch_processor_data_mock_http_response"))
+
+        task_id = self.service.launch_mr_time_series_processor(start_date="2020-10-09",
+                                                               end_date="2022-10-09",
+                                                               list_sensors=["Sentinel_2", "Landsat_8"],
+                                                               denoiser=True,
+                                                               smoother="ww",
+                                                               eoc=True,
+                                                               aggregation="mean",
+                                                               index="ndvi",
+                                                               raw_data=True,
+                                                               polygon="POLYGON ((-0.49881816 46.27330504, -0.49231649 46.27320122, -0.49611449 46.26983426, -0.49821735 46.27094671, -0.49881816 46.27330504))")
+
+        assert task_id == "cb58faaf8a5640e4913d16bfde3f5bbf"
+
+    @patch('geosyspy.utils.http_client.HttpClient.get')
+    def test_get_s3_path_from_task_and_processor(self, get_response):
+        get_response.return_value = mock_http_response_text_content("GET", load_data_from_textfile(
+            "processor_event_data_mock_http_response"))
+
+        s3_path = self.service.get_s3_path_from_task_and_processor(task_id="4d0980e07b7245d49419ff5ec87fff09",
+                                                                   processor_name="mrts")
+
+        assert s3_path == "s3://geosys-geosys-us/2tKecZgMyEP6EkddLxa1gV/mrts/4d0980e07b7245d49419ff5ec87fff09"

@@ -16,4 +16,5 @@ class ProcessorConfiguration(Enum):
     EMERGENCE_DELAY = {"profile": "inseason-emergence_default", "api_processor_path": "emergence-delay"}
     HARVEST_IN_SEASON = {"profile":"inseason-harvest_default", "api_processor_path":"inseason-harvest"}
     HARVEST_HISTORICAL = {"profile":"historical-harvest_default", "api_processor_path":"historical-harvest"}
+    MRTS = {"profile":"mrts_default", "api_processor_path":"mrts"}
 

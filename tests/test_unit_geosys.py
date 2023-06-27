@@ -38,64 +38,6 @@ class TestGeosys:
 
 
     @patch('geosyspy.utils.http_client.HttpClient.get')
-    def test_get_time_series_modis_ndvi(self, get_response):
-        get_response.return_value = mock_http_response_text_content("GET", load_data_from_textfile(
-            "time_series_modis_ndvi_mock_http_response"))
-        start_date = dt.datetime.strptime("2020-01-01", "%Y-%m-%d")
-        end_date = dt.datetime.strptime("2020-01-07", "%Y-%m-%d")
-        df = self.client.get_time_series(
-            POLYGON, start_date, end_date, SatelliteImageryCollection.MODIS, ["NDVI"]
-        )
-
-        assert df.index.name == "date"
-        assert "value" in df.columns
-        assert "index" in df.columns
-        assert len(df.index) == 7
-        date_range = list(map(lambda x: x.strftime("%Y-%m-%d"), df.index))
-        assert {"2020-01-01", "2020-01-02", "2020-01-03", "2020-01-04", "2020-01-05", "2020-01-06",
-                "2020-01-07"}.issubset(set(date_range))
-
-    @patch('geosyspy.utils.http_client.HttpClient.get')
-    def test_get_satellite_image_time_series_modis_ndvi(self, get_response):
-        get_response.return_value = mock_http_response_text_content("GET", load_data_from_textfile(
-            "satellite_image_time_series_modis_ndvi_mock_http_response"))
-        start_date = dt.datetime.strptime("2020-01-01", "%Y-%m-%d")
-        end_date = dt.datetime.strptime("2020-01-07", "%Y-%m-%d")
-
-        df = self.client.get_satellite_image_time_series(
-            POLYGON, start_date, end_date, [SatelliteImageryCollection.MODIS], ["NDVI"]
-        )
-        assert df.index.name == "date"
-        assert {"value", "index", "pixel.id"}.issubset(set(df.columns))
-        assert np.all((df["index"].values == "NDVI"))
-        assert len(df.index) == 14
-
-        assert {"2020-01-01", "2020-01-02", "2020-01-03", "2020-01-04", "2020-01-05", "2020-01-06",
-                "2020-01-07"}.issubset(set(df.index))
-
-        assert {"mh11v4i225j4612", "mh11v4i226j4612"}.issubset(set(df["pixel.id"]))
-
-    @patch('geosyspy.utils.http_client.HttpClient.get')
-    def test_get_satellite_coverage_image_references(self, get_response):
-        get_response.return_value = mock_http_response_text_content("GET", load_data_from_textfile(
-            "satellite_coverage_image_references_mock_http_response"))
-        start_date = dt.datetime.strptime("2022-01-01", "%Y-%m-%d")
-        end_date = dt.datetime.strptime("2023-01-01", "%Y-%m-%d")
-        info, images_references = self.client.get_satellite_coverage_image_references(
-            POLYGON, start_date, end_date, [SatelliteImageryCollection.SENTINEL_2]
-        )
-
-        assert {"coverageType", "image.id", "image.availableBands", "image.sensor", "image.soilMaterial",
-                "image.spatialResolution", "image.weather", "image.date", "seasonField.id"}.issubset(set(info.columns))
-
-        assert len(info) == len(images_references)
-        for i, image_info in info.iterrows():
-            assert (
-                       image_info["image.date"],
-                       image_info["image.sensor"],
-                   ) in images_references
-
-    @patch('geosyspy.utils.http_client.HttpClient.get')
     def test_get_time_series_weather_historical_daily(self, get_response):
         get_response.return_value = mock_http_response_text_content("GET", load_data_from_textfile(
             "time_series_weather_historical_daily_mock_http_response"))

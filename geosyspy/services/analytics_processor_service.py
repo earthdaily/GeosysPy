@@ -5,6 +5,7 @@ from geosyspy.utils.constants import *
 from geosyspy.services.service_constants import *
 from geosyspy.utils.http_client import *
 import retrying
+import datetime
 
 
 class AnalyticsProcessorService:
@@ -47,11 +48,101 @@ class AnalyticsProcessorService:
 
         return task_status
 
+    def get_s3_path_from_task_and_processor(self, task_id: str,
+                                            processor_name: str):
+        """Returns S3 path related to task_id
+
+        Args:
+            task_id : A string representing a task id
+            processor_name: the processor name
+        Returns:
+            path : uri
+
+        """
+
+        events_endpoint: str = urljoin(self.base_url,
+                                            GeosysApiEndpoints.PROCESSOR_EVENTS_ENDPOINT.value + "/" + task_id)
+
+        response = self.http_client.get(events_endpoint)
+        if response.ok:
+            dict_resp = json.loads(response.content)
+            customer_code: str = dict_resp["customerCode"].lower().replace("_", "-")
+            user_id: str = dict_resp["userId"]
+            task_id = dict_resp["taskId"]
+            return f"s3://geosys-{customer_code}/{user_id}/{processor_name}/{task_id}"
+        else:
+            logging.info(response.status_code)
+            raise ValueError(response.content)
+
+    def launch_mr_time_series_processor(self, polygon,
+                                        start_date: str,
+                                        end_date,
+                                        list_sensors,
+                                        denoiser: bool,
+                                        smoother: str,
+                                        eoc: bool,
+                                        aggregation: str,
+                                        index: str,
+                                        raw_data: bool):
+        """launch a MRTS analytics processor and get the task id in result
+
+            Args:
+                start_date : The start date of the time series
+                end_date : The end date of the time series
+                list_sensors : The Satellite Imagery Collection targeted
+                denoiser : A boolean value indicating whether a denoising operation should be applied or not.
+                smoother : The type or name of the smoothing technique or algorithm to be used.
+                eoc : A boolean value indicating whether the "end of curve" detection should be performed.
+                func : The type or name of the function to be applied to the data.
+                index : The type or name of the index used for data manipulation or referencing
+                raw_data : A boolean value indicating whether the data is in its raw/unprocessed form.
+                polygon : A string representing a polygon.
+
+            Returns:
+                taskId (str)
+        """
+
+        if end_date is None:
+            end_date = datetime.datetime.today().strftime("%Y-%m-%d")
+        payload = {
+            "parametersProfile": {
+                "code": ProcessorConfiguration.MRTS.value['profile'],
+                "version": 1
+            },
+            "parameters": {
+                "start_date": start_date,
+                "end_date": end_date,
+                "sensors": list_sensors,
+                "denoiser": denoiser,
+                "smoother": smoother,
+                "eoc": eoc,
+                "aggregation": aggregation,
+                "index": index,
+                "raw_data": raw_data
+            },
+            "data": [
+                {"wkt": polygon}
+            ]
+        }
+
+        processor_endpoint: str = urljoin(self.base_url,
+                                          GeosysApiEndpoints.LAUNCH_PROCESSOR_ENDPOINT.value.format(
+                                              ProcessorConfiguration.MRTS.value['api_processor_path']))
+
+        response = self.http_client.post(processor_endpoint, payload)
+
+        if response.ok:
+            task_id = json.loads(response.content)["taskId"]
+            return task_id
+        else:
+            logging.info(response.status_code)
+            raise ValueError(response.content)
+
     def launch_planted_area_processor(self,
                                       start_date: str,
                                       end_date: str,
                                       seasonfield_id: str):
-        """launch a planted area analytics processor and get the job id in result
+        """launch a planted area analytics processor and get the task id in result
 
             Args:
                 start_date (str) : the start date used for the request (format YYYY-MM-dd)
