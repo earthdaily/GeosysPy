@@ -1,5 +1,4 @@
 import io
-import logging
 import zipfile
 from pathlib import Path
 
@@ -7,15 +6,16 @@ import numpy as np
 import rasterio
 import xarray as xr
 from rasterio.io import MemoryFile
-from requests import HTTPError
 
 from geosyspy import image_reference
 from geosyspy.services.agriquest_service import *
 from geosyspy.services.analytics_fabric_service import *
 from geosyspy.services.analytics_processor_service import *
-from geosyspy.services.master_data_management_service import *
-from geosyspy.services.weather_service import *
 from geosyspy.services.gis_service import *
+from geosyspy.services.map_product_service import *
+from geosyspy.services.master_data_management_service import *
+from geosyspy.services.vegetation_time_series_service import *
+from geosyspy.services.weather_service import *
 from geosyspy.utils.geosys_platform_urls import *
 
 
@@ -51,6 +51,8 @@ class Geosys:
         self.__agriquest_service = AgriquestService(self.base_url, self.http_client)
         self.__weather_service = WeatherService(self.base_url, self.http_client)
         self.__gis_service = GisService(self.gis_url, self.http_client)
+        self.__vts_service = VegetationTimeSeriesService(self.base_url, self.http_client)
+        self.__map_product_service = MapProductService(self.base_url, self.http_client, self.priority_queue)
 
     def get_time_series(self, polygon: str,
                         start_date: datetime,
@@ -81,8 +83,10 @@ class Geosys:
                 indicators,
             )
         elif collection in LR_SATELLITE_COLLECTION:
-            return self.__get_modis_time_series(
-                polygon, start_date, end_date, indicators[0]
+            # extract seasonfield id from geometry
+            season_field_id: str = self.__master_data_management_service.extract_season_field_id(polygon)
+            return self.__vts_service.get_modis_time_series(
+                season_field_id, start_date, end_date, indicators[0]
             )
         else:
             raise ValueError(f"{collection} collection doesn't exist")
@@ -111,135 +115,21 @@ class Geosys:
                 "The argument collections is empty. It must be a list of SatelliteImageryCollection objects"
             )
         elif all([isinstance(elem, SatelliteImageryCollection) for elem in collections]):
+            # extract seasonfield id from geometry
+            season_field_id: str = self.__master_data_management_service.extract_season_field_id(polygon)
+
             if set(collections).issubset(set(LR_SATELLITE_COLLECTION)):
-                return self.__get_time_series_by_pixel(
-                    polygon, start_date, end_date, indicators[0]
+                return self.__vts_service.get_time_series_by_pixel(
+                    season_field_id, start_date, end_date, indicators[0]
                 )
             elif set(collections).issubset(set(MR_SATELLITE_COLLECTION)):
                 return self.__get_images_as_dataset(
-                    polygon, start_date, end_date, collections, indicators[0]
+                    season_field_id, start_date, end_date, collections, indicators[0]
                 )
         else:
             raise TypeError(
                 f"Argument collections must be a list of SatelliteImageryCollection objects"
             )
-
-    def __get_modis_time_series(self, polygon: str,
-                                start_date: datetime,
-                                end_date: datetime,
-                                indicator: str) -> pd.DataFrame:
-        """Returns a pandas DataFrame.
-
-        This method returns a time series of 'indicator' within the range
-        'start_date' -> 'end_date' as a pandas DataFrame :
-
-                     | index     | value |
-
-            date     | indicator |   1   |
-        __________________________________
-         start-date  | indicator |   2   |
-
-            ...      |    ...    |  ...  |
-
-         end-date    | indicator |   8   |
-
-        Args:
-            polygon : A string representing a polygon.
-            start_date : A datetime object representing the start date of the date interval the user wants to filter on.
-            end_date : A datetime object representing the final date of the date interval the user wants to filter on.
-            indicator : A string representing the indicator whose time series the user wants.
-
-        Returns:
-            df : A Pandas DataFrame containing two columns : index and value, and an index called 'date'.
-
-        """
-
-        logging.info("Calling APIs for aggregated time series")
-        season_field_id: str = self.__master_data_management_service.extract_season_field_id(polygon)
-        start_date: str = start_date.strftime("%Y-%m-%d")
-        end_date: str = end_date.strftime("%Y-%m-%d")
-        parameters: str = f"/values?$offset=0&$limit=9999&$count=false&SeasonField.Id={season_field_id}&index={indicator}&$filter=Date >= '{start_date}' and Date <= '{end_date}'"
-        vts_url: str = urljoin(self.base_url, GeosysApiEndpoints.VTS_ENDPOINT.value + parameters)
-        response = self.http_client.get(vts_url)
-
-        if response.status_code == 200:
-            dict_response = response.json()
-            df = pd.read_json(json.dumps(dict_response))
-            df.set_index("date", inplace=True)
-            return df
-        else:
-            logging.info(response.status_code)
-
-    def __get_time_series_by_pixel(self, polygon: str,
-                                   start_date: datetime,
-                                   end_date: datetime,
-                                   indicator: str) -> pd.DataFrame:
-        """Returns a pandas DataFrame.
-
-        This method returns a time series of 'indicator' by pixel within the range 'start_date' -> 'end_date'
-        as well as the pixel's coordinates X,Y in the MODIS's sinusoidal projection as a pandas DataFrame :
-
-
-
-                        | index     | value | pixel.id | X | Y |
-                        _______________________________________|
-            date        | indicator |       |          |   |   |
-            ___________________________________________________|
-
-            start-date  | indicator |   2   |    1     |   |   |
-
-            ...         | ...       |  ...  |   ...    |   |   |
-
-            end-date    | indicator |   8   |   1000   |   |   |
-
-        Args:
-            polygon : A string representing a polygon.
-            start_date : A datetime object representing the start date of the date interval the user wants to filter on.
-            end_date : A datetime object representing the final date of the date interval the user wants to filter on.
-            indicator : A string representing the indicator whose time series the user wants.
-
-        Returns:
-            df : A Pandas DataFrame containing five columns : index, value, pixel.id, X, Y and an index called 'date'.
-
-        """
-
-        logging.info("Calling APIs for time series by the pixel")
-        season_field_id: str = self.__master_data_management_service.extract_season_field_id(polygon)
-        start_date: str = start_date.strftime("%Y-%m-%d")
-        end_date: str = end_date.strftime("%Y-%m-%d")
-        parameters: str = f"/values?$offset=0&$limit=9999&$count=false&SeasonField.Id={season_field_id}&index={indicator}&$filter=Date >= '{start_date}' and Date <= '{end_date}'"
-        vts_url: str = urljoin(self.base_url, GeosysApiEndpoints.VTS_BY_PIXEL_ENDPOINT.value + parameters)
-        # PSX/PSY : size in meters of one pixel
-        # MODIS_GRID_LENGTH : theoretical length of the modis grid in meters
-        # MODIS_GRID_HEIGHT : theoretical height of the modis grid in meters
-        PSX = 231.65635826
-        PSY = -231.65635826
-        MODIS_GRID_LENGTH = 4800 * PSX * 36
-        MODIS_GRID_HEIGHT = 4800 * PSY * 18
-
-        response = self.http_client.get(vts_url)
-
-        if response.status_code == 200:
-            df = pd.json_normalize(response.json())
-            df.set_index("date", inplace=True)
-
-            # Extracts h, v, i and j from the pixel dataframe
-            logging.info("Computing X and Y coordinates per pixel... ")
-            df["h"] = df["pixel.id"].str.extract(r"h(.*)v").astype(int)
-            df["v"] = df["pixel.id"].str.extract(r"v(.*)i").astype(int)
-            df["i"] = df["pixel.id"].str.extract(r"i(.*)j").astype(int)
-            df["j"] = df["pixel.id"].str.extract(r"j(.*)$").astype(int)
-
-            # XUL/YUL : The coordinates of the top left corner of the tile h,v's top left pixel
-            #  X/Y : the coordinates of the top left corner of the i,j pixel
-            df["XUL"] = (df["h"] + 1) * 4800 * PSX - MODIS_GRID_LENGTH / 2
-            df["YUL"] = (df["v"] + 1) * 4800 * PSY + MODIS_GRID_HEIGHT / 2
-            df["X"] = df["i"] * PSX + df["XUL"]
-            df["Y"] = df["j"] * PSY + df["YUL"]
-            logging.info("Done ! ")
-            return df[["index", "value", "pixel.id", "X", "Y"]]
-        else:
-            logging.info(response.status_code)
 
     def get_satellite_coverage_image_references(self, polygon: str,
                                                 start_date: datetime,
@@ -262,8 +152,10 @@ class Geosys:
         Returns:
             (tuple): images list and image references for downloading
         """
+        # extract seasonfield id from geometry
+        season_field_id: str = self.__master_data_management_service.extract_season_field_id(polygon)
 
-        df = self.__get_satellite_coverage(polygon, start_date, end_date, "", collections)
+        df = self.__map_product_service.get_satellite_coverage(season_field_id, start_date, end_date, "", collections)
         images_references = {}
         if df is not None:
             for i, image in df.iterrows():
@@ -278,79 +170,6 @@ class Geosys:
 
         return df, images_references
 
-    def __get_satellite_coverage(self, polygon: str,
-                                 start_date: datetime,
-                                 end_date: datetime,
-                                 indicator,
-                                 sensors_collection: list[SatelliteImageryCollection] = [
-                                     SatelliteImageryCollection.SENTINEL_2,
-                                     SatelliteImageryCollection.LANDSAT_8]
-                                 ):
-
-        logging.info("Calling APIs for coverage")
-        season_field_id: str = self.__master_data_management_service.extract_season_field_id(polygon)
-        start_date: str = start_date.strftime("%Y-%m-%d")
-        end_date: str = end_date.strftime("%Y-%m-%d")
-        sensors: list[str] = [elem.value for elem in sensors_collection]
-
-        if indicator == "" or indicator.upper() == "REFLECTANCE" or indicator.upper() == "NDVI":
-            mapType = "INSEASON_NDVI"
-        else:
-            mapType = f"INSEASON_{indicator.upper()}"
-
-        parameters = f"?maps.type={mapType}&Image.Sensor=$in:{'|'.join(sensors)}&CoverageType=CLEAR&$limit=9999&$filter=Image.Date >= '{start_date}' and Image.Date <= '{end_date}'"
-
-        flm_url: str = urljoin(
-            self.base_url,
-            GeosysApiEndpoints.FLM_CATALOG_IMAGERY.value.format(season_field_id) + parameters,
-        )
-        response = self.http_client.get(
-            flm_url,
-            {"X-Geosys-Task-Code": PRIORITY_HEADERS[self.priority_queue]},
-        )
-
-        if response.status_code == 200:
-            df = pd.json_normalize(response.json())
-            if df.empty:
-                return df
-            else:
-                return df[
-                    [
-                        "coverageType",
-                        "maps",
-                        "image.id",
-                        "image.availableBands",
-                        "image.sensor",
-                        "image.soilMaterial",
-                        "image.spatialResolution",
-                        "image.weather",
-                        "image.date",
-                        "seasonField.id",
-                    ]
-                ]
-        else:
-            logging.info(response.status_code)
-
-    def __get_zipped_tiff(self, field_id: str,
-                          image_id: str,
-                          indicator: str = ""):
-        parameters = f"/{image_id}/reflectance-map/TOC/image.tiff.zip"
-
-        if indicator != "" and indicator.upper() != "REFLECTANCE":
-            parameters = f"/{image_id}/base-reference-map/INSEASON_{indicator.upper()}/image.tiff.zip?resolution=Sensor"
-
-        download_tiff_url: str = urljoin(
-            self.base_url, GeosysApiEndpoints.FLM_COVERAGE.value.format(field_id) + parameters
-        )
-
-        response_zipped_tiff = self.http_client.get(
-            download_tiff_url,
-            {"X-Geosys-Task-Code": PRIORITY_HEADERS[self.priority_queue]},
-        )
-        if response_zipped_tiff.status_code != 200:
-            raise HTTPError("Unable to download tiff.zip file. Server error: " + str(response_zipped_tiff.status_code))
-        return response_zipped_tiff
-
     def download_image(self, image_reference,
                        path: str = ""):
         """Downloads a satellite image locally
@@ -360,7 +179,7 @@ class Geosys:
             path (str): the path to download the image to
         """
 
-        response_zipped_tiff = self.__get_zipped_tiff(
+        response_zipped_tiff = self.__map_product_service.get_zipped_tiff(
             image_reference.season_field_id, image_reference.image_id
         )
         if path == "":
@@ -408,7 +227,7 @@ class Geosys:
         # Selects the covering images in the provided date range
         # and sorts them by resolution, from the highest to the lowest.
         # Keeps only the first image if two are found on the same date.
-        df_coverage = self.__get_satellite_coverage(
+        df_coverage = self.__map_product_service.get_satellite_coverage(
             polygon, start_date, end_date, indicator, collections
         )
 
@@ -432,7 +251,7 @@ class Geosys:
             else:
                 bands = row["image.availableBands"]
             dict_archives[row["image.id"]] = {
-                "byte_archive": self.__get_zipped_tiff(
+                "byte_archive": self.__map_product_service.get_zipped_tiff(
                     row["seasonField.id"], row["image.id"], indicator
                 ).content,
                 "bands": bands,
@@ -513,96 +332,6 @@ class Geosys:
             }
         )
         return dataset
-
-    def __get_s3_path(self, task_id: str):
-        """Returns S3 path related to task_id
-
-        Args:
-            task_id : A string representing a task id
-
-        Returns:
-            path : uri
-
-        """
-
-        mrts_events_endpoint: str = urljoin(self.base_url,
-                                            GeosysApiEndpoints.PROCESSOR_EVENTS_ENDPOINT.value + "/" + task_id)
-        # endpoint: str = GeosysApiEndpoints.MRTS_PROCESSOR_EVENTS_ENDPOINT.value + "/" + task_id
-        response = self.http_client.get(mrts_events_endpoint)
-        if response.ok:
-            dict_resp = json.loads(response.content)
-            customer_code: str = dict_resp["customerCode"].lower().replace("_", "-")
-            user_id: str = dict_resp["userId"]
-            task_id = dict_resp["taskId"]
-            return "s3://geosys-" + customer_code + "/" + user_id + "/mrts/" + task_id
-        else:
-            logging.info(response.status_code)
-
-    def get_mr_time_series(self,
-                           polygon,
-                           start_date: str = "2010-01-01",
-                           end_date=None,
-                           list_sensors=["micasense", "sequoia", "m4c", "sentinel_2",
-                                         "landsat_8", "landsat_9", "cbers4", "kazstsat",
-                                         "alsat_1b", "huanjing_2", "deimos", "gaofen_1", "gaofen_6",
-                                         "resourcesat2", "dmc_2", "landsat_5", "landsat_7",
-                                         "spot", "rapideye_3a", "rapideye_1b"],
-                           denoiser: bool = True,
-                           smoother: str = "ww",
-                           eoc: bool = True,
-                           aggregation: str = "mean",
-                           index: str = "ndvi",
-                           raw_data: bool = False
-                           ):
-
-        """Retrieve mr time series on the collection targeted.
-
-        Args:
-            start_date : The start date of the time series
-            end_date : The end date of the time series
-            list_sensors : The Satellite Imagery Collection targeted
-            denoiser : A boolean value indicating whether a denoising operation should be applied or not.
-            smoother : The type or name of the smoothing technique or algorithm to be used.
-            eoc : A boolean value indicating whether the "end of curve" detection should be performed.
-            func : The type or name of the function to be applied to the data.
-            index : The type or name of the index used for data manipulation or referencing
-            raw_data : A boolean value indicating whether the data is in its raw/unprocessed form.
-            polygon : A string representing a polygon.
-
-        Returns:
-            string : s3 bucket path
-        """
-        if end_date is None:
-            end_date = datetime.today().strftime("%Y-%m-%d")
-        payload = {
-            "parametersProfile": {
-                "code": "mrts_default",
-                "version": 1
-            },
-            "parameters": {
-                "start_date": start_date,
-                "end_date": end_date,
-                "sensors": list_sensors,
-                "denoiser": denoiser,
-                "smoother": smoother,
-                "eoc": eoc,
-                "aggregation": aggregation,
-                "index": index,
-                "raw_data": raw_data
-            },
-            "data": [
-                {"wkt": polygon}
-            ]
-        }
-
-        mrts_endpoint: str = urljoin(self.base_url, GeosysApiEndpoints.LAUNCH_PROCESSOR_ENDPOINT.value.format("mrts"))
-        response = self.http_client.post(mrts_endpoint, payload)
-
-        if response.ok:
-            task_id = json.loads(response.content)["taskId"]
-            return self.__get_s3_path(task_id)
-        else:
-            logging.info(response.status_code)
 
     ###########################################
     #           ANALYTICS FABRIC              #
@@ -743,6 +472,60 @@ class Geosys:
     #           ANALYTICS PROCESSOR           #
     ###########################################
 
+    def get_mr_time_series(self,
+                           polygon,
+                           start_date: str = "2010-01-01",
+                           end_date=None,
+                           list_sensors=["micasense", "sequoia", "m4c", "sentinel_2",
+                                         "landsat_8", "landsat_9", "cbers4", "kazstsat",
+                                         "alsat_1b", "huanjing_2", "deimos", "gaofen_1", "gaofen_6",
+                                         "resourcesat2", "dmc_2", "landsat_5", "landsat_7",
+                                         "spot", "rapideye_3a", "rapideye_1b"],
+                           denoiser: bool = True,
+                           smoother: str = "ww",
+                           eoc: bool = True,
+                           aggregation: str = "mean",
+                           index: str = "ndvi",
+                           raw_data: bool = False
+                           ):
+
+        """Retrieve mr time series on the collection targeted.
+
+        Args:
+            start_date : The start date of the time series
+            end_date : The end date of the time series
+            list_sensors : The Satellite Imagery Collection targeted
+            denoiser : A boolean value indicating whether a denoising operation should be applied or not.
+            smoother : The type or name of the smoothing technique or algorithm to be used.
+            eoc : A boolean value indicating whether the "end of curve" detection should be performed.
+            func : The type or name of the function to be applied to the data.
+            index : The type or name of the index used for data manipulation or referencing
+            raw_data : A boolean value indicating whether the data is in its raw/unprocessed form.
+            polygon : A string representing a polygon.
+
+        Returns:
+            string : s3 bucket path
+        """
+        task_id = self.__analytics_processor_service.launch_mr_time_series_processor(
+            start_date=start_date,
+            end_date=end_date,
+            polygon=polygon,
+            raw_data=raw_data,
+            denoiser=denoiser,
+            smoother=smoother,
+            aggregation=aggregation,
+            list_sensors=list_sensors,
+            index=index,
+            eoc=eoc,
+
+
+        )
+
+        # check the task status to continue or not the process
+        self.__analytics_processor_service.wait_and_check_task_status(task_id)
+
+        return self.__analytics_processor_service.get_s3_path_from_task_and_processor(task_id, processor_name="mrts")
+
     def get_harvest_analytics(self,
                               season_duration: int,
                               season_start_day: int,
@@ -789,7 +572,7 @@ class Geosys:
         logging.info(f"Task Id: {task_id}")
 
         # check the task status to continue or not the process
-        task_status = self.__analytics_processor_service.wait_and_check_task_status(task_id)
+        self.__analytics_processor_service.wait_and_check_task_status(task_id)
 
         # Analytics Schema
         if harvest_type == Harvest.HARVEST_IN_SEASON:
@@ -799,7 +582,6 @@ class Geosys:
 
         # if task successfully completed, get metrics from analytics fabric
         return self.__analytics_fabric_service.get_lastest_metrics(sf_unique_id, schema)
-
 
     def get_emergence_analytics(self,
                                 season_duration: int,
@@ -1002,7 +784,6 @@ class Geosys:
         # if task successfully completed, get metrics from analytics fabric
         return self.__analytics_fabric_service.get_lastest_metrics(sf_unique_id, schema)
 
-
     def get_harvest_readiness_analytics(self,
                                         start_date: str,
                                         end_date: str,
@@ -1040,7 +821,6 @@ class Geosys:
             crop=crop.value
         )
 
-
         # check the task status to continue or not the process
         self.__analytics_processor_service.wait_and_check_task_status(task_id)
 
@@ -1049,7 +829,6 @@ class Geosys:
 
         # if task successfully completed, get metrics from analytics fabric
         return self.__analytics_fabric_service.get_lastest_metrics(sf_unique_id, schema)
-
 
     def get_planted_area_analytics(self,
                                    start_date: str,
@@ -1082,7 +861,6 @@ class Geosys:
 
         # if task successfully completed, get latests metrics from analytics fabric
         return self.__analytics_fabric_service.get_lastest_metrics(sf_unique_id, schema)
-
 
     def get_zarc_analytics(self,
                            start_date_emergence: str,
@@ -1140,4 +918,3 @@ class Geosys:
 
         # if task successfully completed, get metrics from analytics fabric
         return self.__analytics_fabric_service.get_lastest_metrics(sf_unique_id, schema)
-

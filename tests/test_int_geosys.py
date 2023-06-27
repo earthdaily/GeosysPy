@@ -286,3 +286,21 @@ class TestGeosys:
         assert dataset.keys()[0] == "Values.emergence_date"
         assert dataset.keys()[-1] == 'Schema.Id'
         assert dataset.values[0][-1] == 'ZARC'
+
+
+    def test_get_mr_time_series(self):
+        result:str = self.client.get_mr_time_series(
+            start_date="2020-10-09",
+            end_date="2022-10-09",
+            list_sensors=["Sentinel_2", "Landsat_8"],
+            denoiser=True,
+            smoother="ww",
+            eoc=True,
+            aggregation="mean",
+            index="ndvi",
+            raw_data=True,
+            polygon="POLYGON ((-0.49881816 46.27330504, -0.49231649 46.27320122, -0.49611449 46.26983426, -0.49821735 46.27094671, -0.49881816 46.27330504))"
+        )
+
+        assert result.startswith('s3://geosys-geosys-us/2tKecZgMyEP6EkddLxa1gV')
+        assert '/mrts/' in result
