@@ -115,6 +115,15 @@ This package has been tested on Python 3.10.11.
 
 ### Installing
 
+#### Conda
+
+If you are using Conda, there are the steps to follow to create a virtual environment:
+
+```
+conda create --name demo
+conda activate demo
+```
+
 #### For Linux / Mac OS
 ```
 pip install geosyspy
@@ -149,7 +158,23 @@ API_USERNAME=
 API_PASSWORD=
 ```
 
-3. Run the Jupyter notebook
+
+3. Install Jupyter notebook [Examples](examples.ipynb) dependencies 
+
+```
+conda install --file requirements-notebook.txt
+```
+or
+```
+pip install -r requirements-notebook.txt
+```
+
+4. Set up the Jupyter Notebook kernel
+```
+python -m ipykernel install --user --name demo
+```
+
+5. Run the Jupyter notebook
 
 
 ### Run the package inside a Docker container

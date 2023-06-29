@@ -19,8 +19,6 @@ If you want to install GDAL 3.4.3, rasterio 1.2.10 and geosyspy on a 64 bits mac
 
 <br/>
 If you're using Conda, there are the steps to follow :
-
-    conda create --name demo
-    conda activate demo
+ 
     conda install pip
     pip install geosyspy
