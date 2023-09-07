@@ -11,4 +11,3 @@ nav:
     - Geosys class: geosys-reference.md
     - Constants: constants-reference.md
     - Utils: utils.md
-    - Services: service-reference.md
