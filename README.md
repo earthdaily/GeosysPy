@@ -226,6 +226,16 @@ year_ago = dt.date.today() + relativedelta(months=-12)
 dataframe = client.get_time_series(polygon, year_ago, today, collection=SatelliteImageryCollection.MODIS, indicators=["NDVI"])
 ```
 
+Use Geosyspy logger
+
+
+````python
+import logging
+
+geosys_logger = logging.getLogger('geosyspy')
+geosys_logger.setLevel(logging.DEBUG)
+````
+
 See the Jupyter notebook [Examples](examples.ipynb) for a working example.
 
 <p align="right">(<a href="#top">back to top</a>)</p>

@@ -1,4 +1,5 @@
 from urllib.parse import urljoin
+import logging
 
 from geosyspy.utils.constants import *
 from geosyspy.utils.helper import Helper
@@ -10,6 +11,7 @@ class MasterDataManagementService:
     def __init__(self, base_url: str, http_client: HttpClient):
         self.base_url: str = base_url
         self.http_client: HttpClient = http_client
+        self.logger = logging.getLogger(__name__)
 
     def create_season_field_id(self, polygon: str) -> object:
         """Posts the payload below to the master data management endpoint.
@@ -99,7 +101,6 @@ class MasterDataManagementService:
         Raises:
             ValueError: The response status code is not as expected.
         """
-
         mdm_url: str = urljoin(self.base_url, GeosysApiEndpoints.MASTER_DATA_MANAGEMENT_ENDPOINT.value + f"/crops?$fields=code&$limit=none")
 
         response = self.http_client.get(mdm_url)

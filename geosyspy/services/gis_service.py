@@ -8,6 +8,7 @@ class GisService:
     def __init__(self, base_url: str, http_client: HttpClient):
         self.base_url: str = base_url
         self.http_client: HttpClient = http_client
+        self.logger = logging.getLogger(__name__)
 
     def get_municipio_id_from_geometry(self,
                                        geometry:str
@@ -37,13 +38,13 @@ class GisService:
                 if isinstance(municipio_id, int):
                     return municipio_id
                 else:
-                    logging.WARN("No municipio id found for this geometry")
+                    self.logger.warning("No municipio id found for this geometry")
                     return 0
             except:
                 return 0
 
         else:
-            logging.info(response.status_code)
+            self.logger.info(response.status_code)
             raise ValueError(
                 f"No municipio id found for this geometry"
             )

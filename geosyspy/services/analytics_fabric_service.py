@@ -12,6 +12,8 @@ class AnalyticsFabricService:
     def __init__(self, base_url: str, http_client: HttpClient):
         self.base_url: str = base_url
         self.http_client: HttpClient = http_client
+        self.logger = logging.getLogger(__name__)
+
 
     @staticmethod
     def build_timestamp_query_parameters(start_date: Optional[datetime] = None,
@@ -69,9 +71,9 @@ class AnalyticsFabricService:
         if response.status_code == 201 :
             return response.content
         elif response.status_code == 400 and "This schema already exists." in str(dict_response["Errors"]["Body"]["Id"]):
-            logging.info(f"The schema {schema_id} already exists.")
+            self.logger.info(f"The schema {schema_id} already exists.")
         else:
-            logging.info(response.status_code)
+            self.logger.info(response.status_code)
 
     def get_metrics(self, season_field_id: str,
                     schema_id: str,
@@ -95,7 +97,7 @@ class AnalyticsFabricService:
             df : A Pandas DataFrame containing several columns with metrics
 
         """
-        logging.info("Calling APIs for metrics")
+        self.logger.info("Calling APIs for metrics")
         if start_date is not None:
             start_date: str = start_date.strftime("%Y-%m-%d")
         if end_date is not None:
@@ -122,7 +124,7 @@ class AnalyticsFabricService:
                     date_msg =f"<= {end_date} "
                 elif start_date is not None and end_date is None:
                     date_msg = f">= {start_date} "
-                logging.info(f"No metrics found in Analytic Fabric with "
+                self.logger.info(f"No metrics found in Analytic Fabric with "
                              f"SchemaId: {schema_id}, "
                              f"SeasonField:{season_field_id} "
                              f"{date_msg} ")
@@ -136,7 +138,7 @@ class AnalyticsFabricService:
             df.set_index("date", inplace=True)
             return df
         else:
-            logging.error("Issue in get_metrics. Status Code: "+response.status_code)
+            self.logger.error("Issue in get_metrics. Status Code: "+response.status_code)
 
     def get_lastest_metrics(self, season_field_id: str,
                             schema_id: str):
@@ -150,7 +152,7 @@ class AnalyticsFabricService:
             df : A Pandas DataFrame containing several columns with metrics
 
         """
-        logging.info("Calling APIs for Latest metrics")
+        self.logger.info("Calling APIs for Latest metrics")
 
         parameters: str = f'?%24filter=Entity.TypedId==\'SeasonField:{season_field_id}\'' \
                           f'&Schema.Id={schema_id}' \
@@ -166,7 +168,7 @@ class AnalyticsFabricService:
         if response.status_code == 200:
             df = pd.json_normalize(response.json())
             if df.empty:
-                logging.info(f"No Latest metrics found in Analytic Fabric with "
+                self.logger.info(f"No Latest metrics found in Analytic Fabric with "
                              f"SchemaId: {schema_id}, "
                              f"SeasonField:{season_field_id} ")
                 return df
@@ -179,7 +181,7 @@ class AnalyticsFabricService:
             df.set_index("date", inplace=True)
             return df
         else:
-            logging.error("Issue in get_latests_metrics. Status Code: "+response.status_code)
+            self.logger.error("Issue in get_latests_metrics. Status Code: "+response.status_code)
 
     def push_metrics(self, season_field_id: str,
                      schema_id: str,
@@ -213,4 +215,4 @@ class AnalyticsFabricService:
         if response.status_code == 200:
             return response.status_code
         else:
-            logging.error("Issue in push_metrics. Status Code: "+response.status_code)
+            self.logger.error("Issue in push_metrics. Status Code: "+response.status_code)

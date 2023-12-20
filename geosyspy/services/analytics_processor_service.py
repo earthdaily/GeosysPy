@@ -13,6 +13,7 @@ class AnalyticsProcessorService:
     def __init__(self, base_url: str, http_client: HttpClient):
         self.base_url: str = base_url
         self.http_client: HttpClient = http_client
+        self.logger = logging.getLogger(__name__)
 
     @retrying.retry(wait_exponential_multiplier=1000, wait_exponential_max=10000, stop_max_attempt_number=50, retry_on_exception=lambda exc: isinstance(exc, KeyError))
     def wait_and_check_task_status(self, task_id: str):
@@ -35,13 +36,13 @@ class AnalyticsProcessorService:
                 dict_resp = json.loads(response.content)
                 task_status = dict_resp["status"]
             else:
-                logging.info(response.status_code)
+                self.logger.info(response.status_code)
                 return "Failed"
 
             if task_status == "Ended":
                 break  # the task is completed.
             elif task_status == "Running":
-                logging.info("Retry -- Task still running")
+                self.logger.info("Retry -- Task still running")
                 raise KeyError("Task still running")  # raise exception to retry
             else:
                 raise Exception(f"Task Status: {task_status}, Content: {response.content}" )
@@ -71,7 +72,7 @@ class AnalyticsProcessorService:
             task_id = dict_resp["taskId"]
             return f"s3://geosys-{customer_code}/{user_id}/{processor_name}/{task_id}"
         else:
-            logging.info(response.status_code)
+            self.logger.info(response.status_code)
             raise ValueError(response.content)
 
     def launch_mr_time_series_processor(self, polygon,
@@ -135,7 +136,7 @@ class AnalyticsProcessorService:
             task_id = json.loads(response.content)["taskId"]
             return task_id
         else:
-            logging.info(response.status_code)
+            self.logger.info(response.status_code)
             raise ValueError(response.content)
 
     def launch_planted_area_processor(self,
@@ -174,7 +175,7 @@ class AnalyticsProcessorService:
             task_id = json.loads(response.content)["taskId"]
             return task_id
         else:
-            logging.info(response.status_code)
+            self.logger.info(response.status_code)
             raise ValueError(response.content)
 
     def launch_harvest_processor(self,
@@ -230,7 +231,7 @@ class AnalyticsProcessorService:
             task_id = json.loads(response.content)["taskId"]
             return task_id
         else:
-            logging.info(response.status_code)
+            self.logger.info(response.status_code)
             raise ValueError(response.content)
 
     def launch_emergence_processor(self,
@@ -289,7 +290,7 @@ class AnalyticsProcessorService:
             task_id = json.loads(response.content)["taskId"]
             return task_id
         else:
-            logging.info(response.status_code)
+            self.logger.info(response.status_code)
             raise ValueError(response.content)
 
     def launch_potential_score_processor(self,
@@ -349,7 +350,7 @@ class AnalyticsProcessorService:
             task_id = json.loads(response.content)["taskId"]
             return task_id
         else:
-            logging.info(response.status_code)
+            self.logger.info(response.status_code)
             raise ValueError(response.content)
 
     def launch_brazil_in_season_crop_id_processor(self,
@@ -398,7 +399,7 @@ class AnalyticsProcessorService:
             task_id = json.loads(response.content)["taskId"]
             return task_id
         else:
-            logging.info(response.status_code)
+            self.logger.info(response.status_code)
             raise ValueError(response.content)
 
     def launch_greenness_processor(self,
@@ -449,7 +450,7 @@ class AnalyticsProcessorService:
             task_id = json.loads(response.content)["taskId"]
             return task_id
         else:
-            logging.info(response.status_code)
+            self.logger.info(response.status_code)
             raise ValueError(response.content)
 
 
@@ -501,7 +502,7 @@ class AnalyticsProcessorService:
             task_id = json.loads(response.content)["taskId"]
             return task_id
         else:
-            logging.info(response.status_code)
+            self.logger.info(response.status_code)
             raise ValueError(response.content)
 
     def launch_zarc_processor(self,
@@ -557,6 +558,6 @@ class AnalyticsProcessorService:
                 task_id = json.loads(response.content)["taskId"]
                 return task_id
             else:
-                logging.info(response.status_code)
+                self.logger.info(response.status_code)
                 raise ValueError(response.content)
 

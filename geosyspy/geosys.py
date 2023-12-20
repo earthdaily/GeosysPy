@@ -38,6 +38,7 @@ class Geosys:
                  enum_region: Region,
                  priority_queue: str = "realtime",
                  ):
+        self.logger = logging.getLogger(__name__)
         self.region: str = enum_region.value
         self.env: str = enum_env.value
         self.base_url: str = GEOSYS_API_URLS[enum_region.value][enum_env.value]
@@ -185,7 +186,7 @@ class Geosys:
         if path == "":
             path = Path.cwd() / f"image_{image_reference.image_id}_tiff.zip"
         with open(path, "wb") as f:
-            logging.info(f"writing to {path}")
+            self.logger.info(f"writing to {path}")
             f.write(response_zipped_tiff.content)
 
     def __get_images_as_dataset(self, polygon: str,
@@ -291,7 +292,7 @@ class Geosys:
                                     f"The highest resolution's image grid size is {(len_x, len_y)}"
                                 )
                             else:
-                                logging.info(
+                                self.logger.info(
                                     f"interpolating {img_id} to {first_img_id}'s grid"
                                 )
                                 xarr = xarr.interp(
@@ -569,7 +570,7 @@ class Geosys:
             harvest_type=harvest_type
         )
 
-        logging.info(f"Task Id: {task_id}")
+        self.logger.info(f"Task Id: {task_id}")
 
         # check the task status to continue or not the process
         self.__analytics_processor_service.wait_and_check_task_status(task_id)

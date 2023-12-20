@@ -12,6 +12,7 @@ class VegetationTimeSeriesService:
     def __init__(self, base_url: str, http_client: HttpClient):
         self.base_url: str = base_url
         self.http_client: HttpClient = http_client
+        self.logger = logging.getLogger(__name__)
 
     def get_modis_time_series(self, season_field_id:str,
                               start_date:datetime,
@@ -43,7 +44,7 @@ class VegetationTimeSeriesService:
 
         """
 
-        logging.info("Calling APIs for aggregated time series")
+        self.logger.info("Calling APIs for aggregated time series")
         start_date: str = start_date.strftime("%Y-%m-%d")
         end_date: str = end_date.strftime("%Y-%m-%d")
         parameters: str = f"/values?$offset=0&$limit=None&$count=false&SeasonField.Id={season_field_id}&index={indicator}&$filter=Date >= '{start_date}' and Date <= '{end_date}'"
@@ -56,7 +57,7 @@ class VegetationTimeSeriesService:
             df.set_index("date", inplace=True)
             return df
         else:
-            logging.info(response.status_code)
+            self.logger.info(response.status_code)
 
 
     def get_time_series_by_pixel(self, season_field_id: str,
@@ -92,7 +93,7 @@ class VegetationTimeSeriesService:
 
             """
 
-            logging.info("Calling APIs for time series by the pixel")
+            self.logger.info("Calling APIs for time series by the pixel")
             start_date: str = start_date.strftime("%Y-%m-%d")
             end_date: str = end_date.strftime("%Y-%m-%d")
             parameters: str = f"/values?$offset=0&$limit=None&$count=false&SeasonField.Id={season_field_id}&index={indicator}&$filter=Date >= '{start_date}' and Date <= '{end_date}'"
@@ -112,7 +113,7 @@ class VegetationTimeSeriesService:
                 df.set_index("date", inplace=True)
 
                 # Extracts h, v, i and j from the pixel dataframe
-                logging.info("Computing X and Y coordinates per pixel... ")
+                self.logger.info("Computing X and Y coordinates per pixel... ")
                 df["h"] = df["pixel.id"].str.extract(r"h(.*)v").astype(int)
                 df["v"] = df["pixel.id"].str.extract(r"v(.*)i").astype(int)
                 df["i"] = df["pixel.id"].str.extract(r"i(.*)j").astype(int)
@@ -124,7 +125,7 @@ class VegetationTimeSeriesService:
                 df["YUL"] = (df["v"] + 1) * 4800 * PSY + MODIS_GRID_HEIGHT / 2
                 df["X"] = df["i"] * PSX + df["XUL"]
                 df["Y"] = df["j"] * PSY + df["YUL"]
-                logging.info("Done ! ")
+                self.logger.info("Done ! ")
                 return df[["index", "value", "pixel.id", "X", "Y"]]
             else:
-                logging.info(response.status_code)
+                self.logger.info(response.status_code)

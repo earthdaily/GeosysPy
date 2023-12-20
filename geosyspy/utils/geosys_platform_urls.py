@@ -18,7 +18,7 @@ GEOSYS_API_URLS = {
 }
 GIS_API_URLS = {
     'na': {
-        'preprod': 'https://gis-services.geosys.com',
+        'preprod': 'https://gis-services-pp.geosys.com',
         'prod': 'https://gis-services.geosys.com'
     }
 }

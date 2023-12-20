@@ -17,6 +17,7 @@ class Oauth2Api:
         """Initializes a Geosys instance with the required credentials
         to connect to the GEOSYS API.
         """
+        self.logger = logging.getLogger(__name__)
         self.client_id = client_id
         self.server_url = geosys_platform_urls.IDENTITY_URLS[enum_region][enum_env]
         self.client_secret = client_secret
@@ -48,7 +49,7 @@ class Oauth2Api:
                 client_secret=self.client_secret,
             )
             self.token["refresh_token"] = oauth.cookies["refresh_token"]
-            logging.info("Authenticated")
+            self.logger.info("Authenticated")
         except Exception as e:
             logging.error(e)
 

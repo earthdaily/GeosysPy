@@ -12,6 +12,7 @@ class AgriquestService:
     def __init__(self, base_url: str, http_client: HttpClient):
         self.base_url: str = base_url
         self.http_client: HttpClient = http_client
+        self.logger = logging.getLogger(__name__)
 
     def weather_indicators_builder(self, start_date, end_date, isFrance):
         """build weather indicators list from 2 dates
@@ -107,7 +108,7 @@ class AgriquestService:
             df = df.rename(columns={"Name": "AMU"})
             return df
         else:
-            logging.info(response.status_code)
+            self.logger.info(response.status_code)
 
 
     def get_agriquest_block_ndvi_data(self,
@@ -155,4 +156,4 @@ class AgriquestService:
             df = df.rename(columns={"Name": "AMU", "Value": "NDVI"})
             return df
         else:
-            logging.info(response.status_code)
+            self.logger.info(response.status_code)

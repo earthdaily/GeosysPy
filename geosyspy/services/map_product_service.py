@@ -14,6 +14,7 @@ class MapProductService:
         self.base_url: str = base_url
         self.http_client: HttpClient = http_client
         self.priority_queue: str = priority_queue
+        self.logger = logging.getLogger(__name__)
 
     def get_satellite_coverage(self, season_field_id: str,
                                start_date: datetime,
@@ -24,7 +25,7 @@ class MapProductService:
                                    SatelliteImageryCollection.LANDSAT_8]
                                ):
 
-        logging.info("Calling APIs for coverage")
+        self.logger.info("Calling APIs for coverage")
         start_date: str = start_date.strftime("%Y-%m-%d")
         end_date: str = end_date.strftime("%Y-%m-%d")
         sensors: list[str] = [elem.value for elem in sensors_collection]
@@ -65,7 +66,7 @@ class MapProductService:
                     ]
                 ]
         else:
-            logging.info(response.status_code)
+            self.logger.info(response.status_code)
 
     def get_zipped_tiff(self, field_id: str,
                           image_id: str,
