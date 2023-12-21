@@ -138,7 +138,8 @@ class AnalyticsFabricService:
             df.set_index("date", inplace=True)
             return df
         else:
-            self.logger.error("Issue in get_metrics. Status Code: "+response.status_code)
+            self.logger.error("Issue in get_metrics. Status Code: "+str(response.status_code) +
+                              " Error:" + str(response.json()))
 
     def get_lastest_metrics(self, season_field_id: str,
                             schema_id: str):
@@ -181,7 +182,8 @@ class AnalyticsFabricService:
             df.set_index("date", inplace=True)
             return df
         else:
-            self.logger.error("Issue in get_latests_metrics. Status Code: "+response.status_code)
+            self.logger.error("Issue in get_latests_metrics. Status Code: "+str(response.status_code)
+                              + " Error:" + str(response.json()))
 
     def push_metrics(self, season_field_id: str,
                      schema_id: str,
@@ -215,4 +217,5 @@ class AnalyticsFabricService:
         if response.status_code == 200:
             return response.status_code
         else:
-            self.logger.error("Issue in push_metrics. Status Code: "+response.status_code)
+            self.logger.error("Issue in push_metrics. Status Code: "+str(response.status_code)
+                              + " Error:" + str(response.json()))

@@ -272,8 +272,9 @@ class TestGeosys:
         assert dataset.keys()[-1] == 'Schema.Id'
         assert dataset.values[0][-1] == 'CROP_IDENTIFICATION'
 
+    @pytest.mark.skip(reason="soucis SSL dans github")
     def test_get_zarc_analytics(self):
-        dataset = self.prod_client.get_zarc_analytics(
+        dataset = self.client.get_zarc_analytics(
             start_date_emergence="2022-01-15",
             end_date_emergence="2022-05-31",
             nb_days_sowing_emergence=20,

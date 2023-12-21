@@ -863,6 +863,7 @@ class Geosys:
         # if task successfully completed, get latests metrics from analytics fabric
         return self.__analytics_fabric_service.get_lastest_metrics(sf_unique_id, schema)
 
+
     def get_zarc_analytics(self,
                            start_date_emergence: str,
                            end_date_emergence: str,
