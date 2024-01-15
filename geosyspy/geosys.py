@@ -26,17 +26,19 @@ class Geosys:
 
     Parameters:
         enum_env: 'Env.PROD' or 'Env.PREPROD'
-        enum_region: 'Region.NA' or 'Region.EU'
+        enum_region: 'Region.NA'
         priority_queue: 'realtime' or 'bulk'
     """
 
-    def __init__(self, client_id: str,
-                 client_secret: str,
-                 username: str,
-                 password: str,
-                 enum_env: Env,
-                 enum_region: Region,
+    def __init__(self,
+                 client_id: str = None,
+                 client_secret: str = None,
+                 username: str = None,
+                 password: str = None,
+                 enum_env: Env = Env.PROD,
+                 enum_region: Region = Region.NA,
                  priority_queue: str = "realtime",
+                 bearer_token: str = None
                  ):
         self.logger = logging.getLogger(__name__)
         self.region: str = enum_region.value
@@ -45,7 +47,7 @@ class Geosys:
         self.gis_url: str = GIS_API_URLS[enum_region.value][enum_env.value]
         self.priority_queue: str = priority_queue
         self.http_client: HttpClient = HttpClient(client_id, client_secret, username, password, enum_env.value,
-                                                  enum_region.value)
+                                                  enum_region.value, bearer_token)
         self.__master_data_management_service = MasterDataManagementService(self.base_url, self.http_client)
         self.__analytics_fabric_service = AnalyticsFabricService(self.base_url, self.http_client)
         self.__analytics_processor_service = AnalyticsProcessorService(self.base_url, self.http_client)
@@ -409,6 +411,20 @@ class Geosys:
                           in result})
 
         return crop_enum
+
+    def get_available_permissions(self):
+        """Build the list of available permissions codes for the connected user in an enum
+
+        Returns:
+            permissions: a string array containing all available permissions of the connected user
+        """
+        # get crop code list
+        result = self.__master_data_management_service.get_permission_codes()
+
+        # build a string array with all available permission codes for the connected user
+        permissions = result["permissions"]
+
+        return permissions
 
     ###########################################
     #           AGRIQUEST                     #

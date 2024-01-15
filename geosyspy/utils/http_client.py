@@ -32,6 +32,7 @@ class HttpClient:
             password: str,
             enum_env: str,
             enum_region: str,
+            bearer_token: str = None
     ):
         self.__client_oauth = oauth2_client.Oauth2Api(
             client_id=client_id,
@@ -40,6 +41,7 @@ class HttpClient:
             username=username,
             enum_env=enum_env,
             enum_region=enum_region,
+            bearer_token=bearer_token
         )
         self.access_token = self.__client_oauth.token
 
