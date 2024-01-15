@@ -13,6 +13,7 @@ class Oauth2Api:
             password: str,
             enum_env: str,
             enum_region: str,
+            bearer_token: str = None
     ):
         """Initializes a Geosys instance with the required credentials
         to connect to the GEOSYS API.
@@ -24,7 +25,11 @@ class Oauth2Api:
         self.token = None
         self.username = username
         self.password = password
-        self.__authenticate()
+
+        if bearer_token:
+            self.token = {"access_token": bearer_token}
+        else:
+            self.__authenticate()
 
     def __authenticate(self):
         """Authenticates the http_client to the API.

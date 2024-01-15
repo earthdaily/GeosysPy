@@ -107,10 +107,36 @@ class MasterDataManagementService:
 
         dict_response = response.json()
 
-        # extract unique id from response:
         if response.status_code == 200:
             return dict_response
         else:
             raise ValueError(
                 f"Cannot handle HTTP response : {str(response.status_code)} : {str(response.json())}"
             )
+
+
+    def get_permission_codes(self) -> [str]:
+        """Extracts the list of available permissions for the connected user
+
+        Args:
+
+        Returns:
+            A list of string representing the available permissions codes
+
+        Raises:
+            ValueError: The response status code is not as expected.
+        """
+        mdm_url: str = urljoin(self.base_url, GeosysApiEndpoints.MASTER_DATA_MANAGEMENT_ENDPOINT.value + f"/profile?$fields=permissions&$limit=none")
+
+        response = self.http_client.get(mdm_url)
+
+        dict_response = response.json()
+
+        if response.status_code == 200:
+            return dict_response
+        else:
+            raise ValueError(
+                f"Cannot handle HTTP response : {str(response.status_code)} : {str(response.json())}"
+            )
+
+
