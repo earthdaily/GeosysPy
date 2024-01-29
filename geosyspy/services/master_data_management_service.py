@@ -4,6 +4,7 @@ import logging
 from geosyspy.utils.constants import *
 from geosyspy.utils.helper import Helper
 from geosyspy.utils.http_client import *
+from datetime import datetime
 
 
 class MasterDataManagementService:
@@ -26,10 +27,12 @@ class MasterDataManagementService:
             A response object.
 
         """
+
+        year = datetime.now().year
         payload = {
             "Geometry": polygon,
             "Crop": {"Id": "CORN"},
-            "SowingDate": "2022-01-01",
+            "SowingDate": f"{year}-01-01",
         }
         mdm_url: str = urljoin(self.base_url, GeosysApiEndpoints.MASTER_DATA_MANAGEMENT_ENDPOINT.value+"/seasonfields")
         return self.http_client.post(mdm_url, payload)
