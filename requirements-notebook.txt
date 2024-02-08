@@ -1,0 +1,4 @@
+ipykernel
+python-dotenv
+matplotlib
+boto3

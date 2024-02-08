@@ -1,0 +1,62 @@
+[
+	{
+		"precipitation": {
+			"cumulative": 0.22834645669291338,
+			"probabilities": 72.0
+		},
+		"temperature": {
+			"standard": 71.47399998282076
+		},
+		"date": "2023-06-19T00:00:00Z"
+	},
+	{
+		"precipitation": {
+			"cumulative": 0.3937007874015748,
+			"probabilities": 70.0
+		},
+		"temperature": {
+			"standard": 70.1959999838432
+		},
+		"date": "2023-06-20T00:00:00Z"
+	},
+	{
+		"precipitation": {
+			"cumulative": 0.9645669291338583,
+			"probabilities": 70.0
+		},
+		"temperature": {
+			"standard": 68.25199998539843
+		},
+		"date": "2023-06-21T00:00:00Z"
+	},
+	{
+		"precipitation": {
+			"cumulative": 0.37401574803149609,
+			"probabilities": 70.0
+		},
+		"temperature": {
+			"standard": 67.02799998637761
+		},
+		"date": "2023-06-22T00:00:00Z"
+	},
+	{
+		"precipitation": {
+			"cumulative": 0.0,
+			"probabilities": 10.0
+		},
+		"temperature": {
+			"standard": 67.54999998595994
+		},
+		"date": "2023-06-23T00:00:00Z"
+	},
+	{
+		"precipitation": {
+			"cumulative": 0.0,
+			"probabilities": 0.0
+		},
+		"temperature": {
+			"standard": 70.8619999833104
+		},
+		"date": "2023-06-24T00:00:00Z"
+	}
+]

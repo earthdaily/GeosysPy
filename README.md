@@ -9,7 +9,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/GEOSYS">
+  <a href="https://github.com/earthdaily">
     <img src="https://earthdailyagro.com/wp-content/uploads/2022/01/Logo.svg" alt="Logo" width="400" height="200">
   </a>
 
@@ -21,11 +21,11 @@
     <a href="https://earthdailyagro.com/"><strong>Who we are</strong></a>
     <br />
     <br />
-    <a href="https://github.com/GEOSYS/GeosysPy">Project description</a>
+    <a href="https://github.com/earthdaily/GeosysPy">Project description</a>
     ·
-    <a href="https://github.com/GEOSYS/GeosysPy/issues">Report Bug</a>
+    <a href="https://github.com/earthdaily/GeosysPy/issues">Report Bug</a>
     ·
-    <a href="https://github.com/GEOSYS/GeosysPy/issues">Request Feature</a>
+    <a href="https://github.com/earthdaily/GeosysPy/issues">Request Feature</a>
   </p>
 </p>
 
@@ -36,7 +36,7 @@
 [![Twitter][twitter-shield]][twitter-url]
 [![Youtube][youtube-shield]][youtube-url]
 [![languages][language-python-shiedl]][issues-url]
-[![CITest][CITest-shield]][CITest-url]
+<!-- [![CITest][CITest-shield]][CITest-url]-->
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
   
@@ -81,7 +81,9 @@ EarthDaily Agro is the agricultural analysis division of EartDaily Analytics. Le
   </a>
 </p>
 
-Throught our <geosys/> platform, we make geospatial analytics easily accessible for you to be browsed or analyzed, within our cloud or within your own environment. We provide developers and data scientists both flexibility and extensibility with analytic ready data and digital agriculture ready development blocks. We empower your team to enrich your systems with information at the field, regional or continent level via our API or Apps.
+ <p align="left">
+Throught our &ltgeosys/&gt platform, we make geospatial analytics easily accessible for you to be browsed or analyzed, within our cloud or within your own environment. We provide developers and data scientists both flexibility and extensibility with analytic ready data and digital agriculture ready development blocks. We empower your team to enrich your systems with information at the field, regional or continent level via our API or Apps.
+</p>
 
 We have a team of experts around the world that understand local crops and ag industry, as well as advanced analytics to support your business.
 
@@ -100,7 +102,7 @@ The `geosyspy` python package aims to provide an easy and ready to use library a
 * Analytic publication:
      * Save and retrieve custom data in Analytics Fabrik
 
-See [Examples](examples.ipynb) notebook for more information
+See [documentation](https://earthdaily.github.io/GeosysPy/) and [Examples](examples.ipynb) notebook for more information
 
 ## Getting started
 
@@ -108,10 +110,19 @@ See [Examples](examples.ipynb) notebook for more information
 
 Make sure you have valid credentials. If you need to get trial access, please register [here](https://earthdailyagro.com/geosys-api/#get-started).
 
-This package has been tested on Python 3.9.7.
+This package has been tested on Python 3.10.11.
 
 
 ### Installing
+
+#### Conda
+
+If you are using Conda, there are the steps to follow to create a virtual environment:
+
+```
+conda create --name demo
+conda activate demo
+```
 
 #### For Linux / Mac OS
 ```
@@ -147,7 +158,23 @@ API_USERNAME=
 API_PASSWORD=
 ```
 
-3. Run the Jupyter notebook
+
+3. Install Jupyter notebook [Examples](examples.ipynb) dependencies 
+
+```
+conda install --file requirements-notebook.txt
+```
+or
+```
+pip install -r requirements-notebook.txt
+```
+
+4. Set up the Jupyter Notebook kernel
+```
+python -m ipykernel install --user --name demo
+```
+
+5. Run the Jupyter notebook
 
 
 ### Run the package inside a Docker container
@@ -167,8 +194,8 @@ or, without .env file :
 Then :
 
 ```python
->>> from geosyspy.geosys import Geosys
->>> from geosyspy.constants import Collection, Region, Env
+>>> from geosyspy import Geosys
+>>> from geosyspy.utils.constants import *
 >>> import os
 >>> client = Geosys(os.getenv('API_CLIENT_ID'), os.getenv('API_CLIENT_SECRET'), os.getenv('API_USERNAME'), os.getenv('API_PASSWORD'), Env.PREPROD, Region.NA)
 
@@ -181,8 +208,8 @@ Then :
 Initialize client:
 
 ```python
-from geosyspy.geosys import Geosys
-from geosyspy.constants import Collection, Region, Env
+from geosyspy import Geosys
+from geosyspy.utils.constants import *
 
 client = Geosys("API_CLIENT_ID", "API_CLIENT_SECRET", "API_USERNAME", "API_PASSWORD", Env.PREPROD, Region.NA)
 
@@ -196,8 +223,18 @@ polygon = "POLYGON((...))"
 today = dt.date.today()
 year_ago = dt.date.today() + relativedelta(months=-12)
 
-dataframe = client.get_time_series(polygon, year_ago, today, collection=Collection.MODIS, indicators=["NDVI"])
+dataframe = client.get_time_series(polygon, year_ago, today, collection=SatelliteImageryCollection.MODIS, indicators=["NDVI"])
 ```
+
+Use Geosyspy logger
+
+
+````python
+import logging
+
+geosys_logger = logging.getLogger('geosyspy')
+geosys_logger.setLevel(logging.DEBUG)
+````
 
 See the Jupyter notebook [Examples](examples.ipynb) for a working example.
 
@@ -207,7 +244,7 @@ See the Jupyter notebook [Examples](examples.ipynb) for a working example.
 ## Resources 
 The following links will provide access to more information:
 - [EarthDaily agro developer portal  ](https://developer.geosys.com/)
-- 
+- [Pypi package](https://pypi.org/project/geosyspy/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -246,7 +283,7 @@ For any additonal information, please [email us](mailto:sales@earthdailyagro.com
 [forks-url]: https://github.com/github_username/repo/network/members
 [stars-shield]: https://img.shields.io/github/stars/qgis-plugin/repo.svg?style=plastic&logo=appveyor
 [stars-url]: https://github.com/github_username/repo/stargazers
-[issues-shield]: https://img.shields.io/github/issues/GEOSYS/qgis-plugin/repo.svg?style=social
+[issues-shield]: https://img.shields.io/github/issues/GEOSYS/GeosysPy/repo.svg?style=social
 [issues-url]: https://github.com/github_username/repo/issues
 [license-shield]: https://img.shields.io/github/license/GEOSYS/qgis-plugin
 [license-url]: https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -260,5 +297,5 @@ For any additonal information, please [email us](mailto:sales@earthdailyagro.com
 [language-python-url]: https://pypi.org/ 
 [GitStars-shield]: https://img.shields.io/github/stars/GEOSYS?style=social
 [GitStars-url]: https://img.shields.io/github/stars/GEOSYS?style=social
-[CITest-shield]: https://img.shields.io/github/workflow/status/GEOSYS/qgis-plugin/Continous%20Integration
-[CITest-url]: https://img.shields.io/github/workflow/status/GEOSYS/qgis-plugin/Continous%20Integration
+[CITest-shield]: https://img.shields.io/github/workflow/status/GEOSYS/GeosysPy/Continous%20Integration
+[CITest-url]: https://img.shields.io/github/workflow/status/GEOSYS/GeosysPy/Continous%20Integration

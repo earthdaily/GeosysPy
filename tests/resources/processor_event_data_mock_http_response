@@ -1,0 +1,72 @@
+{
+	"events": [
+		{
+			"level": "Information",
+			"date": "2023-06-15T12:24:00.678Z",
+			"source": "Analytics.geosys-analyticsprocessors-webapi",
+			"message": "Processor called",
+			"eventData": {
+				"TaskId": "4d0980e07b7245d49419ff5ec87fff09",
+				"Error": null
+			}
+		},
+		{
+			"level": "Information",
+			"date": "2023-06-15T12:24:00.731Z",
+			"source": "AnalyticsProcessor.Inseason Harvest",
+			"message": "Processor started"
+		},
+		{
+			"level": "Information",
+			"date": "2023-06-15T12:24:03.087Z",
+			"source": "AnalyticsProcessor.Inseason Harvest",
+			"message": "Computation finished"
+		},
+		{
+			"level": "Information",
+			"date": "2023-06-15T12:24:03.124Z",
+			"source": "AnalyticsProcessor.Inseason Harvest",
+			"message": "Format results for the callback"
+		},
+		{
+			"level": "Information",
+			"date": "2023-06-15T12:24:03.153Z",
+			"source": "AnalyticsProcessor.Inseason Harvest",
+			"message": "Callback called"
+		},
+		{
+			"level": "Information",
+			"date": "2023-06-15T12:24:03.446Z",
+			"source": "AnalyticsProcessor.Inseason Harvest",
+			"message": "Results succesfully sent to Analytics Fabric",
+			"eventData": {
+				"error": ""
+			}
+		},
+		{
+			"level": "Information",
+			"date": "2023-06-15T12:24:03.473Z",
+			"source": "AnalyticsProcessor.Inseason Harvest",
+			"message": "Processor ended"
+		}
+	],
+	"id": "4d0980e07b7245d49419ff5ec87fff09",
+	"taskId": "4d0980e07b7245d49419ff5ec87fff09",
+	"processorId": "historical-harvest",
+	"userId": "2tKecZgMyEP6EkddLxa1gV",
+	"userLogin": "ETotain_US",
+	"customerCode": "GEOSYS_US",
+	"parametersProfile": {
+		"code": "historical_harvest_default"
+	},
+	"parameters": {
+		"season_duration": 215,
+		"season_start_day": 1,
+		"season_start_month": 4,
+		"historical": true
+	},
+	"status": "Ended",
+	"createdAt": "2023-06-15T12:24:00.439Z",
+	"modifiedAt": "2023-06-15T12:24:03.474Z",
+	"duration": 3
+}

@@ -4,4 +4,13 @@ flake8
 black
 twine
 mkdocs
-mkdocstrings
+mkdocstrings-python
+requests-mock
+pandas
+shapely
+xarray
+requests
+requests-oauthlib
+oauthlib
+matplotlib
+boto3

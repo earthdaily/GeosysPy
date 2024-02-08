@@ -1,0 +1,1696 @@
+[
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-05-02T00:00:00Z",
+    "Values": {
+      "RVI": 0.15941725764057468,
+      "LAI": 1.3936802459822675
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-05-01T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.4742092909729507
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-30T00:00:00Z",
+    "Values": {
+      "RVI": 0.20025300425178277,
+      "LAI": 1.547938092300813
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-29T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.6148850281900256
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-28T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.675105233313104
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-27T00:00:00Z",
+    "Values": {
+      "RVI": 0.163803978582527,
+      "LAI": 1.728670248614269
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-26T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.775647671132812
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-25T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.8160808038264487
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-24T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.8500123909300485
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-23T00:00:00Z",
+    "Values": {
+      "RVI": 0.23978602348356506,
+      "LAI": 1.877508353314367
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-22T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.8986815238447778
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-21T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.9137153827399933
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-20T00:00:00Z",
+    "Values": {
+      "RVI": 0.16276198115867938,
+      "LAI": 1.9228118030494594
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-19T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.9261387961307512
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-18T00:00:00Z",
+    "Values": {
+      "RVI": 0.15181116915616638,
+      "LAI": 1.9237782571269597
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-17T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.9157390609296034
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-16T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.9019701581415422
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-15T00:00:00Z",
+    "Values": {
+      "RVI": 0.2525996103580754,
+      "LAI": 1.8824585689914337
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-14T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.857327377248192
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-13T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.8269337241354457
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-12T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.7918685479068601
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-11T00:00:00Z",
+    "Values": {
+      "RVI": 0.2532434886205629,
+      "LAI": 1.7529563234214616
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-10T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.7112548017189537
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-09T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.668054749595026
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-08T00:00:00Z",
+    "Values": {
+      "RVI": 0.14711324003080628,
+      "LAI": 1.6247673409571053
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-07T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.5828115481801042
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-06T00:00:00Z",
+    "Values": {
+      "RVI": 0.16351938263014243,
+      "LAI": 1.5435015334621693
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-05T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.5079973814970633
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-04T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.4772558321465492
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-03T00:00:00Z",
+    "Values": {
+      "RVI": 0.14195900986996599,
+      "LAI": 1.4520070872756565
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-02T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.4327316175879485
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-04-01T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.4196369694607964
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-31T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.412689792010038
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-30T00:00:00Z",
+    "Values": {
+      "RVI": 0.18293121351492994,
+      "LAI": 1.4116478641546342
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-29T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.41609212168133
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-28T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.4254586843093153
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-27T00:00:00Z",
+    "Values": {
+      "RVI": 0.15163322908121504,
+      "LAI": 1.4390492922775127
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-26T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.456041742931861
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-25T00:00:00Z",
+    "Values": {
+      "RVI": 0.1529705641946942,
+      "LAI": 1.4755003273126013
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-24T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.4964230078535876
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-23T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.5177885960816027
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-22T00:00:00Z",
+    "Values": {
+      "RVI": 0.24122822077074632,
+      "LAI": 1.5386419411579988
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-21T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.5581791184203384
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-20T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.5758326179240376
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-19T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.5912440948321767
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-18T00:00:00Z",
+    "Values": {
+      "RVI": 0.24156447273755596,
+      "LAI": 1.6042371198053007
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-17T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.6147899293912182
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-16T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.623008176414798
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-15T00:00:00Z",
+    "Values": {
+      "RVI": 0.0777079031177587,
+      "LAI": 1.6289912044834172
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-14T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.6326983224924037
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-13T00:00:00Z",
+    "Values": {
+      "RVI": 0.18285786377684413,
+      "LAI": 1.6338150791304762
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-12T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.6318065787736153
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-11T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.625970797378938
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-10T00:00:00Z",
+    "Values": {
+      "RVI": 0.16394566777511824,
+      "LAI": 1.615492654906415
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-09T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.5994980877405733
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-08T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.5771081211122029
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-07T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.5475254576278672
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-06T00:00:00Z",
+    "Values": {
+      "RVI": 0.2501017742276924,
+      "LAI": 1.5101210657994215
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-05T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.464520768573524
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-04T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.4106918318611386
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-03T00:00:00Z",
+    "Values": {
+      "RVI": 0.11670389835277946,
+      "LAI": 1.3488985016314805
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-02T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.2796575410059585
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-03-01T00:00:00Z",
+    "Values": {
+      "RVI": 0.23776552877255885,
+      "LAI": 1.203693767352113
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-02-28T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.1219853568505416
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-02-27T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.035809149061821
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-02-26T00:00:00Z",
+    "Values": {
+      "RVI": 0.10859604309508138,
+      "LAI": 0.9466461689540548
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-02-25T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 0.8560871489304018
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-02-24T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 0.7657380508566048
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-02-23T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 0.6771895314920983
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-02-22T00:00:00Z",
+    "Values": {
+      "RVI": 0.12938257970165357,
+      "LAI": 0.5919864079211127
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-02-21T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 0.5115971229837836
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-02-20T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 0.43738321070725505
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-02-19T00:00:00Z",
+    "Values": {
+      "RVI": 0.07892499413951577,
+      "LAI": 0.3705603181400947
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-02-18T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 0.3121592271867085
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-02-17T00:00:00Z",
+    "Values": {
+      "RVI": 0.10988114601603494,
+      "LAI": 0.26298687644175406
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-02-16T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 0.22364641952858838
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-02-15T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 0.19455728343771223
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-02-14T00:00:00Z",
+    "Values": {
+      "RVI": 0.1092307614049111,
+      "LAI": 0.17596852174110733
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-02-13T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 0.1679721678065612
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-02-12T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 0.1705165880119974
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-02-11T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 0.18340558321268316
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-02-10T00:00:00Z",
+    "Values": {
+      "RVI": 0.11286640338740125,
+      "LAI": 0.20629749020843574
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-02-09T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 0.2387042832108325
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-02-08T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 0.27999067531042166
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-02-07T00:00:00Z",
+    "Values": {
+      "RVI": 0.06487043386375242,
+      "LAI": 0.3293555434702407
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-02-06T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 0.38581335351933815
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-02-05T00:00:00Z",
+    "Values": {
+      "RVI": 0.11569674684281936,
+      "LAI": 0.44817558514629585
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-02-04T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 0.5151120366143024
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-02-03T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 0.5852121294762268
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-02-02T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 0.6570476973724619
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-02-01T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 0.7292357748287617
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-31T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 0.8005013860540766
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-30T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 0.8697403337383897
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-29T00:00:00Z",
+    "Values": {
+      "RVI": 0.1821032770240647,
+      "LAI": 0.9360819878505495
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-28T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 0.9989520744361065
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-27T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.0581354644151495
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-26T00:00:00Z",
+    "Values": {
+      "RVI": 0.196424543032484,
+      "LAI": 1.1137712858950608
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-25T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.1663480364832681
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-24T00:00:00Z",
+    "Values": {
+      "RVI": 0.2143285398870297,
+      "LAI": 1.2166986955999906
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-23T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.2659204918182694
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-22T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.3152946702040018
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-21T00:00:00Z",
+    "Values": {
+      "RVI": 0.06996453939158805,
+      "LAI": 1.3661094063640977
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-20T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.4194827204946447
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-19T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.4761853914290735
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-18T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.536638377649354
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-17T00:00:00Z",
+    "Values": {
+      "RVI": 0.11484998713872413,
+      "LAI": 1.6009102382971887
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-16T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.6687145541852055
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-15T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.7394073488081565
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-14T00:00:00Z",
+    "Values": {
+      "RVI": 0.22317766112460322,
+      "LAI": 1.812102770915893
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-13T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 1.885788777086339
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-12T00:00:00Z",
+    "Values": {
+      "RVI": 0.2337436356909932,
+      "LAI": 1.9594428142984663
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-11T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 2.032094471821218
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-10T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 2.102888133102426
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-09T00:00:00Z",
+    "Values": {
+      "RVI": 0.22392022544714843,
+      "LAI": 2.171088563705252
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-08T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 2.2360864992446263
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-07T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 2.2974042333236806
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-06T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 2.3546827544234534
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-05T00:00:00Z",
+    "Values": {
+      "RVI": 0.23464296799883064,
+      "LAI": 2.407668882792595
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-04T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 2.456202407337068
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-03T00:00:00Z",
+    "Values": {
+      "RVI": "NaN",
+      "LAI": 2.500203222509851
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  },
+  {
+    "KeyValues": {},
+    "Timestamp": "2023-01-02T00:00:00Z",
+    "Values": {
+      "RVI": 0.21924885147869452,
+      "LAI": 2.5396446264619383
+    },
+    "Entity": {
+      "TypedId": "SeasonField:7Yo8NgtnijnFTztESJEEfm"
+    },
+    "Schema": {
+      "Id": "LAI_RADAR"
+    }
+  }
+]
