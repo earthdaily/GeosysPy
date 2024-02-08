@@ -9,7 +9,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/GEOSYS">
+  <a href="https://github.com/earthdaily">
     <img src="https://earthdailyagro.com/wp-content/uploads/2022/01/Logo.svg" alt="Logo" width="400" height="200">
   </a>
 
@@ -21,11 +21,11 @@
     <a href="https://earthdailyagro.com/"><strong>Who we are</strong></a>
     <br />
     <br />
-    <a href="https://github.com/GEOSYS/GeosysPy">Project description</a>
+    <a href="https://github.com/earthdaily/GeosysPy">Project description</a>
     ·
-    <a href="https://github.com/GEOSYS/GeosysPy/issues">Report Bug</a>
+    <a href="https://github.com/earthdaily/GeosysPy/issues">Report Bug</a>
     ·
-    <a href="https://github.com/GEOSYS/GeosysPy/issues">Request Feature</a>
+    <a href="https://github.com/earthdaily/GeosysPy/issues">Request Feature</a>
   </p>
 </p>
 
@@ -102,7 +102,7 @@ The `geosyspy` python package aims to provide an easy and ready to use library a
 * Analytic publication:
      * Save and retrieve custom data in Analytics Fabrik
 
-See [documentation](https://geosys.github.io/GeosysPy/) and [Examples](examples.ipynb) notebook for more information
+See [documentation](https://earthdaily.github.io/GeosysPy/) and [Examples](examples.ipynb) notebook for more information
 
 ## Getting started
 
