@@ -57,16 +57,17 @@ class Geosys:
         self.__vts_service = VegetationTimeSeriesService(self.base_url, self.http_client)
         self.__map_product_service = MapProductService(self.base_url, self.http_client, self.priority_queue)
 
-    def get_time_series(self, polygon: str,
+    def get_time_series(self,
                         start_date: datetime,
                         end_date: datetime,
                         collection: enumerate,
                         indicators: [str],
+                        polygon: Optional[str]=None,
                         season_field_id:Optional[str]=None) -> pd.DataFrame:
         """Retrieve a time series of the indicator for the aggregated polygon on the collection targeted.
 
         Args:
-            polygon : The polygon
+            polygon : (Optional) The polygon
             start_date : The start date of the time series
             end_date : The end date of the time series
             collection : The collection targeted
@@ -80,6 +81,8 @@ class Geosys:
             ValueError: The collection doesn't exist
         """
         if collection in WeatherTypeCollection:
+            if not polygon:
+                raise ValueError("Parameter 'polygon' cannot be None or empty for Weather collection.")
             return self.__weather_service.get_weather(
                 polygon,
                 start_date,
@@ -88,9 +91,11 @@ class Geosys:
                 indicators,
             )
         elif collection in LR_SATELLITE_COLLECTION:
+            if not season_field_id and not polygon:
+                raise ValueError("Parameters 'season_field_id' and 'polygon' cannot be both None or empty.")
             if not season_field_id:
                 # extract seasonfield id from geometry
-                season_field_id = self.__master_data_management_service.extract_season_field_id(polygon)
+                season_field_id = self.__master_data_management_service.extract_season_field_id(polygon)                
             else:
                 # check the provided seasonfield id
                 if not self.__master_data_management_service.check_season_field_exists(season_field_id):
@@ -612,7 +617,8 @@ class Geosys:
                               crop: Enum,
                               year: int,
                               geometry: str,
-                              harvest_type: Harvest):
+                              harvest_type: Harvest,
+                              season_field_id:Optional[str]=None):
         """launch a harvest analytics processor and get the metrics in a panda dataframe object
 
             Args:
@@ -623,6 +629,8 @@ class Geosys:
                 year (int): the year value,
                 geometry (str): the geometry to calculate the analytic (WKT or GeoJSON),
                 harvest_type (Harvest): the type of Harvest analytics (INSEASON/HISTORICAL)
+                season_field_id : Optional season_field_id value
+
 
             Returns:
                 A Pandas DataFrame containing several columns with metrics
@@ -632,10 +640,12 @@ class Geosys:
 
         if geometry is None:
             raise ValueError("The geometry is not a valid WKT of GeoJson")
-
-        # Create seasonfield from geometry and extract uniqueId
-        sfd_public_id = self.__master_data_management_service.extract_season_field_id(geometry)
-        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(sfd_public_id)
+         
+        if not season_field_id:
+            # extract seasonfield id from geometry
+            season_field_id = self.__master_data_management_service.extract_season_field_id(geometry)
+                
+        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(season_field_id)
 
         task_id = self.__analytics_processor_service.launch_harvest_processor(
             season_duration=season_duration,
@@ -669,7 +679,8 @@ class Geosys:
                                 crop: Enum,
                                 year: int,
                                 geometry: str,
-                                emergence_type: Emergence):
+                                emergence_type: Emergence,
+                                season_field_id:Optional[str]=None):
         """launch an emergence analytics processor and get the metrics in a panda dataframe object
 
             Args:
@@ -680,6 +691,8 @@ class Geosys:
                 year (int): the year value,
                 geometry (str): the geometry to calculate the analytic (WKT or GeoJSON),
                 emergence_type (Emergence): the type of Emergence analytics (INSEASON/HISTORICAL/DELAY)
+                season_field_id : Optional season_field_id value
+
 
             Returns:
                 A Pandas DataFrame containing several columns with metrics
@@ -691,8 +704,11 @@ class Geosys:
             raise ValueError("The geometry is not a valid WKT of GeoJson")
 
         # Create seasonfield from geometry and extract uniqueId
-        sfd_public_id = self.__master_data_management_service.extract_season_field_id(geometry)
-        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(sfd_public_id)
+        if not season_field_id:
+            # extract seasonfield id from geometry
+            season_field_id = self.__master_data_management_service.extract_season_field_id(geometry)
+                
+        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(season_field_id)
 
         task_id = self.__analytics_processor_service.launch_emergence_processor(
             season_duration=season_duration,
@@ -723,7 +739,8 @@ class Geosys:
                                      start_date: str,
                                      end_date: str,
                                      season: CropIdSeason,
-                                     geometry: str):
+                                     geometry: str,
+                                     season_field_id:Optional[str]=None):
         """launch a brazil-in-season-crop-id analytics processor and get the metrics in a panda dataframe object
 
             Args:
@@ -731,6 +748,7 @@ class Geosys:
                 end_date (str) : the end date used for the request (format YYYY-MM-dd)
                 season (CropIdSeason): the season name,
                 geometry (str): the geometry to calculate the analytic (WKT or GeoJSON)
+                season_field_id (Optonal[str]): Optional season_field_id value
 
             Returns:
                 A Pandas DataFrame containing several columns with metrics
@@ -741,9 +759,11 @@ class Geosys:
         if geometry is None:
             raise ValueError("The geometry is not a valid WKT of GeoJson")
 
-        # Create seasonfield from geometry and extract uniqueId
-        sfd_public_id = self.__master_data_management_service.extract_season_field_id(geometry)
-        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(sfd_public_id)
+        if not season_field_id:
+            # extract seasonfield id from geometry
+            season_field_id = self.__master_data_management_service.extract_season_field_id(geometry)
+                
+        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(season_field_id)
 
         task_id = self.__analytics_processor_service.launch_brazil_in_season_crop_id_processor(
             start_date=start_date,
@@ -770,7 +790,8 @@ class Geosys:
                                       season_start_month: int,
                                       sowing_date: str,
                                       crop: Enum,
-                                      geometry: str):
+                                      geometry: str,
+                                      season_field_id:Optional[str]=None):
         """launch a potential score analytics processor and get the metrics in a panda dataframe object
 
             Args:
@@ -782,6 +803,7 @@ class Geosys:
                 sowing_date (str): sowing date of the filed used to calculate potential score
                 nb_historical_years (int): number of historical years data to calculate potential score
                 geometry (str): the geometry to calculate the analytic (WKT or GeoJSON)
+                season_field_id (Optonal[str]): Optional season_field_id value
 
             Returns:
                 A Pandas DataFrame containing several columns with metrics
@@ -792,9 +814,11 @@ class Geosys:
         if geometry is None:
             raise ValueError("The geometry is not a valid WKT of GeoJson")
 
-        # Create seasonfield from geometry and extract uniqueId
-        sfd_public_id = self.__master_data_management_service.extract_season_field_id(geometry)
-        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(sfd_public_id)
+        if not season_field_id:
+            # extract seasonfield id from geometry
+            season_field_id = self.__master_data_management_service.extract_season_field_id(geometry)
+                
+        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(season_field_id)
 
         task_id = self.__analytics_processor_service.launch_potential_score_processor(
             end_date=end_date,
@@ -822,7 +846,8 @@ class Geosys:
                                 end_date: str,
                                 sowing_date: str,
                                 crop: Enum,
-                                geometry: str):
+                                geometry: str,
+                                season_field_id:Optional[str]=None):
         """launch a greenness analytics processor and get the metrics in a panda dataframe object
 
                     Args:
@@ -831,6 +856,7 @@ class Geosys:
                         sowing_date(str): sowing date of the field used to calculate potential score
                         crop (Enum): the crop code,
                         geometry (str): the geometry to calculate the analytic (WKT or GeoJSON)
+                        season_field_id (Optonal[str]): Optional season_field_id value
 
                     Returns:
                         A Pandas DataFrame containing several columns with metrics
@@ -841,9 +867,11 @@ class Geosys:
         if geometry is None:
             raise ValueError("The geometry is not a valid WKT of GeoJson")
 
-        # Create seasonfield from geometry and extract uniqueId
-        sfd_public_id = self.__master_data_management_service.extract_season_field_id(geometry)
-        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(sfd_public_id)
+        if not season_field_id:
+            # extract seasonfield id from geometry
+            season_field_id = self.__master_data_management_service.extract_season_field_id(geometry)
+                
+        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(season_field_id)
 
         task_id = self.__analytics_processor_service.launch_greenness_processor(
             start_date=start_date,
@@ -868,7 +896,8 @@ class Geosys:
                                         end_date: str,
                                         sowing_date: str,
                                         crop: Enum,
-                                        geometry: str):
+                                        geometry: str,
+                                        season_field_id:Optional[str]=None):
         """launch a harvest readiness analytics processor and get the metrics in a panda dataframe object
 
             Args:
@@ -877,6 +906,7 @@ class Geosys:
                 sowing_date(str): sowing date of the field used to calculate potential score
                 crop (Enum): the crop code,
                 geometry (str): the geometry to calculate the analytic (WKT or GeoJSON)
+                season_field_id (Optonal[str]): Optional season_field_id value
 
             Returns:
                 A Pandas DataFrame containing several columns with metrics
@@ -887,9 +917,11 @@ class Geosys:
         if geometry is None:
             raise ValueError("The geometry is not a valid WKT of GeoJson")
 
-        # Create seasonfield from geometry and extract uniqueId
-        sfd_public_id = self.__master_data_management_service.extract_season_field_id(geometry)
-        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(sfd_public_id)
+        if not season_field_id:
+            # extract seasonfield id from geometry
+            season_field_id = self.__master_data_management_service.extract_season_field_id(geometry)
+                
+        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(season_field_id)
 
         task_id = self.__analytics_processor_service.launch_harvest_readiness_processor(
             start_date=start_date,
@@ -912,13 +944,15 @@ class Geosys:
     def get_planted_area_analytics(self,
                                    start_date: str,
                                    end_date: str,
-                                   geometry: str):
+                                   geometry: str,
+                                   season_field_id:Optional[str]=None):
         """launch a planted area analytics processor and get the metrics in a panda dataframe object
 
                     Args:
                         start_date (str) : the start date used for the request (format YYYY-MM-dd)
                         end_date (str) : the end date used for the request (format YYYY-MM-dd)
                         geometry (str): the geometry to calculate the analytic (WKT or GeoJSON),
+                        season_field_id (Optonal[str]): Optional season_field_id value
                     Returns:
                         A Pandas DataFrame containing several columns with metrics
         """
@@ -928,9 +962,11 @@ class Geosys:
         if geometry is None:
             raise ValueError("The geometry is not a valid WKT of GeoJson")
 
-        # Create seasonfield from geometry and extract uniqueId
-        sfd_public_id = self.__master_data_management_service.extract_season_field_id(geometry)
-        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(sfd_public_id)
+        if not season_field_id:
+            # extract seasonfield id from geometry
+            season_field_id = self.__master_data_management_service.extract_season_field_id(geometry)
+                
+        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(season_field_id)
 
         task_id = self.__analytics_processor_service.launch_planted_area_processor(start_date, end_date, sf_unique_id)
         # check the task status to continue or not the process
@@ -949,7 +985,8 @@ class Geosys:
                            crop: Enum,
                            soil_type: ZarcSoilType,
                            cycle: ZarcCycleType,
-                           geometry: str):
+                           geometry: str,
+                           season_field_id:Optional[str]=None):
         """launch a zarc analytics processor and get the metrics in a panda dataframe object
 
                         Args:
@@ -960,6 +997,8 @@ class Geosys:
                             soil_type (ZarcSoilType): the zarc soil type (1/2/3),
                             cycle (ZarcCycleType): the zarc cycle type (1/2/3),
                             geometry (str): the geometry to calculate the analytic (WKT or GeoJSON),
+                            season_field_id (Optonal[str]): Optional season_field_id value
+
                         Returns:
                             A Pandas DataFrame containing several columns with metrics
         """
@@ -975,9 +1014,11 @@ class Geosys:
         if municipio_id == 0:
             raise ValueError(f"No municipio id found for this geometry")
 
-        # Create seasonfield from geometry and extract uniqueId
-        sfd_public_id = self.__master_data_management_service.extract_season_field_id(geometry)
-        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(sfd_public_id)
+        if not season_field_id:
+            # extract seasonfield id from geometry
+            season_field_id = self.__master_data_management_service.extract_season_field_id(geometry)
+                
+        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(season_field_id)
 
         task_id = self.__analytics_processor_service.launch_zarc_processor(
             start_date_emergence=start_date_emergence,

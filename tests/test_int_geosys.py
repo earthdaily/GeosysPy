@@ -52,7 +52,7 @@ class TestGeosys:
         end_date = dt.datetime.strptime("2020-01-07", "%Y-%m-%d")
 
         df = self.client.get_time_series(
-            POLYGON, start_date, end_date, SatelliteImageryCollection.MODIS, ["NDVI"]
+            start_date, end_date, SatelliteImageryCollection.MODIS, ["NDVI"], polygon=POLYGON
         )
 
         assert df.index.name == "date"
@@ -68,7 +68,7 @@ class TestGeosys:
         end_date = dt.datetime.strptime("2020-01-07", "%Y-%m-%d")
         POLYGON = "POLYGON((-91.29152885756007 40.39177489815265,-91.28403789132507 40.391776131485386,-91.28386736508233 40.389390758655935,-91.29143832829979 40.38874592864832,-91.29152885756007 40.39177489815265))"
         df = self.client.get_satellite_image_time_series(
-            POLYGON, start_date, end_date, [SatelliteImageryCollection.MODIS], ["NDVI"]
+             start_date, end_date, [SatelliteImageryCollection.MODIS], ["NDVI"], polygon=POLYGON
         )
         assert df.index.name == "date"
         assert {"value", "index", "pixel.id"}.issubset(set(df.columns))
@@ -84,9 +84,9 @@ class TestGeosys:
         end_date = dt.date.today()
         start_date = dt.date.today() + relativedelta(months=-12)
         info, images_references = self.client.get_satellite_coverage_image_references(
-            POLYGON, start_date, end_date,
+            start_date, end_date,
             collections=[SatelliteImageryCollection.SENTINEL_2, SatelliteImageryCollection.LANDSAT_8,
-                         SatelliteImageryCollection.LANDSAT_9])
+                         SatelliteImageryCollection.LANDSAT_9], polygon=POLYGON)
 
         assert {"coverageType", "image.id", "image.availableBands", "image.sensor", "image.soilMaterial",
                 "image.spatialResolution", "image.weather", "image.date", "seasonField.id"}.issubset(set(info.columns))
@@ -109,12 +109,12 @@ class TestGeosys:
             "Date",
         ]
 
-        df = self.client.get_time_series(
-            POLYGON,
+        df = self.client.get_time_series(            
             start_date,
             end_date,
             WeatherTypeCollection.WEATHER_HISTORICAL_DAILY,
             indicators,
+            polygon=POLYGON
         )
 
         assert {"precipitation.cumulative", "precipitation.probabilities", "temperature.ground", "temperature.standard",
@@ -152,12 +152,12 @@ class TestGeosys:
     def test_get_satellite_image_time_series(self):
         start_date = dt.datetime.strptime("2022-05-01", "%Y-%m-%d")
         end_date = dt.datetime.strptime("2023-04-28", "%Y-%m-%d")
-        dataset = self.client.get_satellite_image_time_series(
-            POLYGON,
+        dataset = self.client.get_satellite_image_time_series(            
             start_date,
             end_date,
             collections=[SatelliteImageryCollection.SENTINEL_2, SatelliteImageryCollection.LANDSAT_8],
             indicators=["Reflectance"],
+            polygon=POLYGON
         )
         assert dict(dataset.dims) == {'band': 4, 'y': 51, 'x': 48, 'time': 1}
 

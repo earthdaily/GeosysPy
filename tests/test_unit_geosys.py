@@ -54,12 +54,12 @@ class TestGeosys:
             "Date",
         ]
 
-        df = self.client.get_time_series(
-            POLYGON,
+        df = self.client.get_time_series(            
             start_date,
             end_date,
             WeatherTypeCollection.WEATHER_HISTORICAL_DAILY,
             indicators,
+            polygon=POLYGON
         )
 
         assert {"precipitation.cumulative", "temperature.standard", "temperature.standardMax",
@@ -81,7 +81,7 @@ class TestGeosys:
         schema_id = "LAI_RADAR"
         start_date = dt.datetime.strptime("2023-01-02", "%Y-%m-%d")
         end_date = dt.datetime.strptime("2023-05-02", "%Y-%m-%d")
-        df = self.client.get_metrics(lai_radar_polygon, schema_id, start_date, end_date)
+        df = self.client.get_metrics(schema_id, start_date, end_date,polygon=lai_radar_polygon)
 
         assert {"Values.RVI", "Values.LAI", "Schema.Id"}.issubset(set(df.columns))
         assert {"2023-01-02T00:00:00Z", "2023-01-03T00:00:00Z", "2023-01-14T00:00:00Z", "2023-02-25T00:00:00Z",
@@ -103,12 +103,12 @@ class TestGeosys:
             "WeatherType"
         ]
 
-        df = self.client.get_time_series(
-            POLYGON,
+        df = self.client.get_time_series(            
             start_date,
             end_date,
             WeatherTypeCollection.WEATHER_HISTORICAL_DAILY,
             indicators,
+            polygon=POLYGON
         )
 
         assert {'weatherType', 'precipitation.cumulative', 'precipitation.probabilities', 'temperature.standard',
@@ -124,12 +124,12 @@ class TestGeosys:
         get_response.side_effect= [fake_image_time_series_response, fake_get_tiff_zip_response, fake_get_tiff_zip_response]
         start_date = dt.datetime.strptime("2022-05-01", "%Y-%m-%d")
         end_date = dt.datetime.strptime("2023-04-28", "%Y-%m-%d")
-        dataset = self.client.get_satellite_image_time_series(
-            POLYGON,
+        dataset = self.client.get_satellite_image_time_series(            
             start_date,
             end_date,
             collections=[SatelliteImageryCollection.SENTINEL_2, SatelliteImageryCollection.LANDSAT_8],
             indicators=["Reflectance"],
+            polygon=POLYGON
         )
         assert dict(dataset.dims) == {'band': 4, 'y': 80, 'x': 81, 'time': 2}
 
