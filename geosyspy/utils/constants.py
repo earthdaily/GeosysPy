@@ -9,6 +9,12 @@ class SatelliteImageryCollection(Enum):
     SENTINEL_2 = "SENTINEL_2"
     LANDSAT_8 = "LANDSAT_8"
     LANDSAT_9 = "LANDSAT_9"
+    DEIMOS_1 = "DEIMOS_1"
+    ALSAT_1B =  "ALSAT_1B"
+    RESOURCESAT2 = "RESOURCESAT2"
+    CBERS_4 = "CBERS_4"
+    KAZSTSAT = "KAZSTSAT"
+    GAOPFEN = "GAOPFEN"
 
 
 class WeatherTypeCollection(Enum):
@@ -160,7 +166,10 @@ class GeosysApiEndpoints(Enum):
 
 LR_SATELLITE_COLLECTION = [SatelliteImageryCollection.MODIS]
 MR_SATELLITE_COLLECTION = [SatelliteImageryCollection.LANDSAT_8, SatelliteImageryCollection.LANDSAT_9,
-                           SatelliteImageryCollection.SENTINEL_2]
+                           SatelliteImageryCollection.SENTINEL_2, SatelliteImageryCollection.ALSAT_1B,
+                           SatelliteImageryCollection.CBERS_4, SatelliteImageryCollection.DEIMOS_1, 
+                           SatelliteImageryCollection.GAOPFEN, SatelliteImageryCollection.KAZSTSAT, 
+                           SatelliteImageryCollection.RESOURCESAT2]
 
 PRIORITY_HEADERS = {"bulk": "Geosys_API_Bulk", "realtime": ""}
 SEASON_FIELD_ID_REGEX = r"\sId:\s(\w+),"

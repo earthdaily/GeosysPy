@@ -6,7 +6,7 @@ from urllib.parse import urljoin
 from geosyspy.utils.constants import *
 from geosyspy.utils.http_client import *
 from requests import HTTPError
-
+from typing import Optional
 
 class MapProductService:
 
@@ -20,7 +20,7 @@ class MapProductService:
                                start_date: datetime,
                                end_date: datetime,
                                indicator,
-                               sensors_collection: list[SatelliteImageryCollection] = [
+                               sensors_collection: Optional[list[SatelliteImageryCollection]]= [
                                    SatelliteImageryCollection.SENTINEL_2,
                                    SatelliteImageryCollection.LANDSAT_8]
                                ):
@@ -28,14 +28,18 @@ class MapProductService:
         self.logger.info("Calling APIs for coverage")
         start_date: str = start_date.strftime("%Y-%m-%d")
         end_date: str = end_date.strftime("%Y-%m-%d")
-        sensors: list[str] = [elem.value for elem in sensors_collection]
+            
 
         if indicator == "" or indicator.upper() == "REFLECTANCE" or indicator.upper() == "NDVI":
             mapType = "INSEASON_NDVI"
         else:
             mapType = f"INSEASON_{indicator.upper()}"
-
-        parameters = f"?maps.type={mapType}&Image.Sensor=$in:{'|'.join(sensors)}&CoverageType=CLEAR&$limit=9999&$filter=Image.Date >= '{start_date}' and Image.Date <= '{end_date}'"
+        
+        if sensors_collection is not None:
+            sensors: list[str] = [elem.value for elem in sensors_collection]
+            parameters = f"?maps.type={mapType}&Image.Sensor=$in:{'|'.join(sensors)}&CoverageType=CLEAR&$limit=None&$filter=Image.Date >= '{start_date}' and Image.Date <= '{end_date}'"
+        else:
+            parameters = f"?maps.type={mapType}&CoverageType=CLEAR&$limit=None&$filter=Image.Date >= '{start_date}' and Image.Date <= '{end_date}'"
 
         flm_url: str = urljoin(
             self.base_url,

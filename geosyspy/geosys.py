@@ -97,7 +97,7 @@ class Geosys:
     def get_satellite_image_time_series(self, polygon: str,
                                         start_date: datetime,
                                         end_date: datetime,
-                                        collections: list[SatelliteImageryCollection],
+                                        collections: Optional[list[SatelliteImageryCollection]],
                                         indicators: [str]
                                         ):
         """Retrieve a pixel-by-pixel time series of the indicator on the collection targeted.
@@ -114,9 +114,11 @@ class Geosys:
         """
 
         if not collections:
-            raise ValueError(
-                "The argument collections is empty. It must be a list of SatelliteImageryCollection objects"
-            )
+            season_field_id: str = self.__master_data_management_service.extract_season_field_id(polygon)
+
+            return self.__get_images_as_dataset(
+                    season_field_id, start_date, end_date, None, indicators[0]
+                )
         elif all([isinstance(elem, SatelliteImageryCollection) for elem in collections]):
             # extract seasonfield id from geometry
             season_field_id: str = self.__master_data_management_service.extract_season_field_id(polygon)
@@ -131,13 +133,13 @@ class Geosys:
                 )
         else:
             raise TypeError(
-                f"Argument collections must be a list of SatelliteImageryCollection objects"
+                "Argument collections must be a list of SatelliteImageryCollection objects"
             )
 
     def get_satellite_coverage_image_references(self, polygon: str,
                                                 start_date: datetime,
                                                 end_date: datetime,
-                                                collections: list[SatelliteImageryCollection] = [
+                                                collections: Optional[list[SatelliteImageryCollection]] = [
                                                     SatelliteImageryCollection.SENTINEL_2,
                                                     SatelliteImageryCollection.LANDSAT_8]
                                                 ) -> tuple:
@@ -194,7 +196,7 @@ class Geosys:
     def __get_images_as_dataset(self, polygon: str,
                                 start_date: datetime,
                                 end_date: datetime,
-                                collections: list[SatelliteImageryCollection],
+                                collections: Optional[list[SatelliteImageryCollection]],
                                 indicator: str) -> 'np.ndarray[Any , np.dtype[np.float64]]':
         """Returns all the 'sensors_list' images covering 'polygon' between
         'start_date' and 'end_date' as a xarray dataset.
