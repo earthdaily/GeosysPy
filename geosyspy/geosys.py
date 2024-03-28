@@ -61,7 +61,8 @@ class Geosys:
                         start_date: datetime,
                         end_date: datetime,
                         collection: enumerate,
-                        indicators: [str]) -> pd.DataFrame:
+                        indicators: [str],
+                        season_field_id:Optional[str]=None) -> pd.DataFrame:
         """Retrieve a time series of the indicator for the aggregated polygon on the collection targeted.
 
         Args:
@@ -70,6 +71,7 @@ class Geosys:
             end_date : The end date of the time series
             collection : The collection targeted
             indicators : The indicators to retrieve on the collection
+            season_field_id : Optional season_field_id to provide instead of polygon
 
         Returns:
             (dataframe): A pandas dataframe for the time series
@@ -86,42 +88,59 @@ class Geosys:
                 indicators,
             )
         elif collection in LR_SATELLITE_COLLECTION:
-            # extract seasonfield id from geometry
-            season_field_id: str = self.__master_data_management_service.extract_season_field_id(polygon)
+            if not season_field_id:
+                # extract seasonfield id from geometry
+                season_field_id = self.__master_data_management_service.extract_season_field_id(polygon)
+            else:
+                # check the provided seasonfield id
+                if not self.__master_data_management_service.check_season_field_exists(season_field_id):
+                    raise ValueError(f"Cannot access {season_field_id}. It is not existing or connected user doens't have access to it.")
             return self.__vts_service.get_modis_time_series(
                 season_field_id, start_date, end_date, indicators[0]
             )
         else:
             raise ValueError(f"{collection} collection doesn't exist")
 
-    def get_satellite_image_time_series(self, polygon: str,
+    def get_satellite_image_time_series(self, 
                                         start_date: datetime,
                                         end_date: datetime,
                                         collections: Optional[list[SatelliteImageryCollection]],
-                                        indicators: [str]
+                                        indicators: [str],
+                                        polygon: Optional[str]=None,
+                                        season_field_id:Optional[str]=None
                                         ):
         """Retrieve a pixel-by-pixel time series of the indicator on the collection targeted.
 
         Args:
-            polygon : The polygon
+            polygon : (Optional) The polygon
             start_date : The start date of the time series
             end_date : The end date of the time series
             collections : The Satellite Imagery Collection targeted
             indicators : The indicators to retrieve on the collections
+            season_field_id : Optional season_field_id to provide instead of polygon
+
 
         Returns:
             ('dataframe or xarray'): Either a pandas dataframe or a xarray for the time series
         """
 
-        if not collections:
-            season_field_id: str = self.__master_data_management_service.extract_season_field_id(polygon)
+        if not season_field_id and not polygon:
+            raise ValueError("Parameters 'season_field_id' and 'polygon' cannot be both None or empty.")
+            
+        if not season_field_id:
+                # extract seasonfield id from geometry
+                season_field_id = self.__master_data_management_service.extract_season_field_id(polygon)
+        else:
+            # check the provided seasonfield id
+            if not self.__master_data_management_service.check_season_field_exists(season_field_id):
+                raise ValueError(f"Cannot access {season_field_id}. It is not existing or connected user doens't have access to it.")
+        
+        if not collections:            
 
             return self.__get_images_as_dataset(
                     season_field_id, start_date, end_date, None, indicators[0]
                 )
-        elif all([isinstance(elem, SatelliteImageryCollection) for elem in collections]):
-            # extract seasonfield id from geometry
-            season_field_id: str = self.__master_data_management_service.extract_season_field_id(polygon)
+        elif all([isinstance(elem, SatelliteImageryCollection) for elem in collections]):            
 
             if set(collections).issubset(set(LR_SATELLITE_COLLECTION)):
                 return self.__vts_service.get_time_series_by_pixel(
@@ -136,12 +155,14 @@ class Geosys:
                 "Argument collections must be a list of SatelliteImageryCollection objects"
             )
 
-    def get_satellite_coverage_image_references(self, polygon: str,
+    def get_satellite_coverage_image_references(self,
                                                 start_date: datetime,
                                                 end_date: datetime,
                                                 collections: Optional[list[SatelliteImageryCollection]] = [
                                                     SatelliteImageryCollection.SENTINEL_2,
-                                                    SatelliteImageryCollection.LANDSAT_8]
+                                                    SatelliteImageryCollection.LANDSAT_8],
+                                                polygon: Optional[str]=None,
+                                                season_field_id:Optional[str]=None
                                                 ) -> tuple:
         """Retrieves a list of images that covers a polygon on a specific date range.
         The return is a tuple: a dataframe with all the images covering the polygon, and
@@ -149,16 +170,27 @@ class Geosys:
                     Value = an object image_reference, to use with the method `download_image()`
 
         Args:
-            polygon: The polygon
+            polygon: (Optional) The polygon
             start_date: The start date of the time series
             end_date: The end date of the time series
             collections: The sensors to check the coverage on
+            season_field_id : Optional season_field_id to provide instead of polygon
+
 
         Returns:
             (tuple): images list and image references for downloading
         """
-        # extract seasonfield id from geometry
-        season_field_id: str = self.__master_data_management_service.extract_season_field_id(polygon)
+        
+        if not season_field_id and not polygon:
+            raise ValueError("Parameters 'season_field_id' and 'polygon' cannot be both None or empty.")
+        
+        if not season_field_id:
+            # extract seasonfield id from geometry
+            season_field_id = self.__master_data_management_service.extract_season_field_id(polygon)
+        else:
+            # check the provided seasonfield id
+            if not self.__master_data_management_service.check_season_field_exists(season_field_id):
+                raise ValueError(f"Cannot access {season_field_id}. It is not existing or connected user doens't have access to it.")
 
         df = self.__map_product_service.get_satellite_coverage(season_field_id, start_date, end_date, "", collections)
         images_references = {}
@@ -193,16 +225,17 @@ class Geosys:
             self.logger.info(f"writing to {path}")
             f.write(response_zipped_tiff.content)
 
-    def __get_images_as_dataset(self, polygon: str,
+    def __get_images_as_dataset(self, season_field_id: str,
                                 start_date: datetime,
                                 end_date: datetime,
                                 collections: Optional[list[SatelliteImageryCollection]],
-                                indicator: str) -> 'np.ndarray[Any , np.dtype[np.float64]]':
+                                indicator: str,
+                                ) -> 'np.ndarray[Any , np.dtype[np.float64]]':
         """Returns all the 'sensors_list' images covering 'polygon' between
         'start_date' and 'end_date' as a xarray dataset.
 
         Args:
-            polygon : A string representing the polygon that the images will be covering.
+            season_field_id : A string representing the season_field_id.
             start_date : The date from which the method will start looking for images.
             end_date : The date at which the method will stop looking images.
             collections : A list of Satellite Imagery Collection.
@@ -233,7 +266,7 @@ class Geosys:
         # and sorts them by resolution, from the highest to the lowest.
         # Keeps only the first image if two are found on the same date.
         df_coverage = self.__map_product_service.get_satellite_coverage(
-            polygon, start_date, end_date, indicator, collections
+            season_field_id, start_date, end_date, indicator, collections
         )
 
         # Return empty dataset if no coverage on the polygon between start_date, end_date
@@ -355,42 +388,69 @@ class Geosys:
         """
         return self.__analytics_fabric_service.create_schema_id(schema_id=schema_id, schema=schema)
 
-    def get_metrics(self, polygon: str,
+    def get_metrics(self,
                     schema_id: str,
                     start_date: datetime,
-                    end_date: datetime):
+                    end_date: datetime,
+                    polygon: Optional[str]=None,
+                    season_field_id:Optional[str]=None):
         """Returns metrics from Analytics Fabrics in a pandas dataframe.
 
         Args:
-            polygon : A string representing a polygon.
+            polygon : An optional string representing a polygon.
             start_date : A datetime object representing the start date of the date interval the user wants to filter on.
             end_date : A datetime object representing the final date of the date interval the user wants to filter on.
             schema_id : A string representing a schema existing in Analytics Fabrics
+            season_field_id : Optional season_field_id to provide instead of polygon
+
 
         Returns:
             df : A Pandas DataFrame containing severals columns with metrics
 
         """
 
-        season_field_id: str = self.__master_data_management_service.extract_season_field_id(polygon)
+        if not season_field_id and not polygon:
+            raise ValueError("Parameters 'season_field_id' and 'polygon' cannot be both None or empty.")
+        
+        if not season_field_id:
+            # extract seasonfield id from geometry
+            season_field_id = self.__master_data_management_service.extract_season_field_id(polygon)
+        else:
+            # check the provided seasonfield id
+            if not self.__master_data_management_service.check_season_field_exists(season_field_id):
+                raise ValueError(f"Cannot access {season_field_id}. It is not existing or connected user doens't have access to it.")
+        # extract sfd unique id 
         season_field_unique_id: str = self.__master_data_management_service.get_season_field_unique_id(season_field_id)
 
         return self.__analytics_fabric_service.get_metrics(season_field_unique_id, schema_id, start_date, end_date)
 
-    def push_metrics(self, polygon: str,
+    def push_metrics(self,
                      schema_id: str,
-                     values: dict):
+                     values: dict,
+                     polygon: Optional[str]=None,
+                     season_field_id:Optional[str]=None):
         """Push metrics in Analytics Fabrics
 
         Args:
-            polygon : A string representing the polygon.
+            polygon : An optional string representing the polygon.
             schema_id : The schema on which to save
             values : Dict representing values to push
+            season_field_id : Optional season_field_id to provide instead of polygon
+
 
         Returns:
             A response object.
         """
-        season_field_id: str = self.__master_data_management_service.extract_season_field_id(polygon)
+        if not season_field_id and not polygon:
+            raise ValueError("Parameters 'season_field_id' and 'polygon' cannot be both None or empty.")
+        
+        if not season_field_id:
+            # extract seasonfield id from geometry
+            season_field_id = self.__master_data_management_service.extract_season_field_id(polygon)
+        else:
+            # check the provided seasonfield id
+            if not self.__master_data_management_service.check_season_field_exists(season_field_id):
+                raise ValueError(f"Cannot access {season_field_id}. It is not existing or connected user doens't have access to it.")
 
         return self.__analytics_fabric_service.push_metrics(season_field_id, schema_id, values)
 
