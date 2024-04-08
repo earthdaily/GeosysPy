@@ -125,6 +125,12 @@ class ZarcSoilType(Enum):
     SOIL_TYPE_1 = "1"
     SOIL_TYPE_2 = "2"
     SOIL_TYPE_3 = "3"
+    SOIL_TYPE_11 = "11"
+    SOIL_TYPE_12 = "12"
+    SOIL_TYPE_13 = "13"
+    SOIL_TYPE_14 = "14"
+    SOIL_TYPE_15 = "15"
+    SOIL_TYPE_16 = "16"
     NONE = None
 
 class CropIdSeason(Enum):
