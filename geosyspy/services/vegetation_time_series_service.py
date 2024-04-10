@@ -3,8 +3,8 @@ import logging
 import pandas as pd
 from datetime import datetime
 from urllib.parse import urljoin
-from geosyspy.utils.constants import *
-from geosyspy.utils.http_client import *
+from geosyspy.utils.constants import GeosysApiEndpoints
+from geosyspy.utils.http_client import HttpClient
 
 
 class VegetationTimeSeriesService:
@@ -61,9 +61,9 @@ class VegetationTimeSeriesService:
 
 
     def get_time_series_by_pixel(self, season_field_id: str,
-                                   start_date: datetime,
-                                   end_date: datetime,
-                                   indicator: str) -> pd.DataFrame:
+                                start_date: datetime,
+                                end_date: datetime,
+                                indicator: str) -> pd.DataFrame:
         """Returns a pandas DataFrame.
 
             This method returns a time series of 'indicator' by pixel within the range 'start_date' -> 'end_date'
@@ -97,16 +97,27 @@ class VegetationTimeSeriesService:
         start_date: str = start_date.strftime("%Y-%m-%d")
         end_date: str = end_date.strftime("%Y-%m-%d")
         parameters: str = f"/values?$offset=0&$limit=None&$count=false&SeasonField.Id={season_field_id}&index={indicator}&$filter=Date >= '{start_date}' and Date <= '{end_date}'"
-        vts_url: str = urljoin(self.base_url, GeosysApiEndpoints.VTS_BY_PIXEL_ENDPOINT.value + parameters)
+        vts_url: str = urljoin(
+            self.base_url,
+            GeosysApiEndpoints.VTS_BY_PIXEL_ENDPOINT.value + parameters
+            )
         response = self.http_client.get(vts_url)
 
         if response.status_code == 200:
-            return self._extracted_from_get_time_series_by_pixel_50(response)
+            return self.extract_pixel(response)
         else:
             self.logger.info(response.status_code)
 
-    # TODO Rename this here and in `get_time_series_by_pixel`
-    def _extracted_from_get_time_series_by_pixel_50(self, response):
+    def extract_pixel(self, response):
+        """
+        Extracts h, v, i, and j coordinates from the pixel dataframe.
+
+        Args:
+            response: The response object containing pixel data.
+
+        Returns:
+            DataFrame: A DataFrame with index, value, pixel.id, X, and Y columns.
+        """
         df = pd.json_normalize(response.json())
         df.set_index("date", inplace=True)
 
