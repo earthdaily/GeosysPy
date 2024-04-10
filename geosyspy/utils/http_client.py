@@ -1,7 +1,7 @@
-from . import oauth2_client
 from oauthlib.oauth2 import TokenExpiredError
 from requests_oauthlib import OAuth2Session
 
+from . import oauth2_client
 
 def renew_access_token(func):
     """Decorator used to wrap the Geosys class's http methods.
@@ -21,9 +21,16 @@ def renew_access_token(func):
 
     return wrapper
 
-
 class HttpClient:
+    """A class for making HTTP requests with OAuth2 authentication.
 
+    Methods:
+        get(url_endpoint): Gets the url_endpoint.
+        post(url_endpoint, payload): Posts payload to the url_endpoint.
+        patch(url_endpoint, payload): Patches payload to the url_endpoint.
+        get_access_token(): Returns the access token.
+
+    """
     def __init__(
             self,
             client_id: str,
@@ -45,10 +52,11 @@ class HttpClient:
         )
         self.access_token = self.__client_oauth.token
 
-        self.__client = OAuth2Session(self.__client_oauth.client_id, token=self.__client_oauth.token)
+        self.__client = OAuth2Session(self.__client_oauth.client_id,
+                                    token=self.__client_oauth.token)
 
     @renew_access_token
-    def get(self, url_endpoint: str, headers={}):
+    def get(self, url_endpoint: str, headers=None):
         """Gets the url_endpopint.
 
         Args:
@@ -57,10 +65,12 @@ class HttpClient:
         Returns:
             A response object.
         """
+        if headers is None:
+            headers = {}
         return self.__client.get(url_endpoint, headers=headers)
 
     @renew_access_token
-    def post(self, url_endpoint: str, payload: dict, headers={}):
+    def post(self, url_endpoint: str, payload: dict, headers=None):
         """Posts payload to the url_endpoint.
 
         Args:
@@ -70,6 +80,8 @@ class HttpClient:
         Returns:
             A response object.
         """
+        if headers is None:
+            headers = {}
         return self.__client.post(url_endpoint, json=payload, headers=headers)
 
     @renew_access_token
@@ -86,4 +98,9 @@ class HttpClient:
         return self.__client.patch(url_endpoint, json=payload)
 
     def get_access_token(self):
+        """Returns the access token.
+
+        Returns:
+            The access token.
+        """
         return self.access_token

@@ -5,10 +5,18 @@ from shapely.geometry import shape
 
 
 class Helper:
+    """A class providing helper functions for working with geometries.
 
+    Methods:
+        get_matched_str_from_pattern(pattern, text): 
+            Returns the first occurrence of the matched pattern in text.
+        convert_to_wkt(geometry): Convert a geometry (WKT or geoJson) to WKT.
+        is_valid_wkt(geometry): Check if the geometry is a valid WKT.
+
+    """
     @staticmethod
     def get_matched_str_from_pattern(pattern: str,
-                                     text: str) -> str:
+                                    text: str) -> str:
         """Returns the first occurence of the matched pattern in text.
 
         Args:
@@ -35,16 +43,13 @@ class Helper:
 
         try:
             # check if the geometry is a valid WKT
-            if Helper.is_valid_wkt(geometry):
-                # return the wkt
-                return geometry
-        except:
+            return geometry if Helper.is_valid_wkt(geometry) else None
+        except Exception:
             try:
                 # check if the geometry is a valid geoJson
                 geojson_data = json.loads(geometry)
                 geom = shape(geojson_data)
                 geometry = geom.wkt
-
                 return geometry
 
             except ValueError:
@@ -66,3 +71,4 @@ class Helper:
             return True
         except ValueError:
             return False
+        

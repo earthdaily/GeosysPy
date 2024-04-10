@@ -1,4 +1,3 @@
-
 class ImageReference:
 
     def __init__(self, image_id, image_date, image_sensor, season_field_id):

@@ -64,7 +64,7 @@ class VegetationTimeSeriesService:
                                    start_date: datetime,
                                    end_date: datetime,
                                    indicator: str) -> pd.DataFrame:
-            """Returns a pandas DataFrame.
+        """Returns a pandas DataFrame.
 
             This method returns a time series of 'indicator' by pixel within the range 'start_date' -> 'end_date'
             as well as the pixel's coordinates X,Y in the MODIS's sinusoidal projection as a pandas DataFrame :
@@ -93,39 +93,43 @@ class VegetationTimeSeriesService:
 
             """
 
-            self.logger.info("Calling APIs for time series by the pixel")
-            start_date: str = start_date.strftime("%Y-%m-%d")
-            end_date: str = end_date.strftime("%Y-%m-%d")
-            parameters: str = f"/values?$offset=0&$limit=None&$count=false&SeasonField.Id={season_field_id}&index={indicator}&$filter=Date >= '{start_date}' and Date <= '{end_date}'"
-            vts_url: str = urljoin(self.base_url, GeosysApiEndpoints.VTS_BY_PIXEL_ENDPOINT.value + parameters)
-            # PSX/PSY : size in meters of one pixel
-            # MODIS_GRID_LENGTH : theoretical length of the modis grid in meters
-            # MODIS_GRID_HEIGHT : theoretical height of the modis grid in meters
-            PSX = 231.65635826
-            PSY = -231.65635826
-            MODIS_GRID_LENGTH = 4800 * PSX * 36
-            MODIS_GRID_HEIGHT = 4800 * PSY * 18
+        self.logger.info("Calling APIs for time series by the pixel")
+        start_date: str = start_date.strftime("%Y-%m-%d")
+        end_date: str = end_date.strftime("%Y-%m-%d")
+        parameters: str = f"/values?$offset=0&$limit=None&$count=false&SeasonField.Id={season_field_id}&index={indicator}&$filter=Date >= '{start_date}' and Date <= '{end_date}'"
+        vts_url: str = urljoin(self.base_url, GeosysApiEndpoints.VTS_BY_PIXEL_ENDPOINT.value + parameters)
+        response = self.http_client.get(vts_url)
 
-            response = self.http_client.get(vts_url)
+        if response.status_code == 200:
+            return self._extracted_from_get_time_series_by_pixel_50(response)
+        else:
+            self.logger.info(response.status_code)
 
-            if response.status_code == 200:
-                df = pd.json_normalize(response.json())
-                df.set_index("date", inplace=True)
+    # TODO Rename this here and in `get_time_series_by_pixel`
+    def _extracted_from_get_time_series_by_pixel_50(self, response):
+        df = pd.json_normalize(response.json())
+        df.set_index("date", inplace=True)
 
-                # Extracts h, v, i and j from the pixel dataframe
-                self.logger.info("Computing X and Y coordinates per pixel... ")
-                df["h"] = df["pixel.id"].str.extract(r"h(.*)v").astype(int)
-                df["v"] = df["pixel.id"].str.extract(r"v(.*)i").astype(int)
-                df["i"] = df["pixel.id"].str.extract(r"i(.*)j").astype(int)
-                df["j"] = df["pixel.id"].str.extract(r"j(.*)$").astype(int)
+        # Extracts h, v, i and j from the pixel dataframe
+        self.logger.info("Computing X and Y coordinates per pixel... ")
+        df["h"] = df["pixel.id"].str.extract(r"h(.*)v").astype(int)
+        df["v"] = df["pixel.id"].str.extract(r"v(.*)i").astype(int)
+        df["i"] = df["pixel.id"].str.extract(r"i(.*)j").astype(int)
+        df["j"] = df["pixel.id"].str.extract(r"j(.*)$").astype(int)
 
-                # XUL/YUL : The coordinates of the top left corner of the tile h,v's top left pixel
-                #  X/Y : the coordinates of the top left corner of the i,j pixel
-                df["XUL"] = (df["h"] + 1) * 4800 * PSX - MODIS_GRID_LENGTH / 2
-                df["YUL"] = (df["v"] + 1) * 4800 * PSY + MODIS_GRID_HEIGHT / 2
-                df["X"] = df["i"] * PSX + df["XUL"]
-                df["Y"] = df["j"] * PSY + df["YUL"]
-                self.logger.info("Done ! ")
-                return df[["index", "value", "pixel.id", "X", "Y"]]
-            else:
-                self.logger.info(response.status_code)
+        # PSX/PSY : size in meters of one pixel
+        # MODIS_GRID_LENGTH : theoretical length of the modis grid in meters
+        # MODIS_GRID_HEIGHT : theoretical height of the modis grid in meters
+        PSX = 231.65635826
+        MODIS_GRID_LENGTH = 4800 * PSX * 36
+        # XUL/YUL : The coordinates of the top left corner of the tile h,v's top left pixel
+        #  X/Y : the coordinates of the top left corner of the i,j pixel
+        df["XUL"] = (df["h"] + 1) * 4800 * PSX - MODIS_GRID_LENGTH / 2
+        PSY = -231.65635826
+        MODIS_GRID_HEIGHT = 4800 * PSY * 18
+
+        df["YUL"] = (df["v"] + 1) * 4800 * PSY + MODIS_GRID_HEIGHT / 2
+        df["X"] = df["i"] * PSX + df["XUL"]
+        df["Y"] = df["j"] * PSY + df["YUL"]
+        self.logger.info("Done ! ")
+        return df[["index", "value", "pixel.id", "X", "Y"]]

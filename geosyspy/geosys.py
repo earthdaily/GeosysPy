@@ -1,23 +1,31 @@
 import io
 import zipfile
-from typing import List
+from typing import List,Optional
 from pathlib import Path
+import logging
+from datetime import datetime
 
 import numpy as np
+import pandas as pd
 import rasterio
 import xarray as xr
 from rasterio.io import MemoryFile
+import retrying
 
 from geosyspy import image_reference
-from geosyspy.services.agriquest_service import *
-from geosyspy.services.analytics_fabric_service import *
-from geosyspy.services.analytics_processor_service import *
-from geosyspy.services.gis_service import *
-from geosyspy.services.map_product_service import *
-from geosyspy.services.master_data_management_service import *
-from geosyspy.services.vegetation_time_series_service import *
-from geosyspy.services.weather_service import *
-from geosyspy.utils.geosys_platform_urls import *
+from geosyspy.services.agriquest_service import AgriquestService
+from geosyspy.services.analytics_fabric_service import AnalyticsFabricService
+from geosyspy.services.analytics_processor_service import AnalyticsProcessorService
+from geosyspy.services.gis_service import GisService
+from geosyspy.services.map_product_service import MapProductService
+from geosyspy.services.master_data_management_service import MasterDataManagementService
+from geosyspy.services.vegetation_time_series_service import VegetationTimeSeriesService
+from geosyspy.services.weather_service import WeatherService
+from geosyspy.utils.geosys_platform_urls import GEOSYS_API_URLS,GIS_API_URLS
+# pylint: disable=wildcard-import
+from geosyspy.utils.constants import *
+from geosyspy.utils.http_client import HttpClient
+from geosyspy.utils.helper import Helper
 
 
 class Geosys:
@@ -114,15 +122,13 @@ class Geosys:
                 raise ValueError("Parameters 'season_field_id' and 'polygon' cannot be both None or empty.")
             if not season_field_id:
                 # extract seasonfield id from geometry
-                season_field_id = self.__master_data_management_service.extract_season_field_id(polygon)     
-            else:
-                # check the provided seasonfield id
-                if not self.__master_data_management_service.check_season_field_exists(
+                season_field_id = self.__master_data_management_service.extract_season_field_id(polygon)
+            elif not self.__master_data_management_service.check_season_field_exists(
                     season_field_id
                 ):
-                    raise ValueError(
-                        f"Cannot access {season_field_id}. It is not existing or connected user doens't have access to it."
-                    )
+                raise ValueError(
+                    f"Cannot access {season_field_id}. It is not existing or connected user doesn't have access to it."
+                )
             return self.__vts_service.get_modis_time_series(
                 season_field_id, start_date, end_date, indicators[0]
             )
@@ -259,7 +265,7 @@ class Geosys:
 
         return df, images_references
 
-    def download_image(self, image_reference, path: str = ""):
+    def download_image(self, image_ref, path: str = ""):
         """Downloads a satellite image locally
 
         Args:
@@ -268,12 +274,12 @@ class Geosys:
         """
 
         response_zipped_tiff = self.__map_product_service.get_zipped_tiff(
-            image_reference.season_field_id, image_reference.image_id
+            image_ref.season_field_id, image_ref.image_id
         )
         if not path:
-            path = Path.cwd() / f"image_{image_reference.image_id}_tiff.zip"
+            path = Path.cwd() / f"image_{image_ref.image_id}_tiff.zip"
         with open(path, "wb") as f:
-            self.logger.info(f"writing to {path}")
+            self.logger.info("writing to %s",path)
             f.write(response_zipped_tiff.content)
 
     def __get_images_as_dataset(
@@ -283,7 +289,7 @@ class Geosys:
         end_date: datetime,
         collections: Optional[list[SatelliteImageryCollection]],
         indicator: str,
-    ) -> "np.ndarray[Any , np.dtype[np.float64]]":
+    ) -> "np.ndarray[np.Any , np.dtype[np.float64]]":
         """Returns all the 'sensors_list' images covering 'polygon' between
         'start_date' and 'end_date' as a xarray dataset.
 
@@ -383,11 +389,11 @@ class Geosys:
                                 len_y = len(dict_coords["y"])
                                 len_x = len(dict_coords["x"])
                                 self.logger.info(
-                                    f"The highest resolution's image grid size is {(len_x, len_y)}"
+                                    "The highest resolution's image grid size is (%s,%s)",len_x, len_y
                                 )
                             else:
                                 self.logger.info(
-                                    f"interpolating {img_id} to {first_img_id}'s grid"
+                                    "interpolating %s to %s's grid",img_id,first_img_id
                                 )
                                 xarr = xarr.interp(
                                     x=list_xarr[0].coords["x"].data,
@@ -639,17 +645,22 @@ class Geosys:
     ###########################################
     #           ANALYTICS PROCESSOR           #
     ###########################################
+    def check_status_and_metrics(self, task_id, schema, sf_unique_id):
+        self.__analytics_processor_service.wait_and_check_task_status(task_id)
+        return self.__analytics_fabric_service.get_lastest_metrics(
+            sf_unique_id, schema
+        )
 
     def get_mr_time_series(self,
-                           polygon,
-                           start_date: str = "2010-01-01",
-                           end_date=None, list_sensors=None,
-                           denoiser: bool = True,
-                           smoother: str = "ww",
-                           eoc: bool = True,
-                           aggregation: str = "mean",
-                           index: str = "ndvi",
-                           raw_data: bool = False):
+                            polygon,
+                            start_date: str = "2010-01-01",
+                            end_date=None, list_sensors=None,
+                            denoiser: bool = True,
+                            smoother: str = "ww",
+                            eoc: bool = True,
+                            aggregation: str = "mean",
+                            index: str = "ndvi",
+                            raw_data: bool = False):
         """Retrieve mr time series on the collection targeted.
 
         Args:
@@ -711,14 +722,14 @@ class Geosys:
         )
 
     def get_harvest_analytics(self,
-                              season_duration: int,
-                              season_start_day: int,
-                              season_start_month: int,
-                              crop: Enum,
-                              year: int,
-                              geometry: str,
-                              harvest_type: Harvest,
-                              season_field_id:Optional[str]=None):
+                            season_duration: int,
+                            season_start_day: int,
+                            season_start_month: int,
+                            crop: Enum,
+                            year: int,
+                            geometry: str,
+                            harvest_type: Harvest,
+                            season_field_id:Optional[str]=None):
         """launch a harvest analytics processor and get the metrics in a panda dataframe object
 
             Args:
@@ -740,11 +751,11 @@ class Geosys:
 
         if geometry is None:
             raise ValueError("The geometry is not a valid WKT of GeoJson")
-         
+
         if not season_field_id:
             # extract seasonfield id from geometry
             season_field_id = self.__master_data_management_service.extract_season_field_id(geometry)
-                
+
         sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(season_field_id)
 
         task_id = self.__analytics_processor_service.launch_harvest_processor(
@@ -758,7 +769,7 @@ class Geosys:
             harvest_type=harvest_type,
         )
 
-        self.logger.info(f"Task Id: {task_id}")
+        self.logger.info("Task Id: %s",task_id)
 
         # check the task status to continue or not the process
         self.__analytics_processor_service.wait_and_check_task_status(task_id)
@@ -807,7 +818,7 @@ class Geosys:
         if not season_field_id:
             # extract seasonfield id from geometry
             season_field_id = self.__master_data_management_service.extract_season_field_id(geometry)
-                
+
         sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(season_field_id)
 
         task_id = self.__analytics_processor_service.launch_emergence_processor(
@@ -836,11 +847,11 @@ class Geosys:
         return self.__analytics_fabric_service.get_lastest_metrics(sf_unique_id, schema)
 
     def get_brazil_crop_id_analytics(self,
-                                     start_date: str,
-                                     end_date: str,
-                                     season: CropIdSeason,
-                                     geometry: str,
-                                     season_field_id:Optional[str]=None):
+                                    start_date: str,
+                                    end_date: str,
+                                    season: CropIdSeason,
+                                    geometry: str,
+                                    season_field_id:Optional[str]=None):
         """launch a brazil-in-season-crop-id analytics processor and get the metrics in a panda dataframe object
 
             Args:
@@ -862,7 +873,7 @@ class Geosys:
         if not season_field_id:
             # extract seasonfield id from geometry
             season_field_id = self.__master_data_management_service.extract_season_field_id(geometry)
-                
+
         sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(season_field_id)
 
         task_id = self.__analytics_processor_service.launch_brazil_in_season_crop_id_processor(
@@ -873,25 +884,20 @@ class Geosys:
             season=season.value,
         )
 
-        # check the task status to continue or not the process
-        self.__analytics_processor_service.wait_and_check_task_status(task_id)
-
-        # Analytics Schema
-        schema = "CROP_IDENTIFICATION"
-
-        # if task successfully completed, get metrics from analytics fabric
-        return self.__analytics_fabric_service.get_lastest_metrics(sf_unique_id, schema)
+        return self.check_status_and_metrics(
+            task_id, "CROP_IDENTIFICATION", sf_unique_id
+        )
 
     def get_potential_score_analytics(self,
-                                      end_date: str,
-                                      nb_historical_years: int,
-                                      season_duration: int,
-                                      season_start_day: int,
-                                      season_start_month: int,
-                                      sowing_date: str,
-                                      crop: Enum,
-                                      geometry: str,
-                                      season_field_id:Optional[str]=None):
+                                    end_date: str,
+                                    nb_historical_years: int,
+                                    season_duration: int,
+                                    season_start_day: int,
+                                    season_start_month: int,
+                                    sowing_date: str,
+                                    crop: Enum,
+                                    geometry: str,
+                                    season_field_id:Optional[str]=None):
         """launch a potential score analytics processor and get the metrics in a panda dataframe object
 
             Args:
@@ -917,7 +923,7 @@ class Geosys:
         if not season_field_id:
             # extract seasonfield id from geometry
             season_field_id = self.__master_data_management_service.extract_season_field_id(geometry)
-                
+
         sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(season_field_id)
 
         task_id = self.__analytics_processor_service.launch_potential_score_processor(
@@ -932,14 +938,9 @@ class Geosys:
             crop=crop.value,
         )
 
-        # check the task status to continue or not the process
-        self.__analytics_processor_service.wait_and_check_task_status(task_id)
-
-        # Analytics Schema
-        schema = "POTENTIAL_SCORE"
-
-        # if task successfully completed, get metrics from analytics fabric
-        return self.__analytics_fabric_service.get_lastest_metrics(sf_unique_id, schema)
+        return self.check_status_and_metrics(
+            task_id, "POTENTIAL_SCORE", sf_unique_id
+        )
 
     def get_greenness_analytics(self,
                                 start_date: str,
@@ -970,7 +971,7 @@ class Geosys:
         if not season_field_id:
             # extract seasonfield id from geometry
             season_field_id = self.__master_data_management_service.extract_season_field_id(geometry)
-                
+
         sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(season_field_id)
 
         task_id = self.__analytics_processor_service.launch_greenness_processor(
@@ -982,14 +983,9 @@ class Geosys:
             crop=crop.value,
         )
 
-        # check the task status to continue or not the process
-        self.__analytics_processor_service.wait_and_check_task_status(task_id)
-
-        # Analytics Schema
-        schema = "GREENNESS"
-
-        # if task successfully completed, get metrics from analytics fabric
-        return self.__analytics_fabric_service.get_lastest_metrics(sf_unique_id, schema)
+        return self.check_status_and_metrics(
+            task_id, "GREENNESS", sf_unique_id
+        )
 
     def get_harvest_readiness_analytics(self,
                                         start_date: str,
@@ -1020,7 +1016,7 @@ class Geosys:
         if not season_field_id:
             # extract seasonfield id from geometry
             season_field_id = self.__master_data_management_service.extract_season_field_id(geometry)
-                
+
         sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(season_field_id)
 
         task_id = self.__analytics_processor_service.launch_harvest_readiness_processor(
@@ -1032,20 +1028,15 @@ class Geosys:
             crop=crop.value,
         )
 
-        # check the task status to continue or not the process
-        self.__analytics_processor_service.wait_and_check_task_status(task_id)
-
-        # Analytics Schema
-        schema = "HARVEST_READINESS"
-
-        # if task successfully completed, get metrics from analytics fabric
-        return self.__analytics_fabric_service.get_lastest_metrics(sf_unique_id, schema)
+        return self.check_status_and_metrics(
+            task_id, "HARVEST_READINESS", sf_unique_id
+        )
 
     def get_planted_area_analytics(self,
-                                   start_date: str,
-                                   end_date: str,
-                                   geometry: str,
-                                   season_field_id:Optional[str]=None):
+                                start_date: str,
+                                end_date: str,
+                                geometry: str,
+                                season_field_id:Optional[str]=None):
         """launch a planted area analytics processor and get the metrics in a panda dataframe object
 
                     Args:
@@ -1065,30 +1056,25 @@ class Geosys:
         if not season_field_id:
             # extract seasonfield id from geometry
             season_field_id = self.__master_data_management_service.extract_season_field_id(geometry)
-                
+
         sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(season_field_id)
 
         task_id = self.__analytics_processor_service.launch_planted_area_processor(
             start_date, end_date, sf_unique_id
         )
-        # check the task status to continue or not the process
-        self.__analytics_processor_service.wait_and_check_task_status(task_id)
-
-        schema = "PLANTED_AREA"
-
-        # if task successfully completed, get latests metrics from analytics fabric
-        return self.__analytics_fabric_service.get_lastest_metrics(sf_unique_id, schema)
-
+        return self.check_status_and_metrics(
+            task_id, "PLANTED_AREA", sf_unique_id
+        )
 
     def get_zarc_analytics(self,
-                           start_date_emergence: str,
-                           end_date_emergence: str,
-                           nb_days_sowing_emergence: int,
-                           crop: Enum,
-                           soil_type: ZarcSoilType,
-                           cycle: ZarcCycleType,
-                           geometry: str,
-                           season_field_id:Optional[str]=None):
+                        start_date_emergence: str,
+                        end_date_emergence: str,
+                        nb_days_sowing_emergence: int,
+                        crop: Enum,
+                        soil_type: ZarcSoilType,
+                        cycle: ZarcCycleType,
+                        geometry: str,
+                        season_field_id:Optional[str]=None):
         """launch a zarc analytics processor and get the metrics in a panda dataframe object
 
                         Args:
@@ -1132,12 +1118,4 @@ class Geosys:
             nb_days_sowing_emergence=nb_days_sowing_emergence,
             seasonfield_id=sf_unique_id,
         )
-
-        # check the task status to continue or not the process
-        self.__analytics_processor_service.wait_and_check_task_status(task_id)
-
-        # Analytics Schema
-        schema = "ZARC"
-
-        # if task successfully completed, get metrics from analytics fabric
-        return self.__analytics_fabric_service.get_lastest_metrics(sf_unique_id, schema)
+        return self.check_status_and_metrics(task_id, 'ZARC', sf_unique_id)

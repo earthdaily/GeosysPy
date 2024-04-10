@@ -36,7 +36,7 @@ class AnalyticsFabricService:
             return f'&Timestamp=$between:{start_date}|{end_date}'
 
     def create_schema_id(self, schema_id: str,
-                         schema: dict):
+                        schema: dict):
         """Create a schema in Analytics Fabrics
 
         Args:
