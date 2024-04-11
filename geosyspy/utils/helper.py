@@ -1,3 +1,4 @@
+""" Helper class"""
 import re
 import json
 from shapely import wkt

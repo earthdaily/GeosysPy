@@ -1,0 +1,2 @@
+[FORMAT]
+disable=wildcard-import, line-too-long, too-many-arguments, too-few-public-methods

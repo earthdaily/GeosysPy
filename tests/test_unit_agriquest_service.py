@@ -31,11 +31,11 @@ class TestAgriquestService:
         start_date = datetime.datetime.now() - datetime.timedelta(days=1)
         end_date = start_date + datetime.timedelta(days=7, hours=3, minutes=30)
 
-        indicators = self.service.weather_indicators_builder(start_date=start_date.date(), end_date = end_date.date(), isFrance = True)
+        indicators = self.service.weather_indicators_builder(start_date=start_date.date(), end_date = end_date.date(), is_france = True)
         assert set(indicators) == set([3,4,5])
 
         indicators = self.service.weather_indicators_builder(start_date=start_date.date(), end_date=end_date.date(),
-                                                             isFrance=False)
+                                                             is_france=False)
         assert set(indicators) == set([2, 4, 5])
 
     @patch('geosyspy.utils.http_client.HttpClient.post')

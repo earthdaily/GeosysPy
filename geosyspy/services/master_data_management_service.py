@@ -1,10 +1,13 @@
-from urllib.parse import urljoin
+""" Mastaer data managenement service class"""
 import logging
-
-from geosyspy.utils.constants import *
-from geosyspy.utils.helper import Helper
-from geosyspy.utils.http_client import *
+from urllib.parse import urljoin
+from typing import List
 from datetime import datetime
+
+from geosyspy.utils.constants import GeosysApiEndpoints, SEASON_FIELD_ID_REGEX
+from geosyspy.utils.helper import Helper
+from geosyspy.utils.http_client import HttpClient
+
 
 
 class MasterDataManagementService:
@@ -64,12 +67,11 @@ class MasterDataManagementService:
             text: str = dict_response["errors"]["body"]["sowingDate"][0]["message"]
             return Helper.get_matched_str_from_pattern(SEASON_FIELD_ID_REGEX, text)
 
-        elif response.status_code == 201:
+        if response.status_code == 201:
             return dict_response["id"]
-        else:
-            raise ValueError(
-                f"Cannot handle HTTP response : {str(response.status_code)} : {str(response.json())}"
-            )
+        raise ValueError(
+            f"Cannot handle HTTP response : {str(response.status_code)} : {str(response.json())}"
+        )
 
     def get_season_field_unique_id(self, season_field_id: str) -> str:
         """Extracts the season field unique id from the response object.
@@ -97,10 +99,9 @@ class MasterDataManagementService:
         # extract unique id from response:
         if response.status_code == 200:
             return dict_response["externalIds"]["id"]
-        else:
-            raise ValueError(
-                f"Cannot handle HTTP response : {str(response.status_code)} : {str(response.json())}"
-            )
+        raise ValueError(
+            f"Cannot handle HTTP response : {str(response.status_code)} : {str(response.json())}"
+        )
 
     def check_season_field_exists(self, season_field_id: str) -> str:
         """Check if the seasonfield id exists.
@@ -130,7 +131,7 @@ class MasterDataManagementService:
             return True
         return False
 
-    def get_available_crops_code(self) -> [str]:
+    def get_available_crops_code(self) -> List[str]:
         """Extracts the list of available crops for the connected user
 
         Args:
@@ -144,7 +145,7 @@ class MasterDataManagementService:
         mdm_url: str = urljoin(
             self.base_url,
             GeosysApiEndpoints.MASTER_DATA_MANAGEMENT_ENDPOINT.value
-            + f"/crops?$fields=code&$limit=none",
+            + "/crops?$fields=code&$limit=none",
         )
 
         response = self.http_client.get(mdm_url)
@@ -153,12 +154,11 @@ class MasterDataManagementService:
 
         if response.status_code == 200:
             return dict_response
-        else:
-            raise ValueError(
-                f"Cannot handle HTTP response : {str(response.status_code)} : {str(response.json())}"
-            )
+        raise ValueError(
+            f"Cannot handle HTTP response : {str(response.status_code)} : {str(response.json())}"
+        )
 
-    def get_permission_codes(self) -> [str]:
+    def get_permission_codes(self) -> List[str]:
         """Extracts the list of available permissions for the connected user
 
         Args:
@@ -172,7 +172,7 @@ class MasterDataManagementService:
         mdm_url: str = urljoin(
             self.base_url,
             GeosysApiEndpoints.MASTER_DATA_MANAGEMENT_ENDPOINT.value
-            + f"/profile?$fields=permissions&$limit=none",
+            + "/profile?$fields=permissions&$limit=none",
         )
 
         response = self.http_client.get(mdm_url)
@@ -181,7 +181,6 @@ class MasterDataManagementService:
 
         if response.status_code == 200:
             return dict_response
-        else:
-            raise ValueError(
-                f"Cannot handle HTTP response : {str(response.status_code)} : {str(response.json())}"
-            )
+        raise ValueError(
+            f"Cannot handle HTTP response : {str(response.status_code)} : {str(response.json())}"
+        )

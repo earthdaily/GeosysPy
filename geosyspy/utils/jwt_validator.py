@@ -1,3 +1,4 @@
+""" jwt validator class"""
 import base64
 import json
 from datetime import datetime, timezone

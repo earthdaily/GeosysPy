@@ -1,11 +1,13 @@
+"""Analytics Processor service class"""
 import json
 import logging
-from urllib.parse import urljoin
-from geosyspy.utils.constants import *
-from geosyspy.services.service_constants import *
-from geosyspy.utils.http_client import *
-import retrying
 import datetime
+from urllib.parse import urljoin
+import retrying
+from geosyspy.utils.constants import GeosysApiEndpoints, Harvest, Emergence
+from geosyspy.services.service_constants import ProcessorConfiguration
+from geosyspy.utils.http_client import HttpClient
+
 
 
 class AnalyticsProcessorService:
@@ -71,9 +73,9 @@ class AnalyticsProcessorService:
             user_id: str = dict_resp["userId"]
             task_id = dict_resp["taskId"]
             return f"s3://geosys-{customer_code}/{user_id}/{processor_name}/{task_id}"
-        else:
-            self.logger.info(response.status_code)
-            raise ValueError(response.content)
+        
+        self.logger.info(response.status_code)
+        raise ValueError(response.content)
 
     def launch_mr_time_series_processor(self, polygon,
                                         start_date: str,
@@ -135,9 +137,8 @@ class AnalyticsProcessorService:
         if response.ok:
             task_id = json.loads(response.content)["taskId"]
             return task_id
-        else:
-            self.logger.info(response.status_code)
-            raise ValueError(response.content)
+        self.logger.info(response.status_code)
+        raise ValueError(response.content)
 
     def launch_planted_area_processor(self,
                                       start_date: str,
@@ -174,9 +175,8 @@ class AnalyticsProcessorService:
         if response.ok:
             task_id = json.loads(response.content)["taskId"]
             return task_id
-        else:
-            self.logger.info(response.status_code)
-            raise ValueError(response.content)
+        self.logger.info(response.status_code)
+        raise ValueError(response.content)
 
     def launch_harvest_processor(self,
                                  season_duration: int,
@@ -229,10 +229,9 @@ class AnalyticsProcessorService:
 
         if response.ok:
             task_id = json.loads(response.content)["taskId"]
-            return task_id
-        else:
-            self.logger.info(response.status_code)
-            raise ValueError(response.content)
+            return task_id        
+        self.logger.info(response.status_code)
+        raise ValueError(response.content)
 
     def launch_emergence_processor(self,
                                    season_duration: int,
@@ -289,9 +288,8 @@ class AnalyticsProcessorService:
         if response.ok:
             task_id = json.loads(response.content)["taskId"]
             return task_id
-        else:
-            self.logger.info(response.status_code)
-            raise ValueError(response.content)
+        self.logger.info(response.status_code)
+        raise ValueError(response.content)
 
     def launch_potential_score_processor(self,
                                          season_duration: int,
@@ -349,9 +347,8 @@ class AnalyticsProcessorService:
         if response.ok:
             task_id = json.loads(response.content)["taskId"]
             return task_id
-        else:
-            self.logger.info(response.status_code)
-            raise ValueError(response.content)
+        self.logger.info(response.status_code)
+        raise ValueError(response.content)
 
     def launch_brazil_in_season_crop_id_processor(self,
                                                   start_date: str,
@@ -398,9 +395,8 @@ class AnalyticsProcessorService:
         if response.ok:
             task_id = json.loads(response.content)["taskId"]
             return task_id
-        else:
-            self.logger.info(response.status_code)
-            raise ValueError(response.content)
+        self.logger.info(response.status_code)
+        raise ValueError(response.content)
 
     def launch_greenness_processor(self,
                                    start_date: str,
@@ -449,9 +445,8 @@ class AnalyticsProcessorService:
         if response.ok:
             task_id = json.loads(response.content)["taskId"]
             return task_id
-        else:
-            self.logger.info(response.status_code)
-            raise ValueError(response.content)
+        self.logger.info(response.status_code)
+        raise ValueError(response.content)
 
 
     def launch_harvest_readiness_processor(self,
@@ -501,9 +496,8 @@ class AnalyticsProcessorService:
         if response.ok:
             task_id = json.loads(response.content)["taskId"]
             return task_id
-        else:
-            self.logger.info(response.status_code)
-            raise ValueError(response.content)
+        self.logger.info(response.status_code)
+        raise ValueError(response.content)
 
     def launch_zarc_processor(self,
                               start_date_emergence: str,
@@ -514,50 +508,48 @@ class AnalyticsProcessorService:
                               soil_type: str,
                               cycle: str,
                               seasonfield_id:str):
-            """launch a zarc analytics processor and get the task id in result
+        """launch a zarc analytics processor and get the task id in result
 
-                Args:
-                    start_date_emergence (str) : the emergence start date used for the request (format YYYY-MM-dd)
-                    end_date_emergence (str) : the emergence end date used for the request (format YYYY-MM-dd)
-                    nb_days_sowing_emergence (int): the number of days for sowing emergence
-                    crop (str): the zarc crop code,
-                    municipio (int): the municipio id,
-                    soil_type (str): the zarc soil type,
-                    cycle (str): the zarc cycle value,
-                    seasonfield_id (sfd) : seasonField geosys uniqueId
+            Args:
+                start_date_emergence (str) : the emergence start date used for the request (format YYYY-MM-dd)
+                end_date_emergence (str) : the emergence end date used for the request (format YYYY-MM-dd)
+                nb_days_sowing_emergence (int): the number of days for sowing emergence
+                crop (str): the zarc crop code,
+                municipio (int): the municipio id,
+                soil_type (str): the zarc soil type,
+                cycle (str): the zarc cycle value,
+                seasonfield_id (sfd) : seasonField geosys uniqueId
 
-                Returns:
-                    taskId (str)
-            """
+            Returns:
+                taskId (str)
+        """
 
-            # build payload for api call
-            payload = {
-                "parametersProfile": ProcessorConfiguration.ZARC.value['profile'],
-                "data":
-                    [
-                        {
-                            "id": "SeasonField:" + seasonfield_id + "@ID",
-                            "start_date_emergence": start_date_emergence,
-                            "end_date_emergence": end_date_emergence,
-                            "crop_zarc": crop,
-                            "municipio_zarc": municipio,
-                            "nb_days_sowing_emergence": nb_days_sowing_emergence,
-                            "soil_type_zarc": soil_type,
-                            "cycle_zarc": cycle
-                        }
-                    ]
-            }
+        # build payload for api call
+        payload = {
+            "parametersProfile": ProcessorConfiguration.ZARC.value['profile'],
+            "data":
+                [
+                    {
+                        "id": "SeasonField:" + seasonfield_id + "@ID",
+                        "start_date_emergence": start_date_emergence,
+                        "end_date_emergence": end_date_emergence,
+                        "crop_zarc": crop,
+                        "municipio_zarc": municipio,
+                        "nb_days_sowing_emergence": nb_days_sowing_emergence,
+                        "soil_type_zarc": soil_type,
+                        "cycle_zarc": cycle
+                    }
+                ]
+        }
 
-            processor_endpoint: str = urljoin(self.base_url,
-                                              GeosysApiEndpoints.LAUNCH_PROCESSOR_ENDPOINT.value.format(
-                                                  ProcessorConfiguration.ZARC.value['api_processor_path']))
+        processor_endpoint: str = urljoin(self.base_url,
+                                            GeosysApiEndpoints.LAUNCH_PROCESSOR_ENDPOINT.value.format(
+                                                ProcessorConfiguration.ZARC.value['api_processor_path']))
 
-            response = self.http_client.post(processor_endpoint, payload)
+        response = self.http_client.post(processor_endpoint, payload)
 
-            if response.ok:
-                task_id = json.loads(response.content)["taskId"]
-                return task_id
-            else:
-                self.logger.info(response.status_code)
-                raise ValueError(response.content)
-
+        if response.ok:
+            task_id = json.loads(response.content)["taskId"]
+            return task_id
+        self.logger.info(response.status_code)
+        raise ValueError(response.content)

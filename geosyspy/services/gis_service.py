@@ -1,6 +1,7 @@
+""" gis service class"""
 from urllib.parse import urljoin
 import logging
-from geosyspy.utils.http_client import *
+from geosyspy.utils.http_client import HttpClient
 
 
 class GisService:
@@ -26,7 +27,7 @@ class GisService:
             "properties": ["id"],
             "features": [geometry]
         }
-        parameters: str = f"/layerservices/api/v1/layers/BRAZIL_MUNICIPIOS/intersect"
+        parameters: str = "/layerservices/api/v1/layers/BRAZIL_MUNICIPIOS/intersect"
         gis_url: str = urljoin(self.base_url, parameters)
         response = self.http_client.post(gis_url, payload)
         if response.status_code == 200:
@@ -36,15 +37,15 @@ class GisService:
                 # extract & return municipio id from response
                 municipio_id = dict_response[0][0]["properties"]["id"]
                 if isinstance(municipio_id, int):
-                    return municipio_id
-                else:
-                    self.logger.warning("No municipio id found for this geometry")
-                    return 0
-            except:
+                    return municipio_id                
+                self.logger.warning("No municipio id found for this geometry")
+                return 0
+            except Exception:
                 return 0
 
         else:
             self.logger.info(response.status_code)
             raise ValueError(
-                f"No municipio id found for this geometry"
+                "No municipio id found for this geometry"
             )
+            

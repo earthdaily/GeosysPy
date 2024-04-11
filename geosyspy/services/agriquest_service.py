@@ -1,10 +1,12 @@
+"""Agriquest Service class"""
 import json
 import logging
-import pandas as pd
-from datetime import datetime, timedelta
+from datetime import datetime
+from typing import List
 from urllib.parse import urljoin
-from geosyspy.utils.constants import *
-from geosyspy.utils.http_client import *
+import pandas as pd
+from geosyspy.utils.constants import GeosysApiEndpoints, AgriquestBlocks, AgriquestCommodityCode, AgriquestFranceBlockCode, AgriquestWeatherType
+from geosyspy.utils.http_client import HttpClient
 
 
 class AgriquestService:
@@ -14,13 +16,13 @@ class AgriquestService:
         self.http_client: HttpClient = http_client
         self.logger = logging.getLogger(__name__)
 
-    def weather_indicators_builder(self, start_date, end_date, isFrance):
+    def weather_indicators_builder(self, start_date, end_date, is_france):
         """build weather indicators list from 2 dates
 
             Args:
                 start_date (datetime) : the start date used for the request
                 end_date (datetime) : the end date used for the request
-                isFrance (boolean) : resuqest mad for France or not
+                is_france (boolean) : resuqest mad for France or not
 
             Returns:
                 A list of int (weather indicators)
@@ -39,7 +41,7 @@ class AgriquestService:
             result.extend([4, 5])
 
         if start_date < today:
-            if not isFrance:
+            if not is_france:
                 result.append(2)
             else:
                 result.append(3)
@@ -115,7 +117,7 @@ class AgriquestService:
                                       date: str,
                                       block_code: AgriquestBlocks,
                                       commodity: AgriquestCommodityCode,
-                                      indicator_list: [int]
+                                      indicator_list: List[int]
                                       ):
         """
             method to call year-of-interest AgriQuest Api and build a panda DataFrame
@@ -137,7 +139,7 @@ class AgriquestService:
             "idBlock": block_code.value,
             "indicatorTypeIds": indicator_list
         }
-        parameters: str = f"/vegetation-vigor-index/export-map/year-of-interest"
+        parameters: str = "/vegetation-vigor-index/export-map/year-of-interest"
         aq_url: str = urljoin(self.base_url, GeosysApiEndpoints.AGRIQUEST_ENDPOINT.value + parameters)
         response = self.http_client.post(aq_url, payload)
         if response.status_code == 200:

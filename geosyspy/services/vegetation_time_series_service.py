@@ -1,8 +1,9 @@
+""" Vegetation Time Series service class"""
 import json
 import logging
-import pandas as pd
 from datetime import datetime
 from urllib.parse import urljoin
+import pandas as pd
 from geosyspy.utils.constants import GeosysApiEndpoints
 from geosyspy.utils.http_client import HttpClient
 
@@ -56,8 +57,7 @@ class VegetationTimeSeriesService:
             df = pd.read_json(json.dumps(dict_response))
             df.set_index("date", inplace=True)
             return df
-        else:
-            self.logger.info(response.status_code)
+        self.logger.info(response.status_code)
 
 
     def get_time_series_by_pixel(self, season_field_id: str,
@@ -105,8 +105,7 @@ class VegetationTimeSeriesService:
 
         if response.status_code == 200:
             return self.extract_pixel(response)
-        else:
-            self.logger.info(response.status_code)
+        self.logger.info(response.status_code)
 
     def extract_pixel(self, response):
         """

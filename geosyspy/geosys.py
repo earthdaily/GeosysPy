@@ -1,6 +1,9 @@
+""" Geosysoy class"""
+
+from enum import Enum
 import io
 import zipfile
-from typing import List,Optional
+from typing import List, Optional
 from pathlib import Path
 import logging
 from datetime import datetime
@@ -21,9 +24,23 @@ from geosyspy.services.map_product_service import MapProductService
 from geosyspy.services.master_data_management_service import MasterDataManagementService
 from geosyspy.services.vegetation_time_series_service import VegetationTimeSeriesService
 from geosyspy.services.weather_service import WeatherService
-from geosyspy.utils.geosys_platform_urls import GEOSYS_API_URLS,GIS_API_URLS
-# pylint: disable=wildcard-import
-from geosyspy.utils.constants import *
+from geosyspy.utils.geosys_platform_urls import GEOSYS_API_URLS, GIS_API_URLS
+from geosyspy.utils.constants import (
+    Env,
+    Region,
+    WeatherTypeCollection,
+    LR_SATELLITE_COLLECTION,
+    SatelliteImageryCollection,
+    MR_SATELLITE_COLLECTION,
+    Harvest,
+    AgriquestBlocks,
+    AgriquestCommodityCode,
+    AgriquestWeatherType,
+    CropIdSeason,
+    Emergence,
+    ZarcCycleType,
+    ZarcSoilType,
+)
 from geosyspy.utils.http_client import HttpClient
 from geosyspy.utils.helper import Helper
 
@@ -84,13 +101,15 @@ class Geosys:
             self.base_url, self.http_client, self.priority_queue
         )
 
-    def get_time_series(self,
-                        start_date: datetime,
-                        end_date: datetime,
-                        collection: enumerate,
-                        indicators: List[str],
-                        polygon: Optional[str]=None,
-                        season_field_id:Optional[str]=None) -> pd.DataFrame:
+    def get_time_series(
+        self,
+        start_date: datetime,
+        end_date: datetime,
+        collection: enumerate,
+        indicators: List[str],
+        polygon: Optional[str] = None,
+        season_field_id: Optional[str] = None,
+    ) -> pd.DataFrame:
         """Retrieve a time series of the indicator for the aggregated polygon on the collection targeted.
 
         Args:
@@ -109,7 +128,9 @@ class Geosys:
         """
         if collection in WeatherTypeCollection:
             if not polygon:
-                raise ValueError("Parameter 'polygon' cannot be None or empty for Weather collection.")
+                raise ValueError(
+                    "Parameter 'polygon' cannot be None or empty for Weather collection."
+                )
             return self.__weather_service.get_weather(
                 polygon,
                 start_date,
@@ -117,23 +138,29 @@ class Geosys:
                 collection,
                 indicators,
             )
-        elif collection in LR_SATELLITE_COLLECTION:
+        if collection in LR_SATELLITE_COLLECTION:
             if not season_field_id and not polygon:
-                raise ValueError("Parameters 'season_field_id' and 'polygon' cannot be both None or empty.")
+                raise ValueError(
+                    "Parameters 'season_field_id' and 'polygon' cannot be both None or empty."
+                )
             if not season_field_id:
                 # extract seasonfield id from geometry
-                season_field_id = self.__master_data_management_service.extract_season_field_id(polygon)
+                season_field_id = (
+                    self.__master_data_management_service.extract_season_field_id(
+                        polygon
+                    )
+                )
             elif not self.__master_data_management_service.check_season_field_exists(
-                    season_field_id
-                ):
+                season_field_id
+            ):
                 raise ValueError(
                     f"Cannot access {season_field_id}. It is not existing or connected user doesn't have access to it."
                 )
             return self.__vts_service.get_modis_time_series(
                 season_field_id, start_date, end_date, indicators[0]
             )
-        else:
-            raise ValueError(f"{collection} collection doesn't exist")
+
+        raise ValueError(f"{collection} collection doesn't exist")
 
     def get_satellite_image_time_series(
         self,
@@ -170,8 +197,8 @@ class Geosys:
                 self.__master_data_management_service.extract_season_field_id(polygon)
             )
         elif not self.__master_data_management_service.check_season_field_exists(
-                season_field_id
-            ):
+            season_field_id
+        ):
             raise ValueError(
                 f"Cannot access {season_field_id}. It is not existing or connected user doens't have access to it."
             )
@@ -181,9 +208,7 @@ class Geosys:
             return self.__get_images_as_dataset(
                 season_field_id, start_date, end_date, None, indicators[0]
             )
-        elif all(
-            isinstance(elem, SatelliteImageryCollection) for elem in collections
-        ):
+        elif all(isinstance(elem, SatelliteImageryCollection) for elem in collections):
 
             if set(collections).issubset(set(LR_SATELLITE_COLLECTION)):
                 return self.__vts_service.get_time_series_by_pixel(
@@ -197,6 +222,7 @@ class Geosys:
             raise TypeError(
                 "Argument collections must be a list of SatelliteImageryCollection objects"
             )
+
     @retrying.retry(
         wait_exponential_multiplier=1000,
         wait_exponential_max=10000,
@@ -242,8 +268,8 @@ class Geosys:
                 self.__master_data_management_service.extract_season_field_id(polygon)
             )
         elif not self.__master_data_management_service.check_season_field_exists(
-                season_field_id
-            ):
+            season_field_id
+        ):
             raise ValueError(
                 f"Cannot access {season_field_id}. It is not existing or connected user doens't have access to it."
             )
@@ -279,7 +305,7 @@ class Geosys:
         if not path:
             path = Path.cwd() / f"image_{image_ref.image_id}_tiff.zip"
         with open(path, "wb") as f:
-            self.logger.info("writing to %s",path)
+            self.logger.info("writing to %s", path)
             f.write(response_zipped_tiff.content)
 
     def __get_images_as_dataset(
@@ -389,11 +415,15 @@ class Geosys:
                                 len_y = len(dict_coords["y"])
                                 len_x = len(dict_coords["x"])
                                 self.logger.info(
-                                    "The highest resolution's image grid size is (%s,%s)",len_x, len_y
+                                    "The highest resolution's image grid size is (%s,%s)",
+                                    len_x,
+                                    len_y,
                                 )
                             else:
                                 self.logger.info(
-                                    "interpolating %s to %s's grid",img_id,first_img_id
+                                    "interpolating %s to %s's grid",
+                                    img_id,
+                                    first_img_id,
                                 )
                                 xarr = xarr.interp(
                                     x=list_xarr[0].coords["x"].data,
@@ -604,11 +634,11 @@ class Geosys:
         end_datetime = datetime.strptime(end_date, "%Y-%m-%d").date()
 
         # check if the block is dedicated to France
-        isFrance = self.__agriquest_service.is_block_for_france(block_code)
+        is_france = self.__agriquest_service.is_block_for_france(block_code)
 
         # build the weather indicator list
         weather_indicators = self.__agriquest_service.weather_indicators_builder(
-            start_datetime, end_datetime, isFrance
+            start_datetime, end_datetime, is_france
         )
 
         return self.__agriquest_service.get_agriquest_block_weather_data(
@@ -647,20 +677,21 @@ class Geosys:
     ###########################################
     def check_status_and_metrics(self, task_id, schema, sf_unique_id):
         self.__analytics_processor_service.wait_and_check_task_status(task_id)
-        return self.__analytics_fabric_service.get_lastest_metrics(
-            sf_unique_id, schema
-        )
+        return self.__analytics_fabric_service.get_lastest_metrics(sf_unique_id, schema)
 
-    def get_mr_time_series(self,
-                            polygon,
-                            start_date: str = "2010-01-01",
-                            end_date=None, list_sensors=None,
-                            denoiser: bool = True,
-                            smoother: str = "ww",
-                            eoc: bool = True,
-                            aggregation: str = "mean",
-                            index: str = "ndvi",
-                            raw_data: bool = False):
+    def get_mr_time_series(
+        self,
+        polygon,
+        start_date: str = "2010-01-01",
+        end_date=None,
+        list_sensors=None,
+        denoiser: bool = True,
+        smoother: str = "ww",
+        eoc: bool = True,
+        aggregation: str = "mean",
+        index: str = "ndvi",
+        raw_data: bool = False,
+    ):
         """Retrieve mr time series on the collection targeted.
 
         Args:
@@ -721,30 +752,32 @@ class Geosys:
             task_id, processor_name="mrts"
         )
 
-    def get_harvest_analytics(self,
-                            season_duration: int,
-                            season_start_day: int,
-                            season_start_month: int,
-                            crop: Enum,
-                            year: int,
-                            geometry: str,
-                            harvest_type: Harvest,
-                            season_field_id:Optional[str]=None):
+    def get_harvest_analytics(
+        self,
+        season_duration: int,
+        season_start_day: int,
+        season_start_month: int,
+        crop: Enum,
+        year: int,
+        geometry: str,
+        harvest_type: Harvest,
+        season_field_id: Optional[str] = None,
+    ):
         """launch a harvest analytics processor and get the metrics in a panda dataframe object
 
-            Args:
-                season_duration (int): the duration of the season in days,
-                season_start_day (int): the start day value (1 - 31),
-                season_start_month (int): the start month value (1 - 12),
-                crop (Enum): the geosys crop code,
-                year (int): the year value,
-                geometry (str): the geometry to calculate the analytic (WKT or GeoJSON),
-                harvest_type (Harvest): the type of Harvest analytics (INSEASON/HISTORICAL)
-                season_field_id : Optional season_field_id value
+        Args:
+            season_duration (int): the duration of the season in days,
+            season_start_day (int): the start day value (1 - 31),
+            season_start_month (int): the start month value (1 - 12),
+            crop (Enum): the geosys crop code,
+            year (int): the year value,
+            geometry (str): the geometry to calculate the analytic (WKT or GeoJSON),
+            harvest_type (Harvest): the type of Harvest analytics (INSEASON/HISTORICAL)
+            season_field_id : Optional season_field_id value
 
 
-            Returns:
-                A Pandas DataFrame containing several columns with metrics
+        Returns:
+            A Pandas DataFrame containing several columns with metrics
         """
         # validate and convert the geometry to WKT
         geometry = Helper.convert_to_wkt(geometry)
@@ -754,9 +787,13 @@ class Geosys:
 
         if not season_field_id:
             # extract seasonfield id from geometry
-            season_field_id = self.__master_data_management_service.extract_season_field_id(geometry)
+            season_field_id = (
+                self.__master_data_management_service.extract_season_field_id(geometry)
+            )
 
-        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(season_field_id)
+        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(
+            season_field_id
+        )
 
         task_id = self.__analytics_processor_service.launch_harvest_processor(
             season_duration=season_duration,
@@ -769,7 +806,7 @@ class Geosys:
             harvest_type=harvest_type,
         )
 
-        self.logger.info("Task Id: %s",task_id)
+        self.logger.info("Task Id: %s", task_id)
 
         # check the task status to continue or not the process
         self.__analytics_processor_service.wait_and_check_task_status(task_id)
@@ -783,30 +820,32 @@ class Geosys:
         # if task successfully completed, get metrics from analytics fabric
         return self.__analytics_fabric_service.get_lastest_metrics(sf_unique_id, schema)
 
-    def get_emergence_analytics(self,
-                                season_duration: int,
-                                season_start_day: int,
-                                season_start_month: int,
-                                crop: Enum,
-                                year: int,
-                                geometry: str,
-                                emergence_type: Emergence,
-                                season_field_id:Optional[str]=None):
+    def get_emergence_analytics(
+        self,
+        season_duration: int,
+        season_start_day: int,
+        season_start_month: int,
+        crop: Enum,
+        year: int,
+        geometry: str,
+        emergence_type: Emergence,
+        season_field_id: Optional[str] = None,
+    ):
         """launch an emergence analytics processor and get the metrics in a panda dataframe object
 
-            Args:
-                season_duration (int): the duration of the season in days,
-                season_start_day (int): the start day value (1 - 31),
-                season_start_month (int): the start month value (1 - 12),
-                crop (Enum): the crop code,
-                year (int): the year value,
-                geometry (str): the geometry to calculate the analytic (WKT or GeoJSON),
-                emergence_type (Emergence): the type of Emergence analytics (INSEASON/HISTORICAL/DELAY)
-                season_field_id : Optional season_field_id value
+        Args:
+            season_duration (int): the duration of the season in days,
+            season_start_day (int): the start day value (1 - 31),
+            season_start_month (int): the start month value (1 - 12),
+            crop (Enum): the crop code,
+            year (int): the year value,
+            geometry (str): the geometry to calculate the analytic (WKT or GeoJSON),
+            emergence_type (Emergence): the type of Emergence analytics (INSEASON/HISTORICAL/DELAY)
+            season_field_id : Optional season_field_id value
 
 
-            Returns:
-                A Pandas DataFrame containing several columns with metrics
+        Returns:
+            A Pandas DataFrame containing several columns with metrics
         """
         # validate and convert the geometry to WKT
         geometry = Helper.convert_to_wkt(geometry)
@@ -817,9 +856,13 @@ class Geosys:
         # Create seasonfield from geometry and extract uniqueId
         if not season_field_id:
             # extract seasonfield id from geometry
-            season_field_id = self.__master_data_management_service.extract_season_field_id(geometry)
+            season_field_id = (
+                self.__master_data_management_service.extract_season_field_id(geometry)
+            )
 
-        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(season_field_id)
+        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(
+            season_field_id
+        )
 
         task_id = self.__analytics_processor_service.launch_emergence_processor(
             season_duration=season_duration,
@@ -846,12 +889,14 @@ class Geosys:
         # if task successfully completed, get metrics from analytics fabric
         return self.__analytics_fabric_service.get_lastest_metrics(sf_unique_id, schema)
 
-    def get_brazil_crop_id_analytics(self,
-                                    start_date: str,
-                                    end_date: str,
-                                    season: CropIdSeason,
-                                    geometry: str,
-                                    season_field_id:Optional[str]=None):
+    def get_brazil_crop_id_analytics(
+        self,
+        start_date: str,
+        end_date: str,
+        season: CropIdSeason,
+        geometry: str,
+        season_field_id: Optional[str] = None,
+    ):
         """launch a brazil-in-season-crop-id analytics processor and get the metrics in a panda dataframe object
 
             Args:
@@ -872,9 +917,13 @@ class Geosys:
 
         if not season_field_id:
             # extract seasonfield id from geometry
-            season_field_id = self.__master_data_management_service.extract_season_field_id(geometry)
+            season_field_id = (
+                self.__master_data_management_service.extract_season_field_id(geometry)
+            )
 
-        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(season_field_id)
+        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(
+            season_field_id
+        )
 
         task_id = self.__analytics_processor_service.launch_brazil_in_season_crop_id_processor(
             start_date=start_date,
@@ -888,16 +937,18 @@ class Geosys:
             task_id, "CROP_IDENTIFICATION", sf_unique_id
         )
 
-    def get_potential_score_analytics(self,
-                                    end_date: str,
-                                    nb_historical_years: int,
-                                    season_duration: int,
-                                    season_start_day: int,
-                                    season_start_month: int,
-                                    sowing_date: str,
-                                    crop: Enum,
-                                    geometry: str,
-                                    season_field_id:Optional[str]=None):
+    def get_potential_score_analytics(
+        self,
+        end_date: str,
+        nb_historical_years: int,
+        season_duration: int,
+        season_start_day: int,
+        season_start_month: int,
+        sowing_date: str,
+        crop: Enum,
+        geometry: str,
+        season_field_id: Optional[str] = None,
+    ):
         """launch a potential score analytics processor and get the metrics in a panda dataframe object
 
             Args:
@@ -922,9 +973,13 @@ class Geosys:
 
         if not season_field_id:
             # extract seasonfield id from geometry
-            season_field_id = self.__master_data_management_service.extract_season_field_id(geometry)
+            season_field_id = (
+                self.__master_data_management_service.extract_season_field_id(geometry)
+            )
 
-        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(season_field_id)
+        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(
+            season_field_id
+        )
 
         task_id = self.__analytics_processor_service.launch_potential_score_processor(
             end_date=end_date,
@@ -938,17 +993,17 @@ class Geosys:
             crop=crop.value,
         )
 
-        return self.check_status_and_metrics(
-            task_id, "POTENTIAL_SCORE", sf_unique_id
-        )
+        return self.check_status_and_metrics(task_id, "POTENTIAL_SCORE", sf_unique_id)
 
-    def get_greenness_analytics(self,
-                                start_date: str,
-                                end_date: str,
-                                sowing_date: str,
-                                crop: Enum,
-                                geometry: str,
-                                season_field_id:Optional[str]=None):
+    def get_greenness_analytics(
+        self,
+        start_date: str,
+        end_date: str,
+        sowing_date: str,
+        crop: Enum,
+        geometry: str,
+        season_field_id: Optional[str] = None,
+    ):
         """launch a greenness analytics processor and get the metrics in a panda dataframe object
 
                     Args:
@@ -970,9 +1025,13 @@ class Geosys:
 
         if not season_field_id:
             # extract seasonfield id from geometry
-            season_field_id = self.__master_data_management_service.extract_season_field_id(geometry)
+            season_field_id = (
+                self.__master_data_management_service.extract_season_field_id(geometry)
+            )
 
-        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(season_field_id)
+        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(
+            season_field_id
+        )
 
         task_id = self.__analytics_processor_service.launch_greenness_processor(
             start_date=start_date,
@@ -983,17 +1042,17 @@ class Geosys:
             crop=crop.value,
         )
 
-        return self.check_status_and_metrics(
-            task_id, "GREENNESS", sf_unique_id
-        )
+        return self.check_status_and_metrics(task_id, "GREENNESS", sf_unique_id)
 
-    def get_harvest_readiness_analytics(self,
-                                        start_date: str,
-                                        end_date: str,
-                                        sowing_date: str,
-                                        crop: Enum,
-                                        geometry: str,
-                                        season_field_id:Optional[str]=None):
+    def get_harvest_readiness_analytics(
+        self,
+        start_date: str,
+        end_date: str,
+        sowing_date: str,
+        crop: Enum,
+        geometry: str,
+        season_field_id: Optional[str] = None,
+    ):
         """launch a harvest readiness analytics processor and get the metrics in a panda dataframe object
 
             Args:
@@ -1015,9 +1074,13 @@ class Geosys:
 
         if not season_field_id:
             # extract seasonfield id from geometry
-            season_field_id = self.__master_data_management_service.extract_season_field_id(geometry)
+            season_field_id = (
+                self.__master_data_management_service.extract_season_field_id(geometry)
+            )
 
-        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(season_field_id)
+        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(
+            season_field_id
+        )
 
         task_id = self.__analytics_processor_service.launch_harvest_readiness_processor(
             start_date=start_date,
@@ -1028,24 +1091,24 @@ class Geosys:
             crop=crop.value,
         )
 
-        return self.check_status_and_metrics(
-            task_id, "HARVEST_READINESS", sf_unique_id
-        )
+        return self.check_status_and_metrics(task_id, "HARVEST_READINESS", sf_unique_id)
 
-    def get_planted_area_analytics(self,
-                                start_date: str,
-                                end_date: str,
-                                geometry: str,
-                                season_field_id:Optional[str]=None):
+    def get_planted_area_analytics(
+        self,
+        start_date: str,
+        end_date: str,
+        geometry: str,
+        season_field_id: Optional[str] = None,
+    ):
         """launch a planted area analytics processor and get the metrics in a panda dataframe object
 
-                    Args:
-                        start_date (str) : the start date used for the request (format YYYY-MM-dd)
-                        end_date (str) : the end date used for the request (format YYYY-MM-dd)
-                        geometry (str): the geometry to calculate the analytic (WKT or GeoJSON),
-                        season_field_id (Optonal[str]): Optional season_field_id value
-                    Returns:
-                        A Pandas DataFrame containing several columns with metrics
+        Args:
+            start_date (str) : the start date used for the request (format YYYY-MM-dd)
+            end_date (str) : the end date used for the request (format YYYY-MM-dd)
+            geometry (str): the geometry to calculate the analytic (WKT or GeoJSON),
+            season_field_id (Optonal[str]): Optional season_field_id value
+        Returns:
+            A Pandas DataFrame containing several columns with metrics
         """
         # validate and convert the geometry to WKT
         geometry = Helper.convert_to_wkt(geometry)
@@ -1055,40 +1118,44 @@ class Geosys:
 
         if not season_field_id:
             # extract seasonfield id from geometry
-            season_field_id = self.__master_data_management_service.extract_season_field_id(geometry)
+            season_field_id = (
+                self.__master_data_management_service.extract_season_field_id(geometry)
+            )
 
-        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(season_field_id)
+        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(
+            season_field_id
+        )
 
         task_id = self.__analytics_processor_service.launch_planted_area_processor(
             start_date, end_date, sf_unique_id
         )
-        return self.check_status_and_metrics(
-            task_id, "PLANTED_AREA", sf_unique_id
-        )
+        return self.check_status_and_metrics(task_id, "PLANTED_AREA", sf_unique_id)
 
-    def get_zarc_analytics(self,
-                        start_date_emergence: str,
-                        end_date_emergence: str,
-                        nb_days_sowing_emergence: int,
-                        crop: Enum,
-                        soil_type: ZarcSoilType,
-                        cycle: ZarcCycleType,
-                        geometry: str,
-                        season_field_id:Optional[str]=None):
+    def get_zarc_analytics(
+        self,
+        start_date_emergence: str,
+        end_date_emergence: str,
+        nb_days_sowing_emergence: int,
+        crop: Enum,
+        soil_type: ZarcSoilType,
+        cycle: ZarcCycleType,
+        geometry: str,
+        season_field_id: Optional[str] = None,
+    ):
         """launch a zarc analytics processor and get the metrics in a panda dataframe object
 
-                        Args:
-                            start_date_emergence (str) : the emergence start date used for the request (format YYYY-MM-dd)
-                            end_date_emergence (str) : the emergence end date used for the request (format YYYY-MM-dd)
-                            nb_days_sowing_emergence (int): the number of days for sowing emergence
-                            crop (Enum): the zarc crop code,
-                            soil_type (ZarcSoilType): the zarc soil type (1/2/3),
-                            cycle (ZarcCycleType): the zarc cycle type (1/2/3),
-                            geometry (str): the geometry to calculate the analytic (WKT or GeoJSON),
-                            season_field_id (Optonal[str]): Optional season_field_id value
+        Args:
+            start_date_emergence (str) : the emergence start date used for the request (format YYYY-MM-dd)
+            end_date_emergence (str) : the emergence end date used for the request (format YYYY-MM-dd)
+            nb_days_sowing_emergence (int): the number of days for sowing emergence
+            crop (Enum): the zarc crop code,
+            soil_type (ZarcSoilType): the zarc soil type (1/2/3),
+            cycle (ZarcCycleType): the zarc cycle type (1/2/3),
+            geometry (str): the geometry to calculate the analytic (WKT or GeoJSON),
+            season_field_id (Optonal[str]): Optional season_field_id value
 
-                        Returns:
-                            A Pandas DataFrame containing several columns with metrics
+        Returns:
+            A Pandas DataFrame containing several columns with metrics
         """
         # validate and convert the geometry to WKT
         geometry = Helper.convert_to_wkt(geometry)
@@ -1104,9 +1171,13 @@ class Geosys:
 
         if not season_field_id:
             # extract seasonfield id from geometry
-            season_field_id = self.__master_data_management_service.extract_season_field_id(geometry)
-                
-        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(season_field_id)
+            season_field_id = (
+                self.__master_data_management_service.extract_season_field_id(geometry)
+            )
+
+        sf_unique_id = self.__master_data_management_service.get_season_field_unique_id(
+            season_field_id
+        )
 
         task_id = self.__analytics_processor_service.launch_zarc_processor(
             start_date_emergence=start_date_emergence,
@@ -1118,4 +1189,4 @@ class Geosys:
             nb_days_sowing_emergence=nb_days_sowing_emergence,
             seasonfield_id=sf_unique_id,
         )
-        return self.check_status_and_metrics(task_id, 'ZARC', sf_unique_id)
+        return self.check_status_and_metrics(task_id, "ZARC", sf_unique_id)

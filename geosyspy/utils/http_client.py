@@ -1,3 +1,4 @@
+""" http client class"""
 from oauthlib.oauth2 import TokenExpiredError
 from requests_oauthlib import OAuth2Session
 
