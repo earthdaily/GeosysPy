@@ -1190,3 +1190,15 @@ class Geosys:
             seasonfield_id=sf_unique_id,
         )
         return self.check_status_and_metrics(task_id, "ZARC", sf_unique_id)
+
+    def get_farm_info_from_location(self, latitude:str, longitude:str):
+        """get farm info from CAR layer
+
+        Args:
+            latitude (str): latitude of the location
+            longitude (str): longitude of the location
+                    
+        """
+        
+        return self.__gis_service.get_farm_info_from_location(latitude, longitude)
+    
