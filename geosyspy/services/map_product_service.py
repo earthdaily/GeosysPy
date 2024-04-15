@@ -71,10 +71,11 @@ class MapProductService:
         else:
             parameters = f"?maps.type={map_type}&CoverageType=CLEAR&$limit=None&$filter=Image.Date >= '{start_date}' and Image.Date <= '{end_date}'"
 
+        fields = f"&$fields=coverageType,maps,image.id,image.sensor,image.availableBands,coveragepercent,image.spatialResolution,image.date,seasonField.id"
         flm_url: str = urljoin(
             self.base_url,
             GeosysApiEndpoints.FLM_CATALOG_IMAGERY.value.format(season_field_id)
-            + parameters,
+            + parameters + fields,
         )
         response = self.http_client.get(
             flm_url,
@@ -92,10 +93,8 @@ class MapProductService:
                         "maps",
                         "image.id",
                         "image.availableBands",
-                        "image.sensor",
-                        "image.soilMaterial",
+                        "image.sensor",                        
                         "image.spatialResolution",
-                        "image.weather",
                         "image.date",
                         "seasonField.id",
                     ]
@@ -125,7 +124,7 @@ class MapProductService:
 
         download_tiff_url: str = urljoin(
             self.base_url,
-            GeosysApiEndpoints.FLM_COVERAGE.value.format(field_id) + parameters,
+            GeosysApiEndpoints.FLM_BASE_REFERENCE_MAP.value.format(field_id) + parameters,
         )
 
         response_zipped_tiff = self.http_client.get(
