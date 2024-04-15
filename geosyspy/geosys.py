@@ -453,9 +453,7 @@ class Geosys:
                     [
                         "image.id",
                         "image.sensor",
-                        "image.soilMaterial",
                         "image.spatialResolution",
-                        "image.weather",
                         "crs",
                     ]
                 ]
