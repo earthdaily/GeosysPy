@@ -288,7 +288,6 @@ class TestGeosys:
         assert dataset.keys()[-1] == 'Schema.Id'
         assert dataset.values[0][-1] == 'ZARC'
 
-    @pytest.mark.skip(reason="soucis SSL dans github")
     def test_get_mr_time_series(self):
         result:str = self.client.get_mr_time_series(
             start_date="2020-10-09",
@@ -306,7 +305,9 @@ class TestGeosys:
         assert result.startswith('s3://geosys-geosys-us/2tKecZgMyEP6EkddLxa1gV')
         assert '/mrts/' in result
 
-    def test_get_mr_time_series(self):
+
+    @pytest.mark.skip(reason="soucis SSL dans github")
+    def test_get_farm_info_from_location(self):
         result = self.client.get_farm_info_from_location(
           latitude="-15.01402",
           longitude="-50.7717"
