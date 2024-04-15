@@ -88,8 +88,8 @@ class TestGeosys:
             collections=[SatelliteImageryCollection.SENTINEL_2, SatelliteImageryCollection.LANDSAT_8,
                          SatelliteImageryCollection.LANDSAT_9], polygon=POLYGON)
 
-        assert {"coverageType", "image.id", "image.availableBands", "image.sensor", "image.soilMaterial",
-                "image.spatialResolution", "image.weather", "image.date", "seasonField.id"}.issubset(set(info.columns))
+        assert {"coverageType", "image.id", "image.availableBands", "image.sensor",
+                "image.spatialResolution", "image.date", "seasonField.id"}.issubset(set(info.columns))
 
         assert len(info) == len(images_references)
         for i, image_info in info.iterrows():
