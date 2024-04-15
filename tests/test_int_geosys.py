@@ -305,3 +305,11 @@ class TestGeosys:
 
         assert result.startswith('s3://geosys-geosys-us/2tKecZgMyEP6EkddLxa1gV')
         assert '/mrts/' in result
+
+    def test_get_mr_time_series(self):
+        result = self.client.get_farm_info_from_location(
+          latitude="-15.01402",
+          longitude="-50.7717"
+        )
+        print(result)
+        assert result[0].get('geometry') is not None
