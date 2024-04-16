@@ -567,9 +567,16 @@ class Geosys:
             raise ValueError(
                 f"Cannot access {season_field_id}. It is not existing or connected user doens't have access to it."
             )
+        
+        # extract sfd unique id
+        season_field_unique_id: str = (
+            self.__master_data_management_service.get_season_field_unique_id(
+                season_field_id
+            )
+        )
 
         return self.__analytics_fabric_service.push_metrics(
-            season_field_id, schema_id, values
+            season_field_unique_id, schema_id, values
         )
 
     ###########################################
