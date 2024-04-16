@@ -1,64 +1,156 @@
 [
   {
-    "coverageType": "CLEAR",
+    "coveragePercent": 100.0,
     "image": {
-      "id": "IKc73hpUQ6w8nSGtmog9A7iGsm9eKYT2SN42mZg0JWO",
-      "availableBands": [
-        "Nir",
-        "Red",
-        "Blue",
-        "Green"
-      ],
-      "sensor": "LANDSAT_8",
-      "soilMaterial": "BARE",
-      "spatialResolution": 15.0,
-      "weather": "COLD",
-      "zenithAngleInDegree": 0.0,
-      "date": "2022-11-30"
+        "id": "sentinel-2-l2a|S2B_15TXE_20240412_0_L2A",
+        "date": "2024-04-12",
+        "availableBands": [
+            "Blue",
+            "Green",
+            "Red",
+            "Nir",
+            "Swir1",
+            "Swir2",
+            "CoastalBlue",
+            "RedEdge1",
+            "RedEdge2",
+            "RedEdge3"
+        ],
+        "collection": "sentinel-2-l2a",
+        "sensor": "SENTINEL_2",
+        "spatialResolution": 10.0
+    },
+    "seasonField": {
+        "id": "6ljb5l5",
+        "index": 0,
+        "externalIds": {
+            "ID": "3djdiLg2Kkv6mt149Ah8lX",
+            "LEGACY_ID_NA": "6ljb5l5"
+        }
     },
     "maps": [
-      {
-        "type": "INSEASON_NDVI"
-      }
-    ],
-    "seasonField": {
-      "id": "d1l2nqm",
-      "customerExternalId": null,
-      "externalIds": {
-        "id": "3Ec2mBmZRLcrLfChu9ZlJz",
-        "legacY_ID_NA": "d1l2nqm"
-      }
-    }
-  },
-  {
-    "coverageType": "CLEAR",
+        {
+            "type": "COLORCOMPOSITION"
+        },
+        {
+            "type": "INSEASON_CVI"
+        },
+        {
+            "type": "INSEASON_CVIN"
+        },
+        {
+            "type": "INSEASON_EVI"
+        },
+        {
+            "type": "INSEASON_GNDVI"
+        },
+        {
+            "type": "INSEASON_LAI"
+        },
+        {
+            "type": "INSEASON_NDVI"
+        },
+        {
+            "type": "INSEASON_NDWI"
+        },
+        {
+            "type": "INSEASON_S2REP"
+        },
+        {
+            "type": "INSEASONPARTIAL_EVI"
+        },
+        {
+            "type": "INSEASONPARTIAL_NDVI"
+        },
+        {
+            "type": "NDVI"
+        },
+        {
+            "type": "OM"
+        },
+        {
+            "type": "YGM"
+        },
+        {
+            "type": "YPM"
+        }
+    ]
+},
+{
+    "coveragePercent": 100.0,
     "image": {
-      "id": "IKc73hpUQ6uPitMqTFtBQGpp6rcDKT21cEHm34LPQc0",
-      "availableBands": [
-        "Nir",
-        "Red",
-        "Blue",
-        "Green"
-      ],
-      "sensor": "LANDSAT_9",
-      "soilMaterial": "VEGETATION",
-      "spatialResolution": 15.0,
-      "weather": "WET",
-      "zenithAngleInDegree": 0.0,
-      "date": "2022-05-11"
+        "id": "sentinel-2-l2a|S2A_15TXE_20240407_0_L2A",
+        "date": "2024-04-07",
+        "availableBands": [
+            "Blue",
+            "Green",
+            "Red",
+            "Nir",
+            "Swir1",
+            "Swir2",
+            "CoastalBlue",
+            "RedEdge1",
+            "RedEdge2",
+            "RedEdge3"
+        ],
+        "collection": "sentinel-2-l2a",
+        "sensor": "SENTINEL_2",
+        "spatialResolution": 10.0
+    },
+    "seasonField": {
+        "id": "6ljb5l5",
+        "index": 0,
+        "externalIds": {
+            "ID": "3djdiLg2Kkv6mt149Ah8lX",
+            "LEGACY_ID_NA": "6ljb5l5"
+        }
     },
     "maps": [
-      {
-        "type": "INSEASON_NDVI"
-      }
-    ],
-    "seasonField": {
-      "id": "d1l2nqm",
-      "customerExternalId": null,
-      "externalIds": {
-        "id": "3Ec2mBmZRLcrLfChu9ZlJz",
-        "legacY_ID_NA": "d1l2nqm"
-      }
-    }
-  }
+        {
+            "type": "COLORCOMPOSITION"
+        },
+        {
+            "type": "INSEASON_CVI"
+        },
+        {
+            "type": "INSEASON_CVIN"
+        },
+        {
+            "type": "INSEASON_EVI"
+        },
+        {
+            "type": "INSEASON_GNDVI"
+        },
+        {
+            "type": "INSEASON_LAI"
+        },
+        {
+            "type": "INSEASON_NDVI"
+        },
+        {
+            "type": "INSEASON_NDWI"
+        },
+        {
+            "type": "INSEASON_S2REP"
+        },
+        {
+            "type": "INSEASONPARTIAL_EVI"
+        },
+        {
+            "type": "INSEASONPARTIAL_NDVI"
+        },
+        {
+            "type": "NDVI"
+        },
+        {
+            "type": "OM"
+        },
+        {
+            "type": "YGM"
+        },
+        {
+            "type": "YPM"
+        }
+    ]
+}
 ]

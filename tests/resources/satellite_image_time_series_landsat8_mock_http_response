@@ -1,64 +1,138 @@
 [
   {
-    "coverageType": "CLEAR",
+    "coveragePercent": 100.0,
     "image": {
-      "id": "IKc73hpUQ6w8nSGtmog9A7iGsm9eKYT2SN42mZg0JWO",
-      "availableBands": [
-        "Nir",
-        "Red",
-        "Blue",
-        "Green"
-      ],
-      "sensor": "LANDSAT_8",
-      "soilMaterial": "BARE",
-      "spatialResolution": 15.0,
-      "weather": "COLD",
-      "zenithAngleInDegree": 0.0,
-      "date": "2022-11-30"
+        "id": "landsat-c2l2-sr|LC08_L2SP_024032_20231212_20231215_02_T1_SR",
+        "date": "2023-12-12",
+        "availableBands": [
+            "Blue",
+            "Green",
+            "Red",
+            "Nir"
+        ],
+        "collection": "landsat-c2l2-sr",
+        "sensor": "LANDSAT_8",
+        "spatialResolution": 30.0
+    },
+    "seasonField": {
+        "id": "d1l2nqm",
+        "index": 0,
+        "externalIds": {
+            "ID": "3Ec2mBmZRLcrLfChu9ZlJz",
+            "LEGACY_ID_NA": "d1l2nqm"
+        }
     },
     "maps": [
-      {
-        "type": "INSEASON_NDVI"
-      }
-    ],
-    "seasonField": {
-      "id": "d1l2nqm",
-      "customerExternalId": null,
-      "externalIds": {
-        "id": "3Ec2mBmZRLcrLfChu9ZlJz",
-        "legacY_ID_NA": "d1l2nqm"
-      }
-    }
-  },
-  {
-    "coverageType": "CLEAR",
+        {
+            "type": "COLORCOMPOSITION"
+        },
+        {
+            "type": "INSEASON_CVI"
+        },
+        {
+            "type": "INSEASON_CVIN"
+        },
+        {
+            "type": "INSEASON_EVI"
+        },
+        {
+            "type": "INSEASON_GNDVI"
+        },
+        {
+            "type": "INSEASON_LAI"
+        },
+        {
+            "type": "INSEASON_NDVI"
+        },
+        {
+            "type": "INSEASON_NDWI"
+        },
+        {
+            "type": "INSEASONPARTIAL_EVI"
+        },
+        {
+            "type": "INSEASONPARTIAL_NDVI"
+        },
+        {
+            "type": "NDVI"
+        },
+        {
+            "type": "OM"
+        },
+        {
+            "type": "YGM"
+        },
+        {
+            "type": "YPM"
+        }
+    ]
+},
+{
+    "coveragePercent": 100.0,
     "image": {
-      "id": "IKc73hpUQ6uPitMqTFtBQGpp6rcDKT21cEHm34LPQc0",
-      "availableBands": [
-        "Nir",
-        "Red",
-        "Blue",
-        "Green"
-      ],
-      "sensor": "LANDSAT_9",
-      "soilMaterial": "VEGETATION",
-      "spatialResolution": 15.0,
-      "weather": "WET",
-      "zenithAngleInDegree": 0.0,
-      "date": "2022-05-11"
+        "id": "landsat-c2l2-sr|LC08_L2SP_025032_20231117_20231122_02_T1_SR",
+        "date": "2023-11-17",
+        "availableBands": [
+            "Blue",
+            "Green",
+            "Red",
+            "Nir"
+        ],
+        "collection": "landsat-c2l2-sr",
+        "sensor": "LANDSAT_8",
+        "spatialResolution": 30.0
+    },
+    "seasonField": {
+        "id": "d1l2nqm",
+        "index": 0,
+        "externalIds": {
+            "ID": "3Ec2mBmZRLcrLfChu9ZlJz",
+            "LEGACY_ID_NA": "d1l2nqm"
+        }
     },
     "maps": [
-      {
-        "type": "INSEASON_NDVI"
-      }
-    ],
-    "seasonField": {
-      "id": "d1l2nqm",
-      "customerExternalId": null,
-      "externalIds": {
-        "id": "3Ec2mBmZRLcrLfChu9ZlJz",
-        "legacY_ID_NA": "d1l2nqm"
-      }
-    }
-  }
+        {
+            "type": "COLORCOMPOSITION"
+        },
+        {
+            "type": "INSEASON_CVI"
+        },
+        {
+            "type": "INSEASON_CVIN"
+        },
+        {
+            "type": "INSEASON_EVI"
+        },
+        {
+            "type": "INSEASON_GNDVI"
+        },
+        {
+            "type": "INSEASON_LAI"
+        },
+        {
+            "type": "INSEASON_NDVI"
+        },
+        {
+            "type": "INSEASON_NDWI"
+        },
+        {
+            "type": "INSEASONPARTIAL_EVI"
+        },
+        {
+            "type": "INSEASONPARTIAL_NDVI"
+        },
+        {
+            "type": "NDVI"
+        },
+        {
+            "type": "OM"
+        },
+        {
+            "type": "YGM"
+        },
+        {
+            "type": "YPM"
+        }
+    ]
+}
 ]
