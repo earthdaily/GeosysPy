@@ -203,7 +203,7 @@ class AnalyticsFabricService:
         for value in values:
             prop = {
                 "Entity": {
-                    "TypedId": f"SeasonField:{season_field_id}@Id"
+                    "TypedId": f"SeasonField:{season_field_id}@ID"
                 },
                 "Schema": {"Id": schema_id, "Version": 1},
             }
