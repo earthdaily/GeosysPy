@@ -71,7 +71,7 @@ class MapProductService:
         else:
             parameters = f"?maps.type={map_type}&CoverageType=CLEAR&$limit=None&$filter=Image.Date >= '{start_date}' and Image.Date <= '{end_date}'"
 
-        fields = f"&$fields=coverageType,maps,image.id,image.sensor,image.availableBands,coveragepercent,image.spatialResolution,image.date,seasonField.id"
+        fields = f"&$fields=coveragePercent,maps,image.id,image.sensor,image.availableBands,coveragePercent,image.spatialResolution,image.date,seasonField.id"
         flm_url: str = urljoin(
             self.base_url,
             GeosysApiEndpoints.FLM_CATALOG_IMAGERY.value.format(season_field_id)
@@ -89,7 +89,7 @@ class MapProductService:
             else:
                 return df[
                     [
-                        "coverageType",
+                        "coveragePercent",
                         "maps",
                         "image.id",
                         "image.availableBands",

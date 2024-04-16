@@ -303,7 +303,7 @@ class Geosys:
             image_ref.season_field_id, image_ref.image_id
         )
         if path == "":
-            file_name = image_reference.image_id.replace("|", "_")
+            file_name = image_ref.image_id.replace("|", "_")
             path = Path.cwd() / f"image_{file_name}_tiff.zip"
         with open(path, "wb") as f:
             self.logger.info("writing to %s", path)

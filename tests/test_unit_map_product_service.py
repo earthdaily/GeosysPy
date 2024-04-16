@@ -30,7 +30,7 @@ class TestMapProductService:
             "fakeSeasonFieldId", start_date, end_date, "NDVI", [SatelliteImageryCollection.SENTINEL_2]
         )
 
-        assert {"coverageType", "image.id", "image.availableBands", "image.sensor",
+        assert {"coveragePercent", "image.id", "image.availableBands", "image.sensor",
                 "image.spatialResolution", "image.date", "seasonField.id"}.issubset(set(info.columns))
 
 

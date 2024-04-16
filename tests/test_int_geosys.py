@@ -88,7 +88,7 @@ class TestGeosys:
             collections=[SatelliteImageryCollection.SENTINEL_2, SatelliteImageryCollection.LANDSAT_8,
                          SatelliteImageryCollection.LANDSAT_9], polygon=POLYGON)
 
-        assert {"coverageType", "image.id", "image.availableBands", "image.sensor",
+        assert {"coveragePercent", "image.id", "image.availableBands", "image.sensor",
                 "image.spatialResolution", "image.date", "seasonField.id"}.issubset(set(info.columns))
 
         assert len(info) == len(images_references)
@@ -159,7 +159,7 @@ class TestGeosys:
             indicators=["Reflectance"],
             polygon=POLYGON
         )
-        assert dict(dataset.dims) == {'band': 4, 'y': 51, 'x': 48, 'time': 1}
+        assert dict(dataset.dims) == {'band': 7, 'y': 27, 'x': 26, 'time': 9}
 
     def test_get_agriquest_weather_time_series(self):
         start_date = "2022-05-01"
