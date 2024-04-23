@@ -25,7 +25,7 @@ class GisService:
         payload = {"properties": ["id"], "features": [geometry]}
         parameters: str = "/layerservices/api/v1/layers/BRAZIL_MUNICIPIOS/intersect"
         gis_url: str = urljoin(self.base_url, parameters)
-        response = self.http_client.post(gis_url, payload)
+        response = self.http_client.post(gis_url, payload, verify_ssl=False)
         if response.status_code == 200:
             dict_response = response.json()
 
@@ -58,7 +58,7 @@ class GisService:
             f"/layerservices/api/v1/layers/BR_CAR_PROPERTIES/feature?LOCATION={latitude},{longitude}&format=wkt"
         )
         gis_url: str = urljoin(self.base_url, parameters)
-        response = self.http_client.get(gis_url)
+        response = self.http_client.get(gis_url, verify_ssl=False)
         if response.status_code == 200:
             return response.json()
 

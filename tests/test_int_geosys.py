@@ -306,7 +306,6 @@ class TestGeosys:
         assert '/mrts/' in result
 
 
-    @pytest.mark.skip(reason="soucis SSL dans github")
     def test_get_farm_info_from_location(self):
         result = self.client.get_farm_info_from_location(
           latitude="-15.01402",

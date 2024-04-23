@@ -8,5 +8,5 @@ rasterio
 xarray
 retrying
 pip-system-certs
-PyJWT
+PyJWT==1.7.1
 cryptography

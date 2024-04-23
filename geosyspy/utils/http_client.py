@@ -52,12 +52,12 @@ class HttpClient:
             bearer_token=bearer_token
         )
         self.access_token = self.__client_oauth.token
-
+                
         self.__client = OAuth2Session(self.__client_oauth.client_id,
                                     token=self.__client_oauth.token)
 
     @renew_access_token
-    def get(self, url_endpoint: str, headers=None):
+    def get(self, url_endpoint: str, headers=None, verify_ssl = True):
         """Gets the url_endpopint.
 
         Args:
@@ -68,10 +68,10 @@ class HttpClient:
         """
         if headers is None:
             headers = {}
-        return self.__client.get(url_endpoint, headers=headers)
+        return self.__client.get(url_endpoint, headers=headers, verify=verify_ssl)
 
     @renew_access_token
-    def post(self, url_endpoint: str, payload: dict, headers=None):
+    def post(self, url_endpoint: str, payload: dict, headers=None, verify_ssl = True):
         """Posts payload to the url_endpoint.
 
         Args:
@@ -83,10 +83,10 @@ class HttpClient:
         """
         if headers is None:
             headers = {}
-        return self.__client.post(url_endpoint, json=payload, headers=headers)
+        return self.__client.post(url_endpoint, json=payload, headers=headers, verify=verify_ssl)
 
     @renew_access_token
-    def patch(self, url_endpoint: str, payload: dict):
+    def patch(self, url_endpoint: str, payload: dict, verify_ssl = True):
         """Patchs payload to the url_endpoint.
 
         Args:
@@ -96,7 +96,7 @@ class HttpClient:
         Returns:
             A response object.
         """
-        return self.__client.patch(url_endpoint, json=payload)
+        return self.__client.patch(url_endpoint, json=payload, verify=verify_ssl)
 
     def get_access_token(self):
         """Returns the access token.
