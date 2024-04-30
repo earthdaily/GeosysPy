@@ -106,8 +106,10 @@ class AgriquestService:
 
             # Ignore first line after using columns header
             df = df.iloc[1:]
-
-            df = df.rename(columns={"Name": "AMU"})
+            if "Name" in df.columns:
+                df = df.rename(columns={"Name": "AMU"})
+            elif "Nom" in df.columns:
+                df = df.rename(columns={"Nom": "AMU"})
             return df
         else:
             self.logger.info(response.status_code)
@@ -154,8 +156,11 @@ class AgriquestService:
 
             # Ignore first line after using columns header
             df = df.iloc[1:]
+            if "Name" in df.columns:
+                df = df.rename(columns={"Name": "AMU", "Value": "NDVI"})
+            elif "Nom" in df.columns:
+                df = df.rename(columns={"Nom": "AMU", "Valeur": "NDVI"})
 
-            df = df.rename(columns={"Name": "AMU", "Value": "NDVI"})
             return df
         else:
             self.logger.info(response.status_code)
