@@ -73,6 +73,14 @@ class MasterDataManagementService:
             f"Cannot handle HTTP response : {str(response.status_code)} : {str(response.json())}"
         )
 
+    def retrieve_season_fields_in_polygon(self, polygon: str):
+        api_call: str = urljoin(
+            self.base_url,
+            GeosysApiEndpoints.MASTER_DATA_MANAGEMENT_ENDPOINT.value + "/seasonfields",
+            '?Geometry=$within:' + polygon
+        )
+        return self.http_client.get(api_call)
+
     def get_season_field_unique_id(self, season_field_id: str) -> str:
         """Extracts the season field unique id from the response object.
 

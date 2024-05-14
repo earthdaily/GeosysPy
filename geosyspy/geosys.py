@@ -661,6 +661,16 @@ class Geosys:
 
         return result["permissions"]
 
+    def get_sfid_from_geometry(self, geometry):
+        """Retrieves every season field ID contained within the passed geometry.
+
+        Returns:
+            ids: an array containing all the seasonfield ids
+        """
+        result = self.__master_data_management_service.retrieve_season_fields_in_polygon(geometry)
+        ids = [item['id'] for item in result.json()]
+        return ids
+    
     ###########################################
     #           AGRIQUEST                     #
     ###########################################
