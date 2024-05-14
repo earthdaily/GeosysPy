@@ -40,3 +40,11 @@ class TestMasterDataManagementService:
 
         response = self.service.get_season_field_unique_id(season_field_id="fakeSeasonFieldId")
         assert response == "4XcGhZvA1OjpO3gUwYM61e"
+
+    @patch('geosyspy.utils.http_client.HttpClient.get')
+    def test_retrieve_season_fields_in_polygon(self, get_response):
+        get_response.return_value = mock_http_response_text_content('GET', load_data_from_textfile(
+            "master_data_management_retrieve_sfids_mock_http_response"), status_code=201)
+        
+        response = self.service.retrieve_season_fields_in_polygon(polygon=geometry)
+        assert response.status_code == 200

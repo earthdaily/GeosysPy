@@ -1,0 +1,400 @@
+[
+    {
+        "id": "2al7w1w",
+        "customerExternalId": null,
+        "estimatedHarvestDate": "2024-12-31T00:00:00",
+        "isIrrigated": null,
+        "name": null,
+        "realHarvestDate": null,
+        "reportCode": null,
+        "sowingDate": "2024-01-01T00:00:00",
+        "userHarvestDate": null,
+        "userYield": null,
+        "yieldGoal": null,
+        "crop": {
+            "id": "CORN"
+        },
+        "cropUsage": null,
+        "cropVariety": null
+    },
+    {
+        "id": "7ej7rw6",
+        "customerExternalId": null,
+        "estimatedHarvestDate": "2024-05-15T00:00:00",
+        "isIrrigated": null,
+        "name": null,
+        "realHarvestDate": null,
+        "reportCode": null,
+        "sowingDate": "2023-05-16T00:00:00",
+        "userHarvestDate": null,
+        "userYield": null,
+        "yieldGoal": null,
+        "crop": {
+            "id": "SOYBEANS"
+        },
+        "cropUsage": {
+            "id": "SILAGE"
+        },
+        "cropVariety": null
+    },
+    {
+        "id": "2al16wr",
+        "customerExternalId": null,
+        "estimatedHarvestDate": "2024-05-15T00:00:00",
+        "isIrrigated": null,
+        "name": null,
+        "realHarvestDate": null,
+        "reportCode": null,
+        "sowingDate": "2023-05-16T00:00:00",
+        "userHarvestDate": null,
+        "userYield": null,
+        "yieldGoal": null,
+        "crop": {
+            "id": "SOYBEANS"
+        },
+        "cropUsage": {
+            "id": "SILAGE"
+        },
+        "cropVariety": null
+    },
+    {
+        "id": "w3m5al1",
+        "customerExternalId": null,
+        "estimatedHarvestDate": "2024-05-15T00:00:00",
+        "isIrrigated": null,
+        "name": null,
+        "realHarvestDate": null,
+        "reportCode": null,
+        "sowingDate": "2023-05-16T00:00:00",
+        "userHarvestDate": null,
+        "userYield": null,
+        "yieldGoal": null,
+        "crop": {
+            "id": "SOYBEANS"
+        },
+        "cropUsage": {
+            "id": "SILAGE"
+        },
+        "cropVariety": null
+    },
+    {
+        "id": "v3m5wnv",
+        "customerExternalId": null,
+        "estimatedHarvestDate": "2024-05-15T00:00:00",
+        "isIrrigated": null,
+        "name": null,
+        "realHarvestDate": null,
+        "reportCode": null,
+        "sowingDate": "2023-05-16T00:00:00",
+        "userHarvestDate": null,
+        "userYield": null,
+        "yieldGoal": null,
+        "crop": {
+            "id": "SOYBEANS"
+        },
+        "cropUsage": {
+            "id": "SILAGE"
+        },
+        "cropVariety": null
+    },
+    {
+        "id": "ajrp167",
+        "customerExternalId": null,
+        "estimatedHarvestDate": "2024-05-15T00:00:00",
+        "isIrrigated": null,
+        "name": null,
+        "realHarvestDate": null,
+        "reportCode": null,
+        "sowingDate": "2023-05-16T00:00:00",
+        "userHarvestDate": null,
+        "userYield": null,
+        "yieldGoal": null,
+        "crop": {
+            "id": "SOYBEANS"
+        },
+        "cropUsage": {
+            "id": "SILAGE"
+        },
+        "cropVariety": null
+    },
+    {
+        "id": "y3m5aq1",
+        "customerExternalId": null,
+        "estimatedHarvestDate": "2024-05-15T00:00:00",
+        "isIrrigated": null,
+        "name": null,
+        "realHarvestDate": null,
+        "reportCode": null,
+        "sowingDate": "2023-05-16T00:00:00",
+        "userHarvestDate": null,
+        "userYield": null,
+        "yieldGoal": null,
+        "crop": {
+            "id": "SOYBEANS"
+        },
+        "cropUsage": {
+            "id": "SILAGE"
+        },
+        "cropVariety": null
+    },
+    {
+        "id": "njv5e17",
+        "customerExternalId": null,
+        "estimatedHarvestDate": "2024-05-15T00:00:00",
+        "isIrrigated": null,
+        "name": null,
+        "realHarvestDate": null,
+        "reportCode": null,
+        "sowingDate": "2023-05-16T00:00:00",
+        "userHarvestDate": null,
+        "userYield": null,
+        "yieldGoal": null,
+        "crop": {
+            "id": "SOYBEANS"
+        },
+        "cropUsage": {
+            "id": "SILAGE"
+        },
+        "cropVariety": null
+    },
+    {
+        "id": "prv5pdr",
+        "customerExternalId": null,
+        "estimatedHarvestDate": "2024-05-15T00:00:00",
+        "isIrrigated": null,
+        "name": null,
+        "realHarvestDate": null,
+        "reportCode": null,
+        "sowingDate": "2023-05-16T00:00:00",
+        "userHarvestDate": null,
+        "userYield": null,
+        "yieldGoal": null,
+        "crop": {
+            "id": "SOYBEANS"
+        },
+        "cropUsage": {
+            "id": "SILAGE"
+        },
+        "cropVariety": null
+    },
+    {
+        "id": "jla7ry5",
+        "customerExternalId": null,
+        "estimatedHarvestDate": "2024-05-15T00:00:00",
+        "isIrrigated": null,
+        "name": null,
+        "realHarvestDate": null,
+        "reportCode": null,
+        "sowingDate": "2023-05-16T00:00:00",
+        "userHarvestDate": null,
+        "userYield": null,
+        "yieldGoal": null,
+        "crop": {
+            "id": "SOYBEANS"
+        },
+        "cropUsage": {
+            "id": "SILAGE"
+        },
+        "cropVariety": null
+    },
+    {
+        "id": "d1lr62m",
+        "customerExternalId": null,
+        "estimatedHarvestDate": "2024-05-15T00:00:00",
+        "isIrrigated": null,
+        "name": null,
+        "realHarvestDate": null,
+        "reportCode": null,
+        "sowingDate": "2023-05-16T00:00:00",
+        "userHarvestDate": null,
+        "userYield": null,
+        "yieldGoal": null,
+        "crop": {
+            "id": "SOYBEANS"
+        },
+        "cropUsage": {
+            "id": "SILAGE"
+        },
+        "cropVariety": null
+    },
+    {
+        "id": "6ljzrn2",
+        "customerExternalId": null,
+        "estimatedHarvestDate": "2024-05-15T00:00:00",
+        "isIrrigated": null,
+        "name": null,
+        "realHarvestDate": null,
+        "reportCode": null,
+        "sowingDate": "2023-05-16T00:00:00",
+        "userHarvestDate": null,
+        "userYield": null,
+        "yieldGoal": null,
+        "crop": {
+            "id": "SOYBEANS"
+        },
+        "cropUsage": {
+            "id": "SILAGE"
+        },
+        "cropVariety": null
+    },
+    {
+        "id": "z3m5apq",
+        "customerExternalId": null,
+        "estimatedHarvestDate": "2024-05-15T00:00:00",
+        "isIrrigated": null,
+        "name": null,
+        "realHarvestDate": null,
+        "reportCode": null,
+        "sowingDate": "2023-05-16T00:00:00",
+        "userHarvestDate": null,
+        "userYield": null,
+        "yieldGoal": null,
+        "crop": {
+            "id": "SOYBEANS"
+        },
+        "cropUsage": {
+            "id": "SILAGE"
+        },
+        "cropVariety": null
+    },
+    {
+        "id": "7ej7rl6",
+        "customerExternalId": null,
+        "estimatedHarvestDate": "2024-05-15T00:00:00",
+        "isIrrigated": null,
+        "name": null,
+        "realHarvestDate": null,
+        "reportCode": null,
+        "sowingDate": "2023-05-16T00:00:00",
+        "userHarvestDate": null,
+        "userYield": null,
+        "yieldGoal": null,
+        "crop": {
+            "id": "SOYBEANS"
+        },
+        "cropUsage": {
+            "id": "SILAGE"
+        },
+        "cropVariety": null
+    },
+    {
+        "id": "2al16zr",
+        "customerExternalId": null,
+        "estimatedHarvestDate": "2024-05-15T00:00:00",
+        "isIrrigated": null,
+        "name": null,
+        "realHarvestDate": null,
+        "reportCode": null,
+        "sowingDate": "2023-05-16T00:00:00",
+        "userHarvestDate": null,
+        "userYield": null,
+        "yieldGoal": null,
+        "crop": {
+            "id": "SOYBEANS"
+        },
+        "cropUsage": {
+            "id": "SILAGE"
+        },
+        "cropVariety": null
+    },
+    {
+        "id": "3aeygyp",
+        "customerExternalId": null,
+        "estimatedHarvestDate": "2024-05-15T00:00:00",
+        "isIrrigated": null,
+        "name": null,
+        "realHarvestDate": null,
+        "reportCode": null,
+        "sowingDate": "2023-05-16T00:00:00",
+        "userHarvestDate": null,
+        "userYield": null,
+        "yieldGoal": null,
+        "crop": {
+            "id": "SOYBEANS"
+        },
+        "cropUsage": {
+            "id": "SILAGE"
+        },
+        "cropVariety": null
+    },
+    {
+        "id": "5ng6a6a",
+        "customerExternalId": null,
+        "estimatedHarvestDate": "2024-05-15T00:00:00",
+        "isIrrigated": null,
+        "name": null,
+        "realHarvestDate": null,
+        "reportCode": null,
+        "sowingDate": "2023-05-16T00:00:00",
+        "userHarvestDate": null,
+        "userYield": null,
+        "yieldGoal": null,
+        "crop": {
+            "id": "SOYBEANS"
+        },
+        "cropUsage": {
+            "id": "SILAGE"
+        },
+        "cropVariety": null
+    },
+    {
+        "id": "7ej7r76",
+        "customerExternalId": null,
+        "estimatedHarvestDate": "2024-05-15T00:00:00",
+        "isIrrigated": null,
+        "name": null,
+        "realHarvestDate": null,
+        "reportCode": null,
+        "sowingDate": "2023-05-16T00:00:00",
+        "userHarvestDate": null,
+        "userYield": null,
+        "yieldGoal": null,
+        "crop": {
+            "id": "SOYBEANS"
+        },
+        "cropUsage": {
+            "id": "SILAGE"
+        },
+        "cropVariety": null
+    },
+    {
+        "id": "2al161r",
+        "customerExternalId": null,
+        "estimatedHarvestDate": "2024-05-15T00:00:00",
+        "isIrrigated": null,
+        "name": null,
+        "realHarvestDate": null,
+        "reportCode": null,
+        "sowingDate": "2023-05-16T00:00:00",
+        "userHarvestDate": null,
+        "userYield": null,
+        "yieldGoal": null,
+        "crop": {
+            "id": "SOYBEANS"
+        },
+        "cropUsage": {
+            "id": "SILAGE"
+        },
+        "cropVariety": null
+    },
+    {
+        "id": "3aeyg2p",
+        "customerExternalId": null,
+        "estimatedHarvestDate": "2024-05-15T00:00:00",
+        "isIrrigated": null,
+        "name": null,
+        "realHarvestDate": null,
+        "reportCode": null,
+        "sowingDate": "2023-05-16T00:00:00",
+        "userHarvestDate": null,
+        "userYield": null,
+        "yieldGoal": null,
+        "crop": {
+            "id": "SOYBEANS"
+        },
+        "cropUsage": {
+            "id": "SILAGE"
+        },
+        "cropVariety": null
+    }
+]
