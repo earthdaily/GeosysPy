@@ -309,6 +309,12 @@ class Geosys:
             self.logger.info("writing to %s", path)
             f.write(response_zipped_tiff.content)
 
+    def get_product(self, season_field_id, image_id, indicator, image= None):
+
+        response = self.__map_product_service.get_product(season_field_id, image_id, indicator, image)
+
+        return response
+    
     def __get_images_as_dataset(
         self,
         season_field_id: str,
@@ -316,6 +322,7 @@ class Geosys:
         end_date: datetime,
         collections: Optional[list[SatelliteImageryCollection]],
         indicator: str,
+        coveragePercent: int = 80
     ) -> "np.ndarray[np.Any , np.dtype[np.float64]]":
         """Returns all the 'sensors_list' images covering 'polygon' between
         'start_date' and 'end_date' as a xarray dataset.
@@ -352,7 +359,7 @@ class Geosys:
         # and sorts them by resolution, from the highest to the lowest.
         # Keeps only the first image if two are found on the same date.
         df_coverage = self.__map_product_service.get_satellite_coverage(
-            season_field_id, start_date, end_date, indicator, collections
+            season_field_id, start_date, end_date, indicator, coveragePercent, collections
         )
 
         # Return empty dataset if no coverage on the polygon between start_date, end_date
@@ -362,6 +369,7 @@ class Geosys:
         df_coverage["image.date"] = pd.to_datetime(
             df_coverage["image.date"], infer_datetime_format=True
         )
+
         df_coverage = df_coverage.sort_values(
             by=["image.spatialResolution", "image.date"], ascending=[True, True]
         ).drop_duplicates(subset="image.date", keep="first")
