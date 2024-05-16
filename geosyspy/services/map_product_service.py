@@ -29,6 +29,7 @@ class MapProductService:
         start_date: datetime,
         end_date: datetime,
         indicator,
+        coveragePercent: int = 80,
         sensors_collection: Optional[list[SatelliteImageryCollection]] = [
             SatelliteImageryCollection.SENTINEL_2,
             SatelliteImageryCollection.LANDSAT_8,
@@ -67,9 +68,9 @@ class MapProductService:
 
         if sensors_collection is not None:
             sensors: list[str] = [elem.value for elem in sensors_collection]
-            parameters = f"?maps.type={map_type}&Image.Sensor=$in:{'|'.join(sensors)}&CoverageType=CLEAR&$limit=None&$filter=Image.Date >= '{start_date}' and Image.Date <= '{end_date}'"
+            parameters = f"?maps.type={map_type}&Image.Sensor=$in:{'|'.join(sensors)}&CoverageType={coveragePercent}&$limit=None&$filter=Image.Date >= '{start_date}' and Image.Date <= '{end_date}'"
         else:
-            parameters = f"?maps.type={map_type}&CoverageType=CLEAR&$limit=None&$filter=Image.Date >= '{start_date}' and Image.Date <= '{end_date}'"
+            parameters = f"?maps.type={map_type}&coveragePercent={coveragePercent}&$limit=None&$filter=Image.Date >= '{start_date}' and Image.Date <= '{end_date}'"
 
         fields = f"&$fields=coveragePercent,maps,image.id,image.sensor,image.availableBands,coveragePercent,image.spatialResolution,image.date,seasonField.id"
         flm_url: str = urljoin(
@@ -137,3 +138,44 @@ class MapProductService:
                 + str(response_zipped_tiff.status_code)
             )
         return response_zipped_tiff
+
+    def get_product(self, field_id: str, image_id: str, indicator: str, image: str = None):
+        """
+        Retrieves image product for a given season field and image reference from MP API.
+
+        Args:
+            season_field_id (str): The identifier for the season field.
+            image_id (str): The image reference from the satellite coverage.
+            indicator: The indicator for which product is requested.
+
+        Returns:
+            DataFrame
+
+        """
+        parameters = f"/{image_id}/base-reference-map/{indicator}"
+
+        if image is not None:
+            parameters += f"/image{image}"
+
+        get_product_url: str = urljoin(
+            self.base_url,
+            GeosysApiEndpoints.FLM_BASE_REFERENCE_MAP.value.format(field_id) + parameters
+        )
+        response_product = self.http_client.get(
+            get_product_url,
+            {"X-Geosys-Task-Code": PRIORITY_HEADERS[self.priority_queue]},
+        )
+
+        if response_product.status_code != 200:
+            raise HTTPError(
+                "Unable to retrieve product. Server error: "
+                + str(response_product.status_code)
+            )
+        
+        if image is not None:
+            with open("output" + image, "wb") as file:
+                file.write(response_product.content)
+            return "Image stocked locally"
+        else:
+            df = pd.json_normalize(response_product.json())
+            return df
