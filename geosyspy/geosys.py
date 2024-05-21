@@ -671,6 +671,15 @@ class Geosys:
         ids = [item['id'] for item in result.json()]
         return ids
     
+    def get_season_fields(self, season_field_ids):
+        """Retrieves every season field with data from the id list.
+
+        Returns:
+            result: an array containing all the seasonfield
+        """
+        result = self.__master_data_management_service.get_season_fields(season_field_ids)
+        return result
+    
     ###########################################
     #           AGRIQUEST                     #
     ###########################################

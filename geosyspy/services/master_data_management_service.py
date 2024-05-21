@@ -81,6 +81,14 @@ class MasterDataManagementService:
         )
         return self.http_client.get(api_call)
 
+    def retrieve_season_fields_in_polygon(self, polygon: str):
+        api_call: str = urljoin(
+            self.base_url,
+            GeosysApiEndpoints.MASTER_DATA_MANAGEMENT_ENDPOINT.value + "/seasonfields",
+            '?fields=geometry,id'
+        )
+        return self.http_client.get(api_call)
+
     def get_season_field_unique_id(self, season_field_id: str) -> str:
         """Extracts the season field unique id from the response object.
 
@@ -191,4 +199,34 @@ class MasterDataManagementService:
             return dict_response
         raise ValueError(
             f"Cannot handle HTTP response : {str(response.status_code)} : {str(response.json())}"
+        )
+
+    def get_season_fields(self, season_field_ids: List[str]):
+        """Extracts the list of seasonfields for the input ids
+            For now retrieves only geometry, to complete with future needs 
+
+        Args:
+
+        Returns:
+            A list of seasonfields with the required data
+
+        Raises:
+            ValueError: The response status code is not as expected.
+        """
+        
+        mdm_url: str = urljoin(
+            self.base_url,
+            GeosysApiEndpoints.MASTER_DATA_MANAGEMENT_ENDPOINT.value
+            +'/seasonfields?$fields=id,geometry' #add other fields if needed
+            +'&Id=$in:' + '|'.join(season_field_ids)
+        )
+
+        response = self.http_client.get(mdm_url)
+
+        dict_response = response.json()
+
+        if response.status_code == 200:
+            return dict_response
+        raise ValueError(
+            f"Cannot handle HTTP response : {str(response.status_code)} : {str(dict_response)}"
         )
