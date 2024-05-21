@@ -201,7 +201,7 @@ class MasterDataManagementService:
             f"Cannot handle HTTP response : {str(response.status_code)} : {str(response.json())}"
         )
 
-    def get_season_fields(self, season_field_ids: List[str]):
+    def get_season_fields(self, season_field_ids: [str]):
         """Extracts the list of seasonfields for the input ids
             For now retrieves only geometry, to complete with future needs 
 
