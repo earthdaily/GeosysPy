@@ -290,6 +290,45 @@ class Geosys:
                 )
 
         return df, images_references
+    
+    def get_satellite_coverage_image_references_post(self,
+                                                    polygon: str,
+                                                    start_date: datetime,
+                                                    end_date: datetime,
+                                                    collections: list[SatelliteImageryCollection] = [
+                                                    SatelliteImageryCollection.SENTINEL_2,
+                                                    SatelliteImageryCollection.LANDSAT_8]) -> tuple:
+        """Retrieves a list of images that covers a polygon on a specific date range.
+        Calls a POST from MPv5
+        The return is a tuple: a dataframe with all the images covering the polygon, and
+                    a dictionary images_references. Key= a tuple (image_date, image_sensor).
+                    Value = an object image_reference, to use with the method `download_image()`
+
+        Args:
+            polygon: The polygon
+            start_date: The start date of the time series
+            end_date: The end date of the time series
+            collections: The sensors to check the coverage on
+
+        Returns:
+            (tuple): images list and image references for downloading
+        """
+        # extract seasonfield id from geometry
+
+        df = self.__map_product_service.get_satellite_coverage_post(polygon, start_date, end_date, collections)
+        images_references = {}
+        if df is not None:
+            for i, image in df.iterrows():
+                images_references[
+                    (image["image.date"], image["image.sensor"])
+                ] = image_reference.ImageReference(
+                    image["image.id"],
+                    image["image.date"],
+                    image["image.sensor"],
+                    image["seasonField.id"],
+                )
+
+        return df, images_references
 
     def download_image(self, image_ref, path: str = ""):
         """Downloads a satellite image locally
