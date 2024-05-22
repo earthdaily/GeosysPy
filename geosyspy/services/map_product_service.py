@@ -118,6 +118,63 @@ class MapProductService:
         Raises:
             HTTPError: If the server returns a non-200 status code.
         """
+    def get_satellite_coverage_post(self, polygon: str,
+                               start_date: datetime,
+                               end_date: datetime,
+                            #    indicator,
+                               sensors_collection: list[SatelliteImageryCollection] = [
+                                   SatelliteImageryCollection.SENTINEL_2,
+                                   SatelliteImageryCollection.LANDSAT_8]
+                               ):
+
+        self.logger.info("Calling APIs for coverage")
+        start_date: str = start_date.strftime("%Y-%m-%d")
+        end_date: str = end_date.strftime("%Y-%m-%d")
+        sensors: list[str] = [elem.value for elem in sensors_collection]
+
+        parameters = f"?Image.Sensor=$in:{'|'.join(sensors)}&coveragePercent=$gte:20$limit=9999&$filter=Image.Date >= '{start_date}' and Image.Date <= '{end_date}'"
+        payload = {
+            "seasonFields": [
+                {
+                "geometry": polygon
+                }
+            ],
+            "useNativeMask": "true"
+        }
+
+        flm_url: str = urljoin(
+            self.base_url,
+            GeosysApiEndpoints.FLM_CATALOG_IMAGERY_POST.value + parameters,
+        )
+        response = self.http_client.post(
+            flm_url,
+            payload,
+            {"X-Geosys-Task-Code": PRIORITY_HEADERS[self.priority_queue]},
+        )
+
+        if response.status_code == 200:
+            df = pd.json_normalize(response.json())
+            if df.empty:
+                return df
+            else:
+                return df[
+                    [
+                        "coveragePercent",
+                        "maps",
+                        "image.id",
+                        "image.availableBands",
+                        "image.sensor",                        
+                        "image.spatialResolution",
+                        "image.date",
+                        "seasonField.id",
+                    ]
+                ]
+        else:
+            self.logger.info(response.status_code)
+
+    def get_zipped_tiff(self, field_id: str,
+                          image_id: str,
+                          indicator: str = ""):
         parameters = f"/{image_id}/reflectance-map/TOC/image.tiff.zip"
 
         if indicator != "" and indicator.upper() != "REFLECTANCE":
