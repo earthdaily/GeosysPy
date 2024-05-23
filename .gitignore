@@ -9,6 +9,3 @@ dist
 .idea
 notebook-dev.ipynb
 site
-image_sentinel-2-l2a_S2A_15TXE_20240407_0_L2A_tiff.zip
-test.py
-.vscode/launch.json
