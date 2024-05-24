@@ -316,4 +316,4 @@ class TestGeosys:
         
     def test_retrieve_sfid_from_geometry(self):
         result = self.client.get_sfid_from_geometry(geometry='POLYGON((-96.5130239465625 40.6059966855058,-96.37878474978515 40.6059966855058,-96.37878474978515 40.52044824466329,-96.5130239465625 40.52044824466329,-96.5130239465625 40.6059966855058))')
-        assert result.count() == 20
+        assert len(result) == 20
