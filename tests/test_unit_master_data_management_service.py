@@ -55,5 +55,5 @@ class TestMasterDataManagementService:
             "master_data_management_retrieve_sfids_mock_http_response"), status_code=201)
         
         response = self.service.get_season_fields(sfids)
-        assert response.status_code == 200
+        assert len(response) == 20
 
