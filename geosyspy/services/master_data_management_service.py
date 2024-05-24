@@ -78,6 +78,7 @@ class MasterDataManagementService:
             self.base_url,
             GeosysApiEndpoints.MASTER_DATA_MANAGEMENT_ENDPOINT.value + "/seasonfields",
             '?Geometry=$within:' + polygon
+            + '&$limit=none'
         )
         return self.http_client.get(api_call)
 
