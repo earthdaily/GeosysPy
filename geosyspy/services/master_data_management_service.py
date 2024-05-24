@@ -86,6 +86,7 @@ class MasterDataManagementService:
             self.base_url,
             GeosysApiEndpoints.MASTER_DATA_MANAGEMENT_ENDPOINT.value + "/seasonfields",
             '?fields=geometry,id'
+            + '&$limit=none'
         )
         return self.http_client.get(api_call)
 
@@ -219,6 +220,7 @@ class MasterDataManagementService:
             GeosysApiEndpoints.MASTER_DATA_MANAGEMENT_ENDPOINT.value
             +'/seasonfields?$fields=id,geometry' #add other fields if needed
             +'&Id=$in:' + '|'.join(season_field_ids)
+            +'&$limit=none'
         )
 
         response = self.http_client.get(mdm_url)
