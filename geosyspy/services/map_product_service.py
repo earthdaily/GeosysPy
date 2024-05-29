@@ -132,7 +132,7 @@ class MapProductService:
         end_date: str = end_date.strftime("%Y-%m-%d")
         sensors: list[str] = [elem.value for elem in sensors_collection]
 
-        parameters = f"?Image.Sensor=$in:{'|'.join(sensors)}&coveragePercent=$gte:20$limit=9999&$filter=Image.Date >= '{start_date}' and Image.Date <= '{end_date}'"
+        parameters = f"?Image.Sensor=$in:{'|'.join(sensors)}&coveragePercent=$gte:20&$filter=Image.Date >= '{start_date}' and Image.Date <= '{end_date}'&$limit=None"
         payload = {
             "seasonFields": [
                 {

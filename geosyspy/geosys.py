@@ -661,8 +661,10 @@ class Geosys:
 
         return result["permissions"]
 
-    def get_sfid_from_geometry(self, geometry):
+    def get_sfid_from_geometry(self, geometry: str):
         """Retrieves every season field ID contained within the passed geometry.
+
+        Args: geometry: a string representing the polygon containing the seasonfields.
 
         Returns:
             ids: an array containing all the seasonfield ids
@@ -671,9 +673,11 @@ class Geosys:
         ids = [item['id'] for item in result.json()]
         return ids
     
-    def get_season_fields(self, season_field_ids):
+    def get_season_fields(self, season_field_ids: List[str]):
         """Retrieves every season field with data from the id list.
 
+        Args: season_field_ids: a list of all season field ids for which get the detailed data.
+        
         Returns:
             result: an array containing all the seasonfield
         """
