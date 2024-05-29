@@ -73,20 +73,11 @@ class MasterDataManagementService:
             f"Cannot handle HTTP response : {str(response.status_code)} : {str(response.json())}"
         )
 
-    def retrieve_season_fields_in_polygon(self, polygon: str):
+    def retrieve_season_fields_in_polygon(self, polygon: str) -> List[object]:
         api_call: str = urljoin(
             self.base_url,
             GeosysApiEndpoints.MASTER_DATA_MANAGEMENT_ENDPOINT.value + "/seasonfields",
             '?Geometry=$within:' + polygon
-            + '&$limit=none'
-        )
-        return self.http_client.get(api_call)
-
-    def retrieve_season_fields_in_polygon(self, polygon: str):
-        api_call: str = urljoin(
-            self.base_url,
-            GeosysApiEndpoints.MASTER_DATA_MANAGEMENT_ENDPOINT.value + "/seasonfields",
-            '?fields=geometry,id'
             + '&$limit=none'
         )
         return self.http_client.get(api_call)
@@ -203,7 +194,7 @@ class MasterDataManagementService:
             f"Cannot handle HTTP response : {str(response.status_code)} : {str(response.json())}"
         )
 
-    def get_season_fields(self, season_field_ids: [str]):
+    def get_season_fields(self, season_field_ids: str) -> List[object]:
         """Extracts the list of seasonfields for the input ids
             For now retrieves only geometry, to complete with future needs 
 
@@ -219,7 +210,7 @@ class MasterDataManagementService:
         mdm_url: str = urljoin(
             self.base_url,
             GeosysApiEndpoints.MASTER_DATA_MANAGEMENT_ENDPOINT.value
-            +'/seasonfields?$fields=id,geometry' #add other fields if needed
+            +'/seasonfields?$fields=id,geometry,sowingDate,estimatedHarvestDate' #add other fields if needed
             +'&Id=$in:' + '|'.join(season_field_ids)
             +'&$limit=none'
         )
