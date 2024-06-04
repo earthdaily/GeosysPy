@@ -330,7 +330,7 @@ class Geosys:
 
         return df, images_references
 
-    def download_image(self, image_ref, indicator: str = "", path: str = ""):
+    def download_image(self, polygon, image_id, indicator: str = "", path: str = ""):
         """Downloads a satellite image locally
 
         Args:
@@ -339,11 +339,11 @@ class Geosys:
             path (str): the path to download the image to
         """
 
-        response_zipped_tiff = self.__map_product_service.get_zipped_tiff(
-            image_ref.season_field_id, image_ref.image_id, indicator = indicator
+        response_zipped_tiff = self.__map_product_service.get_tiff_by_geometry(
+            polygon, image_id, indicator
         )
         if path == "":
-            file_name = image_ref.image_id.replace("|", "_")
+            file_name = image_id.replace("|", "_")
             path = Path.cwd() / f"image_{file_name}_tiff.zip"
         with open(path, "wb") as f:
             self.logger.info("writing to %s", path)

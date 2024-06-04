@@ -160,8 +160,10 @@ class GeosysApiEndpoints(Enum):
     VTS_BY_PIXEL_ENDPOINT = "vegetation-time-series/v1/season-fields/pixels"
     FLM_CATALOG_IMAGERY = "field-level-maps/v5/season-fields/{}/catalog-imagery"
     FLM_BASE_REFERENCE_MAP = "field-level-maps/v5/season-fields/{}/coverage"
+    FLM_BASE_REFERENCE_MAP_POST = "field-level-maps/v5/maps/base-reference-map"
     FLM_CATALOG_IMAGERY_POST = "field-level-maps/v5/season-fields/catalog-imagery"
    	
+
     WEATHER_ENDPOINT = "Weather/v1/weather"
     ANALYTICS_FABRIC_ENDPOINT = "analytics/metrics"
     ANALYTICS_FABRIC_LATEST_ENDPOINT = "analytics/metrics-latest"

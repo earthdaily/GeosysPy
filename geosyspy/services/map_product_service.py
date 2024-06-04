@@ -195,6 +195,37 @@ class MapProductService:
             )
         return response_zipped_tiff
 
+    def get_tiff_by_geometry(self, field_geometry: str,
+                             image_id: str,
+                             indicator: str):
+        parameters = f"/INSEASON_{indicator.upper()}/image.tiff.zip?resolution=Sensor"
+
+
+        download_tiff_url: str = urljoin(
+            self.base_url,
+            GeosysApiEndpoints.FLM_BASE_REFERENCE_MAP_POST.value + parameters,
+        )
+        payload = {
+            "image": {
+                "id": image_id
+            },
+            "seasonField": {
+                "geometry": field_geometry
+            }
+        }
+
+        response_zipped_tiff = self.http_client.post(
+            download_tiff_url,
+            payload,
+            {"X-Geosys-Task-Code": PRIORITY_HEADERS[self.priority_queue]},
+        )
+        if response_zipped_tiff.status_code != 200:
+            raise HTTPError(
+                "Unable to download tiff.zip file. Server error: "
+                + str(response_zipped_tiff.status_code)
+            )
+        return response_zipped_tiff
+
     def get_product(self, field_id: str, image_id: str, indicator: str, image: str = None):
         """
         Retrieves image product for a given season field and image reference from MP API.
