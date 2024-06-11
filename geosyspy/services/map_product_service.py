@@ -68,11 +68,11 @@ class MapProductService:
 
         if sensors_collection is not None:
             sensors: list[str] = [elem.value for elem in sensors_collection]
-            parameters = f"?maps.type={map_type}&Image.Sensor=$in:{'|'.join(sensors)}&CoverageType={coveragePercent}&$limit=None&$filter=Image.Date >= '{start_date}' and Image.Date <= '{end_date}'"
+            parameters = f"?maps.type={map_type}&Image.Sensor=$in:{'|'.join(sensors)}&CoveragePercent={coveragePercent}&$limit=None&$filter=Image.Date >= '{start_date}' and Image.Date <= '{end_date}'"
         else:
             parameters = f"?maps.type={map_type}&coveragePercent={coveragePercent}&$limit=None&$filter=Image.Date >= '{start_date}' and Image.Date <= '{end_date}'"
 
-        fields = f"&$fields=coveragePercent,maps,image.id,image.sensor,image.availableBands,coveragePercent,image.spatialResolution,image.date,seasonField.id"
+        fields = f"&$fields=coveragePercent,maps,image.id,image.sensor,image.availableBands,image.spatialResolution,image.date,seasonField.id"
         flm_url: str = urljoin(
             self.base_url,
             GeosysApiEndpoints.FLM_CATALOG_IMAGERY.value.format(season_field_id)
