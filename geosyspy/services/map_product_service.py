@@ -135,13 +135,13 @@ class MapProductService:
             parameters = f"/TOC/image.tiff.zip?resolution=Sensor"
             download_tiff_url: str = urljoin(self.base_url, GeosysApiEndpoints.FLM_REFLECTANCE_MAP.value + parameters)
 
-        if not field_geometry or field_geometry == '':
+        if not field_id or field_id == '':
             payload = {
                 "image": {
                     "id": image_id
                 },
                 "seasonField": {
-                    "id": field_id
+                    "geometry": field_geometry
                 }
             }
         else:
@@ -150,7 +150,7 @@ class MapProductService:
                     "id": image_id
                 },
                 "seasonField": {
-                    "geometry": field_geometry
+                    "id": field_id
                 }
             }
 

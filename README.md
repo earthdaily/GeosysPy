@@ -223,7 +223,7 @@ polygon = "POLYGON((...))"
 today = dt.date.today()
 year_ago = dt.date.today() + relativedelta(months=-12)
 
-dataframe = client.get_time_series(polygon, year_ago, today, collection=SatelliteImageryCollection.MODIS, indicators=["NDVI"])
+dataframe = client.get_time_series(start_date = year_ago, end_date = today, collection=SatelliteImageryCollection.MODIS, indicators=["NDVI"], polygon=polygon)
 ```
 
 Use Geosyspy logger
