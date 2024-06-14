@@ -20,14 +20,14 @@ class TestMapProductService:
 
     service = MapProductService(base_url=url, http_client=http_client,priority_queue=priority_queue)
 
-    @patch('geosyspy.utils.http_client.HttpClient.get')
+    @patch('geosyspy.utils.http_client.HttpClient.post')
     def test_get_satellite_coverage(self, get_response):
         get_response.return_value = mock_http_response_text_content("GET", load_data_from_textfile(
             "satellite_coverage_image_references_mock_http_response"))
         start_date = dt.datetime.strptime("2022-01-01", "%Y-%m-%d")
         end_date = dt.datetime.strptime("2023-01-01", "%Y-%m-%d")
         info = self.service.get_satellite_coverage(
-            "fakeSeasonFieldId", start_date, end_date, "NDVI", [SatelliteImageryCollection.SENTINEL_2]
+            "fakeSeasonFieldId", None, start_date, end_date, "NDVI", [SatelliteImageryCollection.SENTINEL_2]
         )
 
         assert {"coveragePercent", "image.id", "image.availableBands", "image.sensor",

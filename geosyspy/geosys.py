@@ -191,32 +191,30 @@ class Geosys:
                 "Parameters 'season_field_id' and 'polygon' cannot be both None or empty."
             )
 
-        if not season_field_id:
-            # extract seasonfield id from geometry
-            season_field_id = (
-                self.__master_data_management_service.extract_season_field_id(polygon)
-            )
-        elif not self.__master_data_management_service.check_season_field_exists(
-            season_field_id
-        ):
-            raise ValueError(
-                f"Cannot access {season_field_id}. It is not existing or connected user doens't have access to it."
-            )
-
         if not collections:
-
             return self.__get_images_as_dataset(
-                season_field_id, start_date, end_date, None, indicators[0]
+                season_field_id, polygon, start_date, end_date, None, indicators[0]
             )
         elif all(isinstance(elem, SatelliteImageryCollection) for elem in collections):
-
             if set(collections).issubset(set(LR_SATELLITE_COLLECTION)):
+                if not season_field_id:
+                    # extract seasonfield id from geometry
+                    season_field_id = (
+                        self.__master_data_management_service.extract_season_field_id(polygon)
+                    )
+                elif not self.__master_data_management_service.check_season_field_exists(
+                    season_field_id
+                ):
+                    raise ValueError(
+                        f"Cannot access {season_field_id}. It is not existing or connected user doens't have access to it."
+                    )
+                
                 return self.__vts_service.get_time_series_by_pixel(
                     season_field_id, start_date, end_date, indicators[0]
                 )
             elif set(collections).issubset(set(MR_SATELLITE_COLLECTION)):
                 return self.__get_images_as_dataset(
-                    season_field_id, start_date, end_date, collections, indicators[0]
+                    season_field_id, polygon, start_date, end_date, collections, indicators[0]
                 )
         else:
             raise TypeError(
@@ -239,6 +237,7 @@ class Geosys:
         ],
         polygon: Optional[str] = None,
         season_field_id: Optional[str] = None,
+        coveragePercent: Optional[int] = 80
     ) -> tuple:
         """Retrieves a list of images that covers a polygon on a specific date range.
         The return is a tuple: a dataframe with all the images covering the polygon, and
@@ -262,20 +261,8 @@ class Geosys:
                 "Parameters 'season_field_id' and 'polygon' cannot be both None or empty."
             )
 
-        if not season_field_id:
-            # extract seasonfield id from geometry
-            season_field_id = (
-                self.__master_data_management_service.extract_season_field_id(polygon)
-            )
-        elif not self.__master_data_management_service.check_season_field_exists(
-            season_field_id
-        ):
-            raise ValueError(
-                f"Cannot access {season_field_id}. It is not existing or connected user doens't have access to it."
-            )
-
         df = self.__map_product_service.get_satellite_coverage(
-            season_field_id, start_date, end_date, "", collections
+            season_field_id, polygon, start_date, end_date, "INSEASON_NDVI", coveragePercent, collections
         )
         images_references = {}
         if df is not None:
@@ -290,47 +277,8 @@ class Geosys:
                 )
 
         return df, images_references
-    
-    def get_satellite_coverage_image_references_post(self,
-                                                    polygon: str,
-                                                    start_date: datetime,
-                                                    end_date: datetime,
-                                                    collections: list[SatelliteImageryCollection] = [
-                                                    SatelliteImageryCollection.SENTINEL_2,
-                                                    SatelliteImageryCollection.LANDSAT_8]) -> tuple:
-        """Retrieves a list of images that covers a polygon on a specific date range.
-        Calls a POST from MPv5
-        The return is a tuple: a dataframe with all the images covering the polygon, and
-                    a dictionary images_references. Key= a tuple (image_date, image_sensor).
-                    Value = an object image_reference, to use with the method `download_image()`
 
-        Args:
-            polygon: The polygon
-            start_date: The start date of the time series
-            end_date: The end date of the time series
-            collections: The sensors to check the coverage on
-
-        Returns:
-            (tuple): images list and image references for downloading
-        """
-        # extract seasonfield id from geometry
-
-        df = self.__map_product_service.get_satellite_coverage_post(polygon, start_date, end_date, collections)
-        images_references = {}
-        if df is not None:
-            for i, image in df.iterrows():
-                images_references[
-                    (image["image.date"], image["image.sensor"])
-                ] = image_reference.ImageReference(
-                    image["image.id"],
-                    image["image.date"],
-                    image["image.sensor"],
-                    image["seasonField.id"],
-                )
-
-        return df, images_references
-
-    def download_image(self, polygon, image_id, indicator: str = "", path: str = ""):
+    def download_image(self, field_id, polygon, image_id, indicator: str = "", path: str = ""):
         """Downloads a satellite image locally
 
         Args:
@@ -339,8 +287,8 @@ class Geosys:
             path (str): the path to download the image to
         """
 
-        response_zipped_tiff = self.__map_product_service.get_tiff_by_geometry(
-            polygon, image_id, indicator
+        response_zipped_tiff = self.__map_product_service.get_zipped_tiff(
+            field_id, polygon, image_id, indicator
         )
         if path == "":
             file_name = image_id.replace("|", "_")
@@ -354,10 +302,11 @@ class Geosys:
         response = self.__map_product_service.get_product(season_field_id, image_id, indicator, image)
 
         return response
-    
+
     def __get_images_as_dataset(
         self,
         season_field_id: str,
+        polygon: str,
         start_date: datetime,
         end_date: datetime,
         collections: Optional[list[SatelliteImageryCollection]],
@@ -369,6 +318,7 @@ class Geosys:
 
         Args:
             season_field_id : A string representing the season_field_id.
+            polygon : A string representing the season field geometry.
             start_date : The date from which the method will start looking for images.
             end_date : The date at which the method will stop looking images.
             collections : A list of Satellite Imagery Collection.
@@ -399,7 +349,7 @@ class Geosys:
         # and sorts them by resolution, from the highest to the lowest.
         # Keeps only the first image if two are found on the same date.
         df_coverage = self.__map_product_service.get_satellite_coverage(
-            season_field_id, start_date, end_date, indicator, coveragePercent, collections
+            season_field_id, polygon, start_date, end_date, indicator, coveragePercent, collections
         )
 
         # Return empty dataset if no coverage on the polygon between start_date, end_date
@@ -424,7 +374,7 @@ class Geosys:
                 bands = row["image.availableBands"]
             dict_archives[row["image.id"]] = {
                 "byte_archive": self.__map_product_service.get_zipped_tiff(
-                    row["seasonField.id"], row["image.id"], indicator
+                    row["seasonField.id"], polygon, row["image.id"], indicator
                 ).content,
                 "bands": bands,
                 "date": row["image.date"],
@@ -614,7 +564,7 @@ class Geosys:
             raise ValueError(
                 f"Cannot access {season_field_id}. It is not existing or connected user doens't have access to it."
             )
-        
+
         # extract sfd unique id
         season_field_unique_id: str = (
             self.__master_data_management_service.get_season_field_unique_id(
@@ -673,18 +623,18 @@ class Geosys:
         result = self.__master_data_management_service.retrieve_season_fields_in_polygon(geometry)
         ids = [item['id'] for item in result.json()]
         return ids
-    
+
     def get_season_fields(self, season_field_ids: List[str]):
         """Retrieves every season field with data from the id list.
 
         Args: season_field_ids: a list of all season field ids for which get the detailed data.
-        
+
         Returns:
             result: an array containing all the seasonfield
         """
         result = self.__master_data_management_service.get_season_fields(season_field_ids)
         return result
-    
+
     ###########################################
     #           AGRIQUEST                     #
     ###########################################
@@ -1274,8 +1224,7 @@ class Geosys:
         Args:
             latitude (str): latitude of the location
             longitude (str): longitude of the location
-                    
+
         """
-        
+
         return self.__gis_service.get_farm_info_from_location(latitude, longitude)
-    

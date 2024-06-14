@@ -26,6 +26,7 @@ class MapProductService:
     def get_satellite_coverage(
         self,
         season_field_id: str,
+        polygon: str,
         start_date: datetime,
         end_date: datetime,
         indicator,
@@ -68,83 +69,33 @@ class MapProductService:
 
         if sensors_collection is not None:
             sensors: list[str] = [elem.value for elem in sensors_collection]
-            parameters = f"?maps.type={map_type}&Image.Sensor=$in:{'|'.join(sensors)}&CoveragePercent={coveragePercent}&$limit=None&$filter=Image.Date >= '{start_date}' and Image.Date <= '{end_date}'"
+            parameters = f"?maps.type={map_type}&Image.Sensor=$in:{'|'.join(sensors)}&coveragePercent={coveragePercent}&mask=Auto&$limit=None&$filter=Image.Date >= '{start_date}' and Image.Date <= '{end_date}'"
         else:
-            parameters = f"?maps.type={map_type}&coveragePercent={coveragePercent}&$limit=None&$filter=Image.Date >= '{start_date}' and Image.Date <= '{end_date}'"
+            parameters = f"?maps.type={map_type}&coveragePercent={coveragePercent}&mask=Auto&$limit=None&$filter=Image.Date >= '{start_date}' and Image.Date <= '{end_date}'"
 
         fields = f"&$fields=coveragePercent,maps,image.id,image.sensor,image.availableBands,image.spatialResolution,image.date,seasonField.id"
         flm_url: str = urljoin(
             self.base_url,
-            GeosysApiEndpoints.FLM_CATALOG_IMAGERY.value.format(season_field_id)
-            + parameters + fields,
-        )
-        response = self.http_client.get(
-            flm_url,
-            {"X-Geosys-Task-Code": PRIORITY_HEADERS[self.priority_queue]},
+            GeosysApiEndpoints.FLM_CATALOG_IMAGERY_POST.value + parameters + fields
         )
 
-        if response.status_code == 200:
-            df = pd.json_normalize(response.json())
-            if df.empty:
-                return df
-            else:
-                return df[
-                    [
-                        "coveragePercent",
-                        "maps",
-                        "image.id",
-                        "image.availableBands",
-                        "image.sensor",                        
-                        "image.spatialResolution",
-                        "image.date",
-                        "seasonField.id",
-                    ]
+        if not season_field_id:
+            payload = {
+                "seasonFields": [
+                    {
+                        "geometry": polygon
+                    }
                 ]
+            }
         else:
-            self.logger.info(response.status_code)
+            payload = {
+                "seasonFields": [
+                    {
+                        "id": season_field_id
+                    }
+                ]
+            }
 
-    def get_zipped_tiff(self, field_id: str, image_id: str, indicator: str = ""):
-        """
-        Retrieves a zipped TIFF image file for a specified field and image identifier.
-
-        Args:
-            field_id (str): The identifier for the field.
-            image_id (str): The identifier for the image.
-            indicator (str, optional): The indicator type. Defaults to "".
-
-        Returns:
-            requests.Response: The response object containing the zipped TIFF file.
-
-        Raises:
-            HTTPError: If the server returns a non-200 status code.
-        """
-    def get_satellite_coverage_post(self, polygon: str,
-                               start_date: datetime,
-                               end_date: datetime,
-                            #    indicator,
-                               sensors_collection: list[SatelliteImageryCollection] = [
-                                   SatelliteImageryCollection.SENTINEL_2,
-                                   SatelliteImageryCollection.LANDSAT_8]
-                               ):
-
-        self.logger.info("Calling APIs for coverage")
-        start_date: str = start_date.strftime("%Y-%m-%d")
-        end_date: str = end_date.strftime("%Y-%m-%d")
-        sensors: list[str] = [elem.value for elem in sensors_collection]
-
-        parameters = f"?Image.Sensor=$in:{'|'.join(sensors)}&coveragePercent=$gte:20&$filter=Image.Date >= '{start_date}' and Image.Date <= '{end_date}'&$limit=None&mask=Auto"
-        payload = {
-            "seasonFields": [
-                {
-                "geometry": polygon
-                }
-            ]
-        }
-
-        flm_url: str = urljoin(
-            self.base_url,
-            GeosysApiEndpoints.FLM_CATALOG_IMAGERY_POST.value + parameters,
-        )
         response = self.http_client.post(
             flm_url,
             payload,
@@ -171,48 +122,37 @@ class MapProductService:
         else:
             self.logger.info(response.status_code)
 
-    def get_zipped_tiff(self, field_id: str,
-                          image_id: str,
-                          indicator: str = ""):
-        parameters = f"/{image_id}/reflectance-map/TOC/image.tiff.zip"
-
-        if indicator != "" and indicator.upper() != "REFLECTANCE":
-            parameters = f"/{image_id}/base-reference-map/INSEASON_{indicator.upper()}/image.tiff.zip?resolution=Sensor"
-
-        download_tiff_url: str = urljoin(
-            self.base_url,
-            GeosysApiEndpoints.FLM_BASE_REFERENCE_MAP.value.format(field_id) + parameters,
-        )
-
-        response_zipped_tiff = self.http_client.get(
-            download_tiff_url,
-            {"X-Geosys-Task-Code": PRIORITY_HEADERS[self.priority_queue]},
-        )
-        if response_zipped_tiff.status_code != 200:
-            raise HTTPError(
-                "Unable to download tiff.zip file. Server error: "
-                + str(response_zipped_tiff.status_code)
-            )
-        return response_zipped_tiff
-
-    def get_tiff_by_geometry(self, field_geometry: str,
+    def get_zipped_tiff(self, field_id: str, 
+                             field_geometry: str,
                              image_id: str,
                              indicator: str):
-        parameters = f"/INSEASON_{indicator.upper()}/image.tiff.zip?resolution=Sensor"
+        
+        if indicator != "" and indicator.upper() != "REFLECTANCE":
+            parameters = f"/{indicator.upper()}/image.tiff.zip?resolution=Sensor"
+            download_tiff_url: str = urljoin(self.base_url, 
+                                             GeosysApiEndpoints.FLM_BASE_REFERENCE_MAP_POST.value + parameters)
+        else:
+            parameters = f"/TOC/image.tiff.zip?resolution=Sensor"
+            download_tiff_url: str = urljoin(self.base_url, GeosysApiEndpoints.FLM_REFLECTANCE_MAP.value + parameters)
 
-
-        download_tiff_url: str = urljoin(
-            self.base_url,
-            GeosysApiEndpoints.FLM_BASE_REFERENCE_MAP_POST.value + parameters,
-        )
-        payload = {
-            "image": {
-                "id": image_id
-            },
-            "seasonField": {
-                "geometry": field_geometry
+        if not field_geometry or field_geometry == '':
+            payload = {
+                "image": {
+                    "id": image_id
+                },
+                "seasonField": {
+                    "id": field_id
+                }
             }
-        }
+        else:
+            payload = {
+                "image": {
+                    "id": image_id
+                },
+                "seasonField": {
+                    "geometry": field_geometry
+                }
+            }
 
         response_zipped_tiff = self.http_client.post(
             download_tiff_url,
