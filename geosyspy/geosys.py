@@ -262,7 +262,7 @@ class Geosys:
             )
 
         df = self.__map_product_service.get_satellite_coverage(
-            season_field_id, polygon, start_date, end_date, "INSEASON_NDVI", coveragePercent, collections
+            season_field_id, polygon, start_date, end_date, "", coveragePercent, collections
         )
         images_references = {}
         if df is not None:
