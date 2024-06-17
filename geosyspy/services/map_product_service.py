@@ -63,15 +63,15 @@ class MapProductService:
             or indicator.upper() == "REFLECTANCE"
             or indicator.upper() == "NDVI"
         ):
-            map_type = "INSEASON_NDVI"
+            map_type = "NDVI"
         else:
-            map_type = f"INSEASON_{indicator.upper()}"
+            map_type = f"{indicator.upper()}"
 
         if sensors_collection is not None:
             sensors: list[str] = [elem.value for elem in sensors_collection]
-            parameters = f"?maps.type={map_type}&Image.Sensor=$in:{'|'.join(sensors)}&coveragePercent={coveragePercent}&mask=Auto&$limit=None&$filter=Image.Date >= '{start_date}' and Image.Date <= '{end_date}'"
+            parameters = f"?maps.type={map_type}&Image.Sensor=$in:{'|'.join(sensors)}&coveragePercent={coveragePercent}&mask=Auto&$filter=Image.Date>='{start_date}' and Image.Date<='{end_date}'"
         else:
-            parameters = f"?maps.type={map_type}&coveragePercent={coveragePercent}&mask=Auto&$limit=None&$filter=Image.Date >= '{start_date}' and Image.Date <= '{end_date}'"
+            parameters = f"?maps.type={map_type}&coveragePercent={coveragePercent}&mask=Auto&$filter=Image.Date>='{start_date}' and Image.Date<='{end_date}'"
 
         fields = f"&$fields=coveragePercent,maps,image.id,image.sensor,image.availableBands,image.spatialResolution,image.date,seasonField.id"
         flm_url: str = urljoin(
