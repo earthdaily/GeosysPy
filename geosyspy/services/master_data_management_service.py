@@ -210,7 +210,7 @@ class MasterDataManagementService:
         mdm_url: str = urljoin(
             self.base_url,
             GeosysApiEndpoints.MASTER_DATA_MANAGEMENT_ENDPOINT.value
-            +'/seasonfields?$fields=id,geometry,sowingDate,estimatedHarvestDate' #add other fields if needed
+            +'/seasonfields?$fields=id,geometry,sowingDate,estimatedHarvestDate,Crop.Id' #add other fields if needed
             +'&Id=$in:' + '|'.join(season_field_ids)
             +'&$limit=none'
         )
