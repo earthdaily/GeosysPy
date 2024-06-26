@@ -1,13 +1,12 @@
 """ Mastaer data managenement service class"""
 import logging
-from urllib.parse import urljoin
-from typing import List
 from datetime import datetime
+from typing import List, Optional
+from urllib.parse import urljoin
 
-from geosyspy.utils.constants import GeosysApiEndpoints, SEASON_FIELD_ID_REGEX
+from geosyspy.utils.constants import SEASON_FIELD_ID_REGEX, GeosysApiEndpoints
 from geosyspy.utils.helper import Helper
 from geosyspy.utils.http_client import HttpClient
-
 
 
 class MasterDataManagementService:
@@ -140,6 +139,7 @@ class MasterDataManagementService:
             return True
         return False
 
+
     def get_available_crops_code(self) -> List[str]:
         """Extracts the list of available crops for the connected user
 
@@ -167,7 +167,7 @@ class MasterDataManagementService:
             f"Cannot handle HTTP response : {str(response.status_code)} : {str(response.json())}"
         )
 
-    def get_permission_codes(self) -> List[str]:
+    def get_profile(self, fields: Optional[str] = None) -> List[str]:
         """Extracts the list of available permissions for the connected user
 
         Args:
@@ -178,11 +178,18 @@ class MasterDataManagementService:
         Raises:
             ValueError: The response status code is not as expected.
         """
-        mdm_url: str = urljoin(
-            self.base_url,
-            GeosysApiEndpoints.MASTER_DATA_MANAGEMENT_ENDPOINT.value
-            + "/profile?$fields=permissions&$limit=none",
-        )
+        if fields == None:
+            mdm_url: str = urljoin(
+                self.base_url,
+                GeosysApiEndpoints.MASTER_DATA_MANAGEMENT_ENDPOINT.value
+                + f"/profile",
+            )
+        else:
+            mdm_url: str = urljoin(
+                self.base_url,
+                GeosysApiEndpoints.MASTER_DATA_MANAGEMENT_ENDPOINT.value
+                + f"/profile?$fields={fields}&$limit=none",
+            )
 
         response = self.http_client.get(mdm_url)
 
@@ -210,7 +217,7 @@ class MasterDataManagementService:
         mdm_url: str = urljoin(
             self.base_url,
             GeosysApiEndpoints.MASTER_DATA_MANAGEMENT_ENDPOINT.value
-            +'/seasonfields?$fields=id,geometry,sowingDate,estimatedHarvestDate,Crop.Id' #add other fields if needed
+            +'/seasonfields?$fields=id,geometry,sowingDate,estimatedHarvestDate,Crop.Id,acreage' #add other fields if needed
             +'&Id=$in:' + '|'.join(season_field_ids)
             +'&$limit=none'
         )

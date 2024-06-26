@@ -1,19 +1,19 @@
 """ Geosysoy class"""
 
-from enum import Enum
 import io
-import zipfile
-from typing import List, Optional
-from pathlib import Path
 import logging
+import zipfile
 from datetime import datetime
+from enum import Enum
+from pathlib import Path
+from typing import List, Optional
 
 import numpy as np
 import pandas as pd
 import rasterio
+import retrying
 import xarray as xr
 from rasterio.io import MemoryFile
-import retrying
 
 from geosyspy import image_reference
 from geosyspy.services.agriquest_service import AgriquestService
@@ -24,25 +24,25 @@ from geosyspy.services.map_product_service import MapProductService
 from geosyspy.services.master_data_management_service import MasterDataManagementService
 from geosyspy.services.vegetation_time_series_service import VegetationTimeSeriesService
 from geosyspy.services.weather_service import WeatherService
-from geosyspy.utils.geosys_platform_urls import GEOSYS_API_URLS, GIS_API_URLS
 from geosyspy.utils.constants import (
-    Env,
-    Region,
-    WeatherTypeCollection,
     LR_SATELLITE_COLLECTION,
-    SatelliteImageryCollection,
     MR_SATELLITE_COLLECTION,
-    Harvest,
     AgriquestBlocks,
     AgriquestCommodityCode,
     AgriquestWeatherType,
     CropIdSeason,
     Emergence,
+    Env,
+    Harvest,
+    Region,
+    SatelliteImageryCollection,
+    WeatherTypeCollection,
     ZarcCycleType,
     ZarcSoilType,
 )
-from geosyspy.utils.http_client import HttpClient
+from geosyspy.utils.geosys_platform_urls import GEOSYS_API_URLS, GIS_API_URLS
 from geosyspy.utils.helper import Helper
+from geosyspy.utils.http_client import HttpClient
 
 
 class Geosys:
@@ -200,21 +200,30 @@ class Geosys:
                 if not season_field_id:
                     # extract seasonfield id from geometry
                     season_field_id = (
-                        self.__master_data_management_service.extract_season_field_id(polygon)
+                        self.__master_data_management_service.extract_season_field_id(
+                            polygon
+                        )
                     )
-                elif not self.__master_data_management_service.check_season_field_exists(
-                    season_field_id
+                elif (
+                    not self.__master_data_management_service.check_season_field_exists(
+                        season_field_id
+                    )
                 ):
                     raise ValueError(
                         f"Cannot access {season_field_id}. It is not existing or connected user doens't have access to it."
                     )
-                
+
                 return self.__vts_service.get_time_series_by_pixel(
                     season_field_id, start_date, end_date, indicators[0]
                 )
             elif set(collections).issubset(set(MR_SATELLITE_COLLECTION)):
                 return self.__get_images_as_dataset(
-                    season_field_id, polygon, start_date, end_date, collections, indicators[0]
+                    season_field_id,
+                    polygon,
+                    start_date,
+                    end_date,
+                    collections,
+                    indicators[0],
                 )
         else:
             raise TypeError(
@@ -237,7 +246,7 @@ class Geosys:
         ],
         polygon: Optional[str] = None,
         season_field_id: Optional[str] = None,
-        coveragePercent: Optional[int] = 80
+        coveragePercent: Optional[int] = 80,
     ) -> tuple:
         """Retrieves a list of images that covers a polygon on a specific date range.
         The return is a tuple: a dataframe with all the images covering the polygon, and
@@ -262,7 +271,13 @@ class Geosys:
             )
 
         df = self.__map_product_service.get_satellite_coverage(
-            season_field_id, polygon, start_date, end_date, "", coveragePercent, collections
+            season_field_id,
+            polygon,
+            start_date,
+            end_date,
+            "",
+            coveragePercent,
+            collections,
         )
         images_references = {}
         if df is not None:
@@ -297,9 +312,27 @@ class Geosys:
             self.logger.info("writing to %s", path)
             f.write(response_zipped_tiff.content)
 
-    def get_product(self, season_field_id, image_id, indicator, image= None):
+    def download_image_difference_map(
+        self, season_field_id, image_id_before, image_id_after
+    ):
+        """Downloads a satellite image locally resulting of the difference between 2 images
 
-        response = self.__map_product_service.get_product(season_field_id, image_id, indicator, image)
+        Args:
+            season_field_id : season_field_id
+            image_id_before : the image reference from the satellite coverage before.
+            image_id_before : the image reference from the satellite coverage after.
+        """
+        response = self.__map_product_service.get_zipped_tiff_difference_map(
+            season_field_id, image_id_before, image_id_after
+        )
+
+        return response
+
+    def get_product(self, season_field_id, image_id, indicator, image=None):
+
+        response = self.__map_product_service.get_product(
+            season_field_id, image_id, indicator, image
+        )
 
         return response
 
@@ -311,7 +344,7 @@ class Geosys:
         end_date: datetime,
         collections: Optional[list[SatelliteImageryCollection]],
         indicator: str,
-        coveragePercent: int = 80
+        coveragePercent: int = 80,
     ) -> "np.ndarray[np.Any , np.dtype[np.float64]]":
         """Returns all the 'sensors_list' images covering 'polygon' between
         'start_date' and 'end_date' as a xarray dataset.
@@ -349,7 +382,13 @@ class Geosys:
         # and sorts them by resolution, from the highest to the lowest.
         # Keeps only the first image if two are found on the same date.
         df_coverage = self.__map_product_service.get_satellite_coverage(
-            season_field_id, polygon, start_date, end_date, indicator, coveragePercent, collections
+            season_field_id,
+            polygon,
+            start_date,
+            end_date,
+            indicator,
+            coveragePercent,
+            collections,
         )
 
         # Return empty dataset if no coverage on the polygon between start_date, end_date
@@ -606,11 +645,27 @@ class Geosys:
             permissions: a string array containing all available permissions of the connected user
         """
         # get crop code list
-        result = self.__master_data_management_service.get_permission_codes()
+        result = self.__master_data_management_service.get_profile("permissions")
 
         # build a string array with all available permission codes for the connected user
 
         return result["permissions"]
+
+    def get_user_area_conversion_rate(self):
+        """Returns the user's defined area's unit of measurement conversion's rate to square metres."""
+
+        # get crop code list
+        result = self.__master_data_management_service.get_profile(
+            "unitProfileUnitCategories"
+        )
+
+        conversion_rate = list(
+            filter(
+                lambda x: x["unitCategory"]["id"] == "FIELD_SURFACE",
+                result["unitProfileUnitCategories"],
+            )
+        )[0]["unit"]["conversionRate"]
+        return conversion_rate
 
     def get_sfid_from_geometry(self, geometry: str):
         """Retrieves every season field ID contained within the passed geometry.
@@ -620,8 +675,12 @@ class Geosys:
         Returns:
             ids: an array containing all the seasonfield ids
         """
-        result = self.__master_data_management_service.retrieve_season_fields_in_polygon(geometry)
-        ids = [item['id'] for item in result.json()]
+        result = (
+            self.__master_data_management_service.retrieve_season_fields_in_polygon(
+                geometry
+            )
+        )
+        ids = [item["id"] for item in result.json()]
         return ids
 
     def get_season_fields(self, season_field_ids: List[str]):
@@ -632,7 +691,9 @@ class Geosys:
         Returns:
             result: an array containing all the seasonfield
         """
-        result = self.__master_data_management_service.get_season_fields(season_field_ids)
+        result = self.__master_data_management_service.get_season_fields(
+            season_field_ids
+        )
         return result
 
     ###########################################
@@ -1218,7 +1279,7 @@ class Geosys:
         )
         return self.check_status_and_metrics(task_id, "ZARC", sf_unique_id)
 
-    def get_farm_info_from_location(self, latitude:str, longitude:str):
+    def get_farm_info_from_location(self, latitude: str, longitude: str):
         """get farm info from CAR layer
 
         Args:
