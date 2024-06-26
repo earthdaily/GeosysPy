@@ -57,3 +57,18 @@ class TestMasterDataManagementService:
         response = self.service.get_season_fields(sfids)
         assert len(response) == 20
 
+    @patch('geosyspy.utils.http_client.HttpClient.get')
+    def test_get_profile(self, get_response):
+        get_response.return_value = mock_http_response_text_content('GET', load_data_from_textfile(
+            "master_data_management_post_profile_mock_http_response"), status_code=201)
+        
+        response = self.service.get_profile()
+        assert response.status_code == 200
+
+    @patch('geosyspy.utils.http_client.HttpClient.get')
+    def test_get_profile(self, get_response):
+        get_response.return_value = mock_http_response_text_content('GET', load_data_from_textfile(
+            "master_data_management_post_profile_mock_http_response"), status_code=201)
+        
+        response = self.service.get_profile("")
+        assert response.status_code == 200
