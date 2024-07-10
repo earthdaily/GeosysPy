@@ -160,7 +160,7 @@ class TestGeosys:
             polygon=POLYGON
         )
         #assert dict(dataset.dims) == {'band': 7, 'y': 27, 'x': 26, 'time': 10}
-        assert all(key in dataset['dims'] for key in ['band', 'x', 'y', 'time'])
+        assert all(key in dataset for key in ['band', 'x', 'y', 'time'])
 
     def test_get_agriquest_weather_time_series(self):
         start_date = "2022-05-01"

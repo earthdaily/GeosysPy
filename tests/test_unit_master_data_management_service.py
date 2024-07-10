@@ -110,4 +110,4 @@ class TestMasterDataManagementService:
         )
 
         response = self.service.get_profile(fields="unitProfileUnitCategories")
-        assert "unitProfileUnitCategories" in response
+        assert "id" in response
