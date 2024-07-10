@@ -159,6 +159,7 @@ class TestGeosys:
             indicators=["Reflectance"],
             polygon=POLYGON
         )
+        print(dict(dataset.dims))
         assert dict(dataset.dims) == {'band': 7, 'y': 27, 'x': 26, 'time': 10}
 
     def test_get_agriquest_weather_time_series(self):
