@@ -1,4 +1,5 @@
 """ Mastaer data managenement service class"""
+
 import logging
 from datetime import datetime
 from typing import List, Optional
@@ -76,8 +77,7 @@ class MasterDataManagementService:
         api_call: str = urljoin(
             self.base_url,
             GeosysApiEndpoints.MASTER_DATA_MANAGEMENT_ENDPOINT.value + "/seasonfields",
-            '?Geometry=$within:' + polygon
-            + '&$limit=none'
+            "?Geometry=$within:" + polygon + "&$limit=none",
         )
         return self.http_client.get(api_call)
 
@@ -139,7 +139,6 @@ class MasterDataManagementService:
             return True
         return False
 
-
     def get_available_crops_code(self) -> List[str]:
         """Extracts the list of available crops for the connected user
 
@@ -178,11 +177,10 @@ class MasterDataManagementService:
         Raises:
             ValueError: The response status code is not as expected.
         """
-        if fields == None:
+        if fields is None:
             mdm_url: str = urljoin(
                 self.base_url,
-                GeosysApiEndpoints.MASTER_DATA_MANAGEMENT_ENDPOINT.value
-                + f"/profile",
+                GeosysApiEndpoints.MASTER_DATA_MANAGEMENT_ENDPOINT.value + "/profile",
             )
         else:
             mdm_url: str = urljoin(
@@ -203,7 +201,7 @@ class MasterDataManagementService:
 
     def get_season_fields(self, season_field_ids: str) -> List[object]:
         """Extracts the list of seasonfields for the input ids
-            For now retrieves only geometry, to complete with future needs 
+            For now retrieves only geometry, to complete with future needs
 
         Args:
 
@@ -213,13 +211,14 @@ class MasterDataManagementService:
         Raises:
             ValueError: The response status code is not as expected.
         """
-        
+
         mdm_url: str = urljoin(
             self.base_url,
             GeosysApiEndpoints.MASTER_DATA_MANAGEMENT_ENDPOINT.value
-            +'/seasonfields?$fields=id,geometry,sowingDate,estimatedHarvestDate,Crop.Id,acreage' #add other fields if needed
-            +'&Id=$in:' + '|'.join(season_field_ids)
-            +'&$limit=none'
+            + "/seasonfields?$fields=id,geometry,sowingDate,estimatedHarvestDate,Crop.Id,acreage"  # add other fields if needed
+            + "&Id=$in:"
+            + "|".join(season_field_ids)
+            + "&$limit=none",
         )
 
         response = self.http_client.get(mdm_url)
