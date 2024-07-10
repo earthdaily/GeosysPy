@@ -132,7 +132,7 @@ class TestGeosys:
             polygon=POLYGON
         )
         #assert dict(dataset.dims) == {'band': 7, 'y': 13, 'x': 24, 'time': 10}
-        assert all(key in dataset['dims'] for key in ['band', 'x', 'y', 'time'])
+        assert all(key in dataset for key in ['band', 'x', 'y', 'time'])
 
 
     @patch('geosyspy.utils.http_client.HttpClient.post')
