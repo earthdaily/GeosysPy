@@ -91,7 +91,7 @@ class TestMasterDataManagementService:
         get_response.return_value = mock_http_response_text_content(
             "GET",
             load_data_from_textfile(
-                "master_data_management_post_profile_mock_http_response"
+                "master_data_management_get_profile_mock_http_response"
             ),
             status_code=201,
         )
@@ -104,10 +104,10 @@ class TestMasterDataManagementService:
         get_response.return_value = mock_http_response_text_content(
             "GET",
             load_data_from_textfile(
-                "master_data_management_post_profile_mock_http_response"
+                "master_data_management_get_profile_unitProfileUnitCategories_mock_http_response"
             ),
             status_code=201,
         )
 
         response = self.service.get_profile(fields="unitProfileUnitCategories")
-        assert "id" in response
+        assert "unitProfileUnitCategories" in response
