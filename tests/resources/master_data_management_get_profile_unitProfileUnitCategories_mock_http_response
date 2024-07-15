@@ -1,0 +1,14 @@
+{
+    "unitProfileUnitCategories": [
+        {
+            "unit": {
+                "id": "Meq/100g",
+                "code": "Meq/100g"
+            },
+            "unitCategory": {
+                "id": "CATION_EXCHANGE_CAPACITY",
+                "code": "CATION_EXCHANGE_CAPACITY"
+            }
+        }
+    ]
+}
