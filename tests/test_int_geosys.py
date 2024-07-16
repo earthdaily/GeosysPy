@@ -374,10 +374,11 @@ class TestGeosys:
         )
         assert result is not None
 
-    def test_get_profile(self):
-        response = self.client.get_profile()
-        assert "id" in response
+    def test_get_profile_permissions(self):
+        response = self.client.get_available_permissions()
+        assert "permissions" in response
 
-    def test_get_profile_fields(self):
-        response = self.client.get_profile(fields="unitProfileUnitCategories")
+    def test_get_profile_area_conversion(self):
+        response = self.client.get_user_area_conversion_rate()
         assert "unitProfileUnitCategories" in response
+
