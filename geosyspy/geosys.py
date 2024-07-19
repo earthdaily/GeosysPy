@@ -1289,3 +1289,14 @@ class Geosys:
         """
 
         return self.__gis_service.get_farm_info_from_location(latitude, longitude)
+
+    def get_municipio_id_from_geometry(self, geometry:str):
+        """get Municipio id from a geometry
+
+            Args:
+                 geometry (str): the geometry (WKT or GeosJson) to retrieve the municipio Id
+            Returns:
+                the internal id of the municipio
+        """
+
+        return self.__gis_service.get_municipio_id_from_geometry(geometry)
