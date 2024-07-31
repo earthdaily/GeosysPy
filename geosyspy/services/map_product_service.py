@@ -212,7 +212,6 @@ class MapProductService:
             GeosysApiEndpoints.FLM_BASE_REFERENCE_MAP.value.format(field_id)
             + parameters,
         )
-
         response_zipped_tiff = self.http_client.get(
             download_tiff_url,
             {"X-Geosys-Task-Code": PRIORITY_HEADERS[self.priority_queue]},
