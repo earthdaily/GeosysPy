@@ -318,8 +318,8 @@ class Geosys:
         """Downloads a satellite image locally resulting of the difference between 2 images
 
         Args:
-
             season_field_id : season_field_id
+            polygon: season field geometry
             image_id_earliest : the earliest image reference from the satellite coverage.
             image_id_latest : the latest image reference from the satellite coverage.
         """
