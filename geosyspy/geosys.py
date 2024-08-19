@@ -313,17 +313,18 @@ class Geosys:
             f.write(response_zipped_tiff.content)
 
     def download_image_difference_map(
-        self, season_field_id, image_id_earliest, image_id_latest
+        self, season_field_id, polygon, image_id_earliest, image_id_latest
     ):
         """Downloads a satellite image locally resulting of the difference between 2 images
 
         Args:
+
             season_field_id : season_field_id
             image_id_earliest : the earliest image reference from the satellite coverage.
             image_id_latest : the latest image reference from the satellite coverage.
         """
         response = self.__map_product_service.get_zipped_tiff_difference_map(
-            season_field_id, image_id_earliest, image_id_latest
+            season_field_id, polygon, image_id_earliest, image_id_latest
         )
 
         return response

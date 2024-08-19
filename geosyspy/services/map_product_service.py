@@ -192,13 +192,18 @@ class MapProductService:
             return df
 
     def get_zipped_tiff_difference_map(
-        self, field_id: str, image_id_earliest: str, image_id_latest: str
+        self,
+        field_id: str,
+        field_geometry: str,
+        image_id_earliest: str,
+        image_id_latest: str,
     ):
         """
         Retrieves tiff resulting of a difference between 2 in-season images for a given season field from MP API.
 
         Args:
-            season_field_id (str): The identifier for the season field.
+            field_id (str): The identifier for the season field.
+            field_geometry (str): The geometry of the season field
             image_id_earliest (str): The earliest image reference from the satellite coverage.
             image_id_latest (str): The latest image reference from the satellite coverage.
 
@@ -206,16 +211,30 @@ class MapProductService:
             zipped tiff
         """
 
-        parameters = f"/{image_id_latest}/base-reference-map/DIFFERENCE_INSEASON_NDVI/difference-with/{image_id_earliest}/image.tiff.zip?$epsg-out=3857"
+        parameters = f"/DIFFERENCE_NDVI/image.tiff.zip"
         download_tiff_url: str = urljoin(
-            self.base_url,
-            GeosysApiEndpoints.FLM_BASE_REFERENCE_MAP.value.format(field_id)
-            + parameters,
+            self.base_url, GeosysApiEndpoints.FLM_DIFFERENCE_MAP.value + parameters
         )
-        response_zipped_tiff = self.http_client.get(
+
+        if not field_id or field_id == "":
+            payload = {
+                "earliestImage": {"id": image_id_earliest},
+                "latestImage": {"id": image_id_latest},
+                "seasonField": {"geometry": field_geometry},
+            }
+        else:
+            payload = {
+                "earliestImage": {"id": image_id_earliest},
+                "latestImage": {"id": image_id_latest},
+                "seasonField": {"id": field_id},
+            }
+
+        response_zipped_tiff = self.http_client.post(
             download_tiff_url,
+            payload,
             {"X-Geosys-Task-Code": PRIORITY_HEADERS[self.priority_queue]},
         )
+
         if response_zipped_tiff.status_code != 200:
             raise HTTPError(
                 "Unable to download tiff.zip file. Server error: "

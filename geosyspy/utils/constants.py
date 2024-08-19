@@ -162,6 +162,7 @@ class GeosysApiEndpoints(Enum):
     FLM_BASE_REFERENCE_MAP = "field-level-maps/v5/season-fields/{}/coverage"
     FLM_BASE_REFERENCE_MAP_POST = "field-level-maps/v5/maps/base-reference-map"
     FLM_REFLECTANCE_MAP = "field-level-maps/v5/maps/reflectance-map"
+    FLM_DIFFERENCE_MAP = "field-level-maps/v5/maps/difference-map"
     FLM_CATALOG_IMAGERY_POST = "field-level-maps/v5/season-fields/catalog-imagery"
    	
 
