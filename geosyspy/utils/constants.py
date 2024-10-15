@@ -5,12 +5,13 @@ class SatelliteImageryCollection(Enum):
     """
     Available imagery collections
     """
+
     MODIS = "MODIS"
     SENTINEL_2 = "SENTINEL_2"
     LANDSAT_8 = "LANDSAT_8"
     LANDSAT_9 = "LANDSAT_9"
     DEIMOS_1 = "DEIMOS_1"
-    ALSAT_1B =  "ALSAT_1B"
+    ALSAT_1B = "ALSAT_1B"
     RESOURCESAT2 = "RESOURCESAT2"
     CBERS_4 = "CBERS_4"
     KAZSTSAT = "KAZSTSAT"
@@ -21,6 +22,7 @@ class WeatherTypeCollection(Enum):
     """
     Available weather collections
     """
+
     WEATHER_FORECAST_DAILY = "FORECAST_DAILY"
     WEATHER_FORECAST_HOURLY = "FORECAST_HOURLY"
     WEATHER_HISTORICAL_DAILY = "HISTORICAL_DAILY"
@@ -30,6 +32,7 @@ class Env(Enum):
     """
     Environment to target (PROD, PREPROD)
     """
+
     PROD = "prod"
     PREPROD = "preprod"
 
@@ -38,6 +41,7 @@ class Region(Enum):
     """
     Region to target (NA)
     """
+
     NA = "na"
 
 
@@ -45,13 +49,16 @@ class Harvest(Enum):
     """
     Type of Harvest query used for Harvest analytics processor
     """
+
     HARVEST_IN_SEASON = "IN_SEASON"
     HARVEST_HISTORICAL = "HISTORICAL"
+
 
 class Emergence(Enum):
     """
     Type of Emergence query used for Emergence analytics processor
     """
+
     EMERGENCE_IN_SEASON = "IN_SEASON"
     EMERGENCE_HISTORICAL = "HISTORICAL"
     EMERGENCE_DELAY = "DELAY"
@@ -61,6 +68,7 @@ class AgriquestCommodityCode(Enum):
     """
     Available AgriQuest Commodity values
     """
+
     ALL_VEGETATION = 33
     ALL_CROPS = 35
 
@@ -69,6 +77,7 @@ class AgriquestFranceBlockCode(Enum):
     """
     Available AgriQuest Block codes dedicated to France
     """
+
     FRA_CANTONS = 216
     FRA_COMMUNES = 135
     FRA_DEPARTEMENTS = 226
@@ -78,6 +87,7 @@ class AgriquestBlocks(Enum):
     """
     Available AgriQuest Block codes
     """
+
     FIRST_LEVEL = 129
     AMU_AUSTRALIA_LEVEL_1 = 205
     AMU_AUSTRALIA_LEVEL_2 = 206
@@ -108,6 +118,7 @@ class AgriquestWeatherType(Enum):
     """
     Available AgriQuest Weather types
     """
+
     CUMULATIVE_PRECIPITATION = "cumulative-precipitation"
     MIN_TEMPERATURE = "min-temperature"
     AVERAGE_TEMPERATURE = "average-temperature"
@@ -118,10 +129,12 @@ class AgriquestWeatherType(Enum):
     SOIL_MOISTURE = "soil-moisture"
     SOLAR_RADIATION = "solar-radiation"
 
+
 class ZarcSoilType(Enum):
     """
     Available Soil Type values for analytics processor Zarc
     """
+
     SOIL_TYPE_1 = "1"
     SOIL_TYPE_2 = "2"
     SOIL_TYPE_3 = "3"
@@ -133,18 +146,21 @@ class ZarcSoilType(Enum):
     SOIL_TYPE_16 = "16"
     NONE = None
 
+
 class CropIdSeason(Enum):
     """
     Available season values  for analytics processor Zarc
     """
-    SEASON_1="SEASON_1"
-    SEASON_2="SEASON_2"
+
+    SEASON_1 = "SEASON_1"
+    SEASON_2 = "SEASON_2"
 
 
 class ZarcCycleType(Enum):
     """
     Available season values  for analytics processor Zarc
     """
+
     CYCLE_TYPE_1 = "1"
     CYCLE_TYPE_2 = "2"
     CYCLE_TYPE_3 = "3"
@@ -155,6 +171,7 @@ class GeosysApiEndpoints(Enum):
     """
     Available Geosys APIs Endpoints
     """
+
     MASTER_DATA_MANAGEMENT_ENDPOINT = "master-data-management/v6"
     VTS_ENDPOINT = "vegetation-time-series/v1/season-fields"
     VTS_BY_PIXEL_ENDPOINT = "vegetation-time-series/v1/season-fields/pixels"
@@ -164,7 +181,7 @@ class GeosysApiEndpoints(Enum):
     FLM_REFLECTANCE_MAP = "field-level-maps/v5/maps/reflectance-map"
     FLM_DIFFERENCE_MAP = "field-level-maps/v5/maps/difference-map"
     FLM_CATALOG_IMAGERY_POST = "field-level-maps/v5/season-fields/catalog-imagery"
-   	
+    FLM_TIME_SERIES = "field-level-maps/v5/time-series"
 
     WEATHER_ENDPOINT = "Weather/v1/weather"
     ANALYTICS_FABRIC_ENDPOINT = "analytics/metrics"
@@ -178,12 +195,16 @@ class GeosysApiEndpoints(Enum):
 
 LR_SATELLITE_COLLECTION = [SatelliteImageryCollection.MODIS]
 MR_SATELLITE_COLLECTION = [
-    SatelliteImageryCollection.LANDSAT_8,SatelliteImageryCollection.LANDSAT_9,
-    SatelliteImageryCollection.SENTINEL_2, SatelliteImageryCollection.ALSAT_1B,
-    SatelliteImageryCollection.CBERS_4, SatelliteImageryCollection.DEIMOS_1,
-    SatelliteImageryCollection.GAOFEN, SatelliteImageryCollection.KAZSTSAT,
-    SatelliteImageryCollection.RESOURCESAT2
-    ]
+    SatelliteImageryCollection.LANDSAT_8,
+    SatelliteImageryCollection.LANDSAT_9,
+    SatelliteImageryCollection.SENTINEL_2,
+    SatelliteImageryCollection.ALSAT_1B,
+    SatelliteImageryCollection.CBERS_4,
+    SatelliteImageryCollection.DEIMOS_1,
+    SatelliteImageryCollection.GAOFEN,
+    SatelliteImageryCollection.KAZSTSAT,
+    SatelliteImageryCollection.RESOURCESAT2,
+]
 
 PRIORITY_HEADERS = {"bulk": "Geosys_API_Bulk", "realtime": ""}
 SEASON_FIELD_ID_REGEX = r"\sId:\s(\w+),"

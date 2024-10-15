@@ -10,153 +10,154 @@ geometry = "POLYGON((-91.17523978603823 40.29787117039518,-91.17577285022956 40.
 
 class TestAnalyticsProcessorService:
     url = "https://testurl.com"
-    http_client = HttpClient("client_id_123",
-                        "client_secret_123456",
-                        "username_123",
-                        "password_123",
-                        "preprod",
-                        "na")
+    http_client = HttpClient(
+        "client_id_123",
+        "client_secret_123456",
+        "username_123",
+        "password_123",
+        "preprod",
+        "na",
+    )
     service = AnalyticsProcessorService(base_url=url, http_client=http_client)
 
-    @patch('geosyspy.utils.http_client.HttpClient.get')
+    @patch("geosyspy.utils.http_client.HttpClient.get")
     def test_get_task_status(self, get_response):
-        get_response.return_value = mock_http_response_text_content("GET", load_data_from_textfile(
-            "processor_event_data_mock_http_response"))
+        get_response.return_value = mock_http_response_text_content(
+            "GET", load_data_from_textfile("processor_event_data_mock_http_response")
+        )
 
         task_status = self.service.wait_and_check_task_status("task_id")
         assert task_status == "Ended"
 
-    @patch('geosyspy.utils.http_client.HttpClient.post')
+    @patch("geosyspy.utils.http_client.HttpClient.post")
     def test_get_launch_planted_area_processor(self, post_response):
-        post_response.return_value = mock_http_response_text_content("POST", load_data_from_textfile(
-            "launch_processor_data_mock_http_response"))
+        post_response.return_value = mock_http_response_text_content(
+            "POST", load_data_from_textfile("launch_processor_data_mock_http_response")
+        )
 
-        task_id = self.service.launch_planted_area_processor(start_date='2020-01-01', end_date='2021-01-01', seasonfield_id= 'seasonfieldFakeId')
+        task_id = self.service.launch_planted_area_processor(
+            start_date="2020-01-01",
+            end_date="2021-01-01",
+            seasonfield_id="seasonfieldFakeId",
+        )
         assert task_id == "cb58faaf8a5640e4913d16bfde3f5bbf"
 
-    @patch('geosyspy.utils.http_client.HttpClient.post')
+    @patch("geosyspy.utils.http_client.HttpClient.post")
     def test_get_launch_zarc_processor(self, post_response):
-        post_response.return_value = mock_http_response_text_content("POST", load_data_from_textfile(
-            "launch_processor_data_mock_http_response"))
+        post_response.return_value = mock_http_response_text_content(
+            "POST", load_data_from_textfile("launch_processor_data_mock_http_response")
+        )
 
-        task_id = self.service.launch_zarc_processor(start_date_emergence ='2020-01-01',
-                                                     municipio=123,
-                                                     soil_type=ZarcSoilType.SOIL_TYPE_1.value,
-                                                     nb_days_sowing_emergence=50,
-                                                     crop="Corn",
-                                                     end_date_emergence='2021-01-01',
-                                                     cycle= ZarcCycleType.CYCLE_TYPE_1.value,
-                                                     seasonfield_id='seasonFieldFakeId')
+        task_id = self.service.launch_zarc_processor(
+            start_date_emergence="2020-01-01",
+            municipio=123,
+            soil_type=ZarcSoilType.SOIL_TYPE_1.value,
+            nb_days_sowing_emergence=50,
+            crop="Corn",
+            end_date_emergence="2021-01-01",
+            cycle=ZarcCycleType.CYCLE_TYPE_1.value,
+            seasonfield_id="seasonFieldFakeId",
+        )
         assert task_id == "cb58faaf8a5640e4913d16bfde3f5bbf"
 
-    @patch('geosyspy.utils.http_client.HttpClient.post')
+    @patch("geosyspy.utils.http_client.HttpClient.post")
     def test_get_launch_greenness_processor(self, post_response):
-        post_response.return_value = mock_http_response_text_content("POST", load_data_from_textfile(
-            "launch_processor_data_mock_http_response"))
+        post_response.return_value = mock_http_response_text_content(
+            "POST", load_data_from_textfile("launch_processor_data_mock_http_response")
+        )
 
-        task_id = self.service.launch_greenness_processor(start_date='2020-01-01',
-                                                          crop="Corn",
-                                                          end_date='2021-01-01',
-                                                          sowing_date='2020-01-01',
-                                                          geometry=geometry,
-                                                          seasonfield_id='seasonFieldFakeId')
+        task_id = self.service.launch_greenness_processor(
+            start_date="2020-01-01",
+            crop="Corn",
+            end_date="2021-01-01",
+            sowing_date="2020-01-01",
+            geometry=geometry,
+            seasonfield_id="seasonFieldFakeId",
+        )
         assert task_id == "cb58faaf8a5640e4913d16bfde3f5bbf"
 
-    @patch('geosyspy.utils.http_client.HttpClient.post')
+    @patch("geosyspy.utils.http_client.HttpClient.post")
     def test_get_launch_emergence_processor(self, post_response):
-        post_response.return_value = mock_http_response_text_content("POST", load_data_from_textfile(
-            "launch_processor_data_mock_http_response"))
+        post_response.return_value = mock_http_response_text_content(
+            "POST", load_data_from_textfile("launch_processor_data_mock_http_response")
+        )
 
-        task_id = self.service.launch_emergence_processor(season_start_day='2020-01-01',
-                                                          crop="Corn",
-                                                          year=2021,
-                                                          emergence_type=Emergence.EMERGENCE_IN_SEASON,
-                                                          season_duration=110,
-                                                          season_start_month=10,
-                                                          geometry=geometry,
-                                                          seasonfield_id='seasonFieldFakeId')
+        task_id = self.service.launch_emergence_processor(
+            season_start_day="2020-01-01",
+            crop="Corn",
+            year=2021,
+            emergence_type=Emergence.EMERGENCE_IN_SEASON,
+            season_duration=110,
+            season_start_month=10,
+            geometry=geometry,
+            seasonfield_id="seasonFieldFakeId",
+        )
         assert task_id == "cb58faaf8a5640e4913d16bfde3f5bbf"
 
-    @patch('geosyspy.utils.http_client.HttpClient.post')
+    @patch("geosyspy.utils.http_client.HttpClient.post")
     def test_get_launch_harvest_processor(self, post_response):
-        post_response.return_value = mock_http_response_text_content("POST", load_data_from_textfile(
-            "launch_processor_data_mock_http_response"))
+        post_response.return_value = mock_http_response_text_content(
+            "POST", load_data_from_textfile("launch_processor_data_mock_http_response")
+        )
 
-        task_id = self.service.launch_harvest_processor(season_start_day='2020-01-01',
-                                                        year=2021,
-                                                        crop ='Corn',
-                                                        season_duration=110,
-                                                        season_start_month=10,
-                                                        harvest_type=Harvest.HARVEST_HISTORICAL,
-                                                        geometry=geometry,
-                                                        seasonfield_id='seasonFieldFakeId')
+        task_id = self.service.launch_harvest_processor(
+            season_start_day="2020-01-01",
+            year=2021,
+            crop="Corn",
+            season_duration=110,
+            season_start_month=10,
+            harvest_type=Harvest.HARVEST_HISTORICAL,
+            geometry=geometry,
+            seasonfield_id="seasonFieldFakeId",
+        )
         assert task_id == "cb58faaf8a5640e4913d16bfde3f5bbf"
 
-    @patch('geosyspy.utils.http_client.HttpClient.post')
+    @patch("geosyspy.utils.http_client.HttpClient.post")
     def test_get_launch_harvest_readiness_processor(self, post_response):
-        post_response.return_value = mock_http_response_text_content("POST", load_data_from_textfile(
-            "launch_processor_data_mock_http_response"))
+        post_response.return_value = mock_http_response_text_content(
+            "POST", load_data_from_textfile("launch_processor_data_mock_http_response")
+        )
 
-        task_id = self.service.launch_harvest_readiness_processor(start_date='2020-01-01',
-                                                                  end_date='2020-01-01',
-                                                                  sowing_date='2020-01-01',
-                                                                  crop ='Corn',
-                                                                  geometry=geometry,
-                                                                  seasonfield_id='seasonFieldFakeId')
+        task_id = self.service.launch_harvest_readiness_processor(
+            start_date="2020-01-01",
+            end_date="2020-01-01",
+            sowing_date="2020-01-01",
+            crop="Corn",
+            geometry=geometry,
+            seasonfield_id="seasonFieldFakeId",
+        )
         assert task_id == "cb58faaf8a5640e4913d16bfde3f5bbf"
 
-    @patch('geosyspy.utils.http_client.HttpClient.post')
+    @patch("geosyspy.utils.http_client.HttpClient.post")
     def test_get_launch_brazil_in_season_crop_processor(self, post_response):
-        post_response.return_value = mock_http_response_text_content("POST", load_data_from_textfile(
-            "launch_processor_data_mock_http_response"))
+        post_response.return_value = mock_http_response_text_content(
+            "POST", load_data_from_textfile("launch_processor_data_mock_http_response")
+        )
 
-        task_id = self.service.launch_brazil_in_season_crop_id_processor(start_date='2020-01-01',
-                                                                         end_date='2020-01-01',
-                                                                         geometry=geometry,
-                                                                         season=2021,
-                                                                         seasonfield_id='seasonFieldFakeId')
+        task_id = self.service.launch_brazil_in_season_crop_id_processor(
+            start_date="2020-01-01",
+            end_date="2020-01-01",
+            geometry=geometry,
+            season=2021,
+            seasonfield_id="seasonFieldFakeId",
+        )
         assert task_id == "cb58faaf8a5640e4913d16bfde3f5bbf"
 
-    @patch('geosyspy.utils.http_client.HttpClient.post')
+    @patch("geosyspy.utils.http_client.HttpClient.post")
     def test_get_launch_potential_score_processor(self, post_response):
-        post_response.return_value = mock_http_response_text_content("POST", load_data_from_textfile(
-            "launch_processor_data_mock_http_response"))
+        post_response.return_value = mock_http_response_text_content(
+            "POST", load_data_from_textfile("launch_processor_data_mock_http_response")
+        )
 
-        task_id = self.service.launch_potential_score_processor(end_date='2021-01-01',
-                                                                season_start_month=10,
-                                                                season_duration=120,
-                                                                season_start_day=30,
-                                                                sowing_date='2020-01-01',
-                                                                crop='Corn',
-                                                                nb_historical_years=5,
-                                                                geometry=geometry,
-                                                                seasonfield_id='seasonFieldFakeId')
+        task_id = self.service.launch_potential_score_processor(
+            end_date="2021-01-01",
+            season_start_month=10,
+            season_duration=120,
+            season_start_day=30,
+            sowing_date="2020-01-01",
+            crop="Corn",
+            nb_historical_years=5,
+            geometry=geometry,
+            seasonfield_id="seasonFieldFakeId",
+        )
         assert task_id == "cb58faaf8a5640e4913d16bfde3f5bbf"
-
-    @patch('geosyspy.utils.http_client.HttpClient.post')
-    def test_get_mr_time_series_processor(self, post_response):
-        post_response.return_value = mock_http_response_text_content("POST", load_data_from_textfile(
-            "launch_processor_data_mock_http_response"))
-
-        task_id = self.service.launch_mr_time_series_processor(start_date="2020-10-09",
-                                                               end_date="2022-10-09",
-                                                               list_sensors=["Sentinel_2", "Landsat_8"],
-                                                               denoiser=True,
-                                                               smoother="ww",
-                                                               eoc=True,
-                                                               aggregation="mean",
-                                                               index="ndvi",
-                                                               raw_data=True,
-                                                               polygon="POLYGON ((-0.49881816 46.27330504, -0.49231649 46.27320122, -0.49611449 46.26983426, -0.49821735 46.27094671, -0.49881816 46.27330504))")
-
-        assert task_id == "cb58faaf8a5640e4913d16bfde3f5bbf"
-
-    @patch('geosyspy.utils.http_client.HttpClient.get')
-    def test_get_s3_path_from_task_and_processor(self, get_response):
-        get_response.return_value = mock_http_response_text_content("GET", load_data_from_textfile(
-            "processor_event_data_mock_http_response"))
-
-        s3_path = self.service.get_s3_path_from_task_and_processor(task_id="4d0980e07b7245d49419ff5ec87fff09",
-                                                                   processor_name="mrts")
-
-        assert s3_path == "s3://geosys-geosys-us/2tKecZgMyEP6EkddLxa1gV/mrts/4d0980e07b7245d49419ff5ec87fff09"

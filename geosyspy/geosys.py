@@ -501,6 +501,70 @@ class Geosys:
         )
         return dataset
 
+    def get_mr_time_series(
+        self,
+        start_date: datetime,
+        end_date: datetime,
+        indicators,
+        sensors_collection: Optional[list[SatelliteImageryCollection]] = [
+            SatelliteImageryCollection.SENTINEL_2,
+        ],
+        aggregations: str = ["Median"],
+        smoothing_method: str = "Whittaker",
+        apply_denoiser: bool = True,
+        apply_end_of_curve: bool = True,
+        output_saturation: bool = False,
+        extract_raw_datasets: bool = False,
+        polygon: Optional[str] = None,
+        season_field_id: Optional[str] = None,
+        coverage_percent: Optional[int] = 80,
+    ):
+        """
+        Retrieves MR time series a given season field or geometry within the specified time range.
+
+        Args:
+            start_date (datetime): The start date of the time range for satellite coverage.
+            end_date (datetime): The end date of the time range for satellite coverage.
+            indicators (List[str]): The list of indicator for which satellite imagery is requested.
+            sensors_collection (Optional[List[SatelliteImageryCollection]], optional):
+                A list of satellite imagery collections to consider.
+                Defaults to [SatelliteImageryCollection.SENTINEL_2].
+            coverage_percent (int, optional): Minimum clear cover percentage. Defaults to 80.
+            aggregations (List[str], optional): Method to aggregate data. Defaults to ["Median"].
+            smoothing_method (str, optional): Method to smooth data. Defaults to "Whittaker".
+            apply_denoiser (bool, optional): Whether to apply denoiser. Defaults to True.
+            apply_end_of_curve (bool, optional): Whether to apply end of curve. Defaults to True.
+            output_saturation (bool, optional): Whether to output saturation. Defaults to False.
+            extract_raw_datasets (bool, optional): Whether to extract raw datasets. Defaults to False.
+            season_field_id (Optional[str]): The identifier for the season field.
+            polygon (Optional[str]): The polygon geometry in WKT format.
+
+        Returns:
+            pd.DataFrame: DataFrame containing the satellite coverage data.
+        """
+        if not season_field_id and not polygon:
+            raise ValueError(
+                "Parameters 'season_field_id' and 'polygon' cannot be both None or empty."
+            )
+
+        df = self.__map_product_service.get_mr_time_series(
+            season_field_id,
+            polygon,
+            start_date,
+            end_date,
+            indicators,
+            sensors_collection,
+            coverage_percent,
+            aggregations,
+            smoothing_method,
+            apply_denoiser,
+            apply_end_of_curve,
+            output_saturation,
+            extract_raw_datasets,
+        )
+
+        return df
+
     ###########################################
     #           ANALYTICS FABRIC              #
     ###########################################
@@ -767,79 +831,6 @@ class Geosys:
     def check_status_and_metrics(self, task_id, schema, sf_unique_id):
         self.__analytics_processor_service.wait_and_check_task_status(task_id)
         return self.__analytics_fabric_service.get_lastest_metrics(sf_unique_id, schema)
-
-    def get_mr_time_series(
-        self,
-        polygon,
-        start_date: str = "2010-01-01",
-        end_date=None,
-        list_sensors=None,
-        denoiser: bool = True,
-        smoother: str = "ww",
-        eoc: bool = True,
-        aggregation: str = "mean",
-        index: str = "ndvi",
-        raw_data: bool = False,
-    ):
-        """Retrieve mr time series on the collection targeted.
-
-        Args:
-            start_date : The start date of the time series
-            end_date : The end date of the time series
-            list_sensors : The Satellite Imagery Collection targeted
-            denoiser : A boolean value indicating whether a denoising operation should be applied or not.
-            smoother : The type or name of the smoothing technique or algorithm to be used.
-            eoc : A boolean value indicating whether the "end of curve" detection should be performed.
-            func : The type or name of the function to be applied to the data.
-            index : The type or name of the index used for data manipulation or referencing
-            raw_data : A boolean value indicating whether the data is in its raw/unprocessed form.
-            polygon : A string representing a polygon.
-
-        Returns:
-            string : s3 bucket path
-        """
-        if list_sensors is None:
-            list_sensors = [
-                "micasense",
-                "sequoia",
-                "m4c",
-                "sentinel_2",
-                "landsat_8",
-                "landsat_9",
-                "cbers4",
-                "kazstsat",
-                "alsat_1b",
-                "huanjing_2",
-                "deimos",
-                "gaofen_1",
-                "gaofen_6",
-                "resourcesat2",
-                "dmc_2",
-                "landsat_5",
-                "landsat_7",
-                "spot",
-                "rapideye_3a",
-                "rapideye_1b",
-            ]
-        task_id = self.__analytics_processor_service.launch_mr_time_series_processor(
-            start_date=start_date,
-            end_date=end_date,
-            polygon=polygon,
-            raw_data=raw_data,
-            denoiser=denoiser,
-            smoother=smoother,
-            aggregation=aggregation,
-            list_sensors=list_sensors,
-            index=index,
-            eoc=eoc,
-        )
-
-        # check the task status to continue or not the process
-        self.__analytics_processor_service.wait_and_check_task_status(task_id)
-
-        return self.__analytics_processor_service.get_s3_path_from_task_and_processor(
-            task_id, processor_name="mrts"
-        )
 
     def get_harvest_analytics(
         self,
@@ -1290,3 +1281,14 @@ class Geosys:
         """
 
         return self.__gis_service.get_farm_info_from_location(latitude, longitude)
+
+    def get_municipio_id_from_geometry(self, geometry: str):
+        """get Municipio id from a geometry
+
+        Args:
+             geometry (str): the geometry (WKT or GeosJson) to retrieve the municipio Id
+        Returns:
+            the internal id of the municipio
+        """
+
+        return self.__gis_service.get_municipio_id_from_geometry(geometry)

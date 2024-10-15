@@ -240,3 +240,79 @@ class MapProductService:
                 + str(response_zipped_tiff.status_code)
             )
         return response_zipped_tiff
+
+    def get_mr_time_series(
+        self,
+        season_field_id: str,
+        polygon: str,
+        start_date: datetime,
+        end_date: datetime,
+        indicators,
+        sensors_collection: Optional[list[SatelliteImageryCollection]] = [
+            SatelliteImageryCollection.SENTINEL_2,
+        ],
+        coverage_percent: int = 80,
+        aggregations: list[str] = ["Median"],
+        smoothing_method: str = "Whittaker",
+        apply_denoiser: bool = True,
+        apply_end_of_curve: bool = True,
+        output_saturation: bool = False,
+        extract_raw_datasets: bool = False,
+    ):
+        """
+        Retrieves MR time series a given season field or geometry within the specified time range.
+
+        Args:
+            season_field_id (str): The identifier for the season field.
+            polygon (str): The polygon geometry in WKT format.
+            start_date (datetime): The start date of the time range for satellite coverage.
+            end_date (datetime): The end date of the time range for satellite coverage.
+            indicators (List[str]): The indicator for which satellite imagery is requested.
+            sensors_collection (Optional[List[SatelliteImageryCollection]], optional):
+                A list of satellite imagery collections to consider.
+                Defaults to [SatelliteImageryCollection.SENTINEL_2].
+            coverage_percent (int, optional): Minimum clear cover percentage. Defaults to 80.
+            aggregation (str, optional): Method to aggregate data. Defaults to "Median".
+            smoothing_method (str, optional): Method to smooth data. Defaults to "Whittaker".
+            apply_denoiser (bool, optional): Whether to apply denoiser. Defaults to True.
+            apply_end_of_curve (bool, optional): Whether to apply end of curve. Defaults to True.
+            output_saturation (bool, optional): Whether to output saturation. Defaults to False.
+            extract_raw_datasets (bool, optional): Whether to extract raw datasets. Defaults to False.
+
+        Returns:
+            pd.DataFrame: DataFrame containing the satellite coverage data.
+        """
+
+        self.logger.info("Calling APIs for coverage")
+        start_date: str = start_date.strftime("%Y-%m-%d")
+        end_date: str = end_date.strftime("%Y-%m-%d")
+
+        flm_url: str = urljoin(
+            self.base_url,
+            GeosysApiEndpoints.FLM_TIME_SERIES.value,
+        )
+
+        body = {}
+        body["seasonfield"] = (
+            {"id": season_field_id} if season_field_id else {"geometry": polygon}
+        )
+        body["startDate"] = start_date
+        body["endDate"] = end_date
+        if sensors_collection is not None:
+            body["sensors"] = [elem.value for elem in sensors_collection]
+        body["vegetationIndexes"] = indicators
+        body["aggregations"] = aggregations
+        body["smoothingMethod"] = smoothing_method
+        body["applyDenoiser"] = apply_denoiser
+        body["applyEndOfCurve"] = apply_end_of_curve
+        body["clearCoverMin"] = coverage_percent
+        body["outputSaturation"] = output_saturation
+        body["extractRawDatasets"] = extract_raw_datasets
+
+        response = self.http_client.post(flm_url, body)
+
+        if response.status_code == 200:
+            df = pd.json_normalize(response.json())
+            return df
+        else:
+            self.logger.info(response.status_code)

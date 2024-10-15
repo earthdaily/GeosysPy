@@ -343,24 +343,6 @@ class TestGeosys:
         assert dataset.keys()[-1] == "Schema.Id"
         assert dataset.values[0][-1] == "ZARC"
 
-    @pytest.mark.skip(reason="No more available bucket + will be decomissioned")
-    def test_get_mr_time_series(self):
-        result: str = self.client.get_mr_time_series(
-            start_date="2020-10-09",
-            end_date="2022-10-09",
-            list_sensors=["Sentinel_2", "Landsat_8"],
-            denoiser=True,
-            smoother="ww",
-            eoc=True,
-            aggregation="mean",
-            index="ndvi",
-            raw_data=True,
-            polygon="POLYGON ((-0.49881816 46.27330504, -0.49231649 46.27320122, -0.49611449 46.26983426, -0.49821735 46.27094671, -0.49881816 46.27330504))",
-        )
-
-        assert result.startswith("s3://geosys-geosys-us/2tKecZgMyEP6EkddLxa1gV")
-        assert "/mrts/" in result
-
     def test_get_farm_info_from_location(self):
         result = self.client.get_farm_info_from_location(
             latitude="-15.01402", longitude="-50.7717"
@@ -381,3 +363,13 @@ class TestGeosys:
     def test_get_profile_area_conversion(self):
         response = self.client.get_user_area_conversion_rate()
         assert response is not None
+
+    def test_get_mr_time_series(self):
+        start_date = dt.datetime.strptime("2023-04-15", "%Y-%m-%d")
+        end_date = dt.datetime.strptime("2024-01-01", "%Y-%m-%d")
+        POLYGON = "POLYGON ((-94.49272194 43.21256403, -94.48234182 43.21245482, -94.48257098 43.2174915, -94.48264176 43.21951919, -94.49074313 43.219511600000004, -94.49035218 43.21879097, -94.49026379 43.21852604, -94.48990869000001 43.21725052, -94.48984158 43.21664338, -94.49009374 43.21619873, -94.4906074 43.21586407, -94.49140384 43.215565930000004, -94.49227368 43.21530949, -94.49249125 43.21513659, -94.49262537 43.2149919, -94.49271655 43.2148082, -94.49272194 43.21256403))"
+        df = self.client.get_mr_time_series(
+            start_date, end_date, polygon=POLYGON, indicators=["Ndwi"]
+        )
+        assert df is not None
+        assert df["smoothedData"] is not None
